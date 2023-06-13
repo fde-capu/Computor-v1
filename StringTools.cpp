@@ -375,12 +375,13 @@ bool isNumber(const std::string& u_str)
 	{
 		if (i == 0 && !isNumberChar(str[i]))
 			return false;
+		if (i == 0 && isNumberChar(str[i]))
+			continue ;
 		if (str[i] == '.')
 		{
 			if (dot)
 				return false;
 			dot = true;
-			continue ;
 		}
 		if (!isDigit(str[i]))
 			return false;

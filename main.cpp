@@ -69,6 +69,16 @@ std::string treat(const std::string& eqo)
 	substitute_unloop(out, "+ ", "+");
 	substitute_unloop(out, "* ", "*");
 	substitute_unloop(out, " *", "*");
+	substitute_unloop(out, "+x", "+1*x");
+	substitute_unloop(out, "-x", "-1*x");
+	substitute_unloop(out, "+.", "+0.");
+	substitute_unloop(out, "-.", "-0.");
+	substitute_super(out, "+-", "-");
+	substitute_super(out, "-+", "-");
+	substitute_super(out, "--", "+");
+	substitute_super(out, "++", "+");
+	substitute_super(out, "+-", "-");
+	substitute_super(out, "-+", "-");
 	return out;
 }
 
@@ -95,6 +105,7 @@ void fullSyntax(std::vector<std::string>& u_)
 {
 	for (auto& t : u_)
 	{
+		if (isDigit(t.at(0))) t = "+" + t;
 		if (isNumber(t)) t += "*x^0";
 	}
 }

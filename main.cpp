@@ -54,84 +54,15 @@ bool validateArgCount(int argc, char** argv)
 	return true;
 }
 
-std::string treat(const std::string& eqo)
-{
-	std::string out(eqo);
-	substitute_unloop(out, "X", "x");
-	substitute_unloop(out, "*", " * ");
-	substitute_unloop(out, "+", " + ");
-	substitute_unloop(out, "-", " - ");
-	substitute_unloop(out, "=", " = ");
-	substitute_unloop(out, " ^", "^");
-	substitute_unloop(out, "^ ", "^");
-	hard_trim(out);
-	substitute_unloop(out, "- ", "-");
-	substitute_unloop(out, "+ ", "+");
-	substitute_unloop(out, "* ", "*");
-	substitute_unloop(out, " *", "*");
-	substitute_unloop(out, "+x", "+1*x");
-	substitute_unloop(out, "-x", "-1*x");
-	substitute_unloop(out, "+.", "+0.");
-	substitute_unloop(out, "-.", "-0.");
-	substitute_super(out, "+-", "-");
-	substitute_super(out, "-+", "-");
-	substitute_super(out, "--", "+");
-	substitute_super(out, "++", "+");
-	substitute_super(out, "+-", "-");
-	substitute_super(out, "-+", "-");
-	return out;
-}
-
-std::vector<float> parse(const std::string& eqo)
-{
-	std::vector<float> out;
-	size_t i = -1;
-	while (++i < eqo.length())
-	{
-	}
-	return out;
-}
-
-bool validateTerms(const std::vector<std::string>& u_terms)
-{
-	for (auto& t : u_terms)
-	{
-		if (isNumber(t)) continue;
-	}
-	return false;
-}
-
-void fullSyntax(std::vector<std::string>& u_)
-{
-	for (auto& t : u_)
-	{
-		if (isDigit(t.at(0))) t = "+" + t;
-		if (isNumber(t)) t += "*x^0";
-	}
-}
-
 int main (int argc, char** argv)
 {
-	std::string eq_original;
-	std::string eq_treated;
-	std::vector<std::string> terms;
+	std::string equation_raw;
 
 	if (!validateArgCount(argc, argv))
 	{ help(); return 1; }
+	equation_raw = getEqOriginal(argc, argv);
 
-	eq_original = getEqOriginal(argc, argv);
-	eq_treated = treat(eq_original);
-	Debug("eq_treated", eq_treated, true);
+	std::cout << Computor_v1(equation_raw) << std::endl;
 
-	terms = split(eq_treated);
-	(Debug(terms));
-
-	fullSyntax(terms);
-	(Debug(terms));
-
-	if (!validateTerms(terms))
-	{ std::cout << "Invalid terms." << std::endl; return 1; }
-
-//	eq = parse(eq_original);
 	return 0;
 }

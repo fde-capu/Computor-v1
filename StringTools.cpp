@@ -23,6 +23,7 @@ void hard_trim(std::string& dst, std::string set)
 		std::string trimmed = std::string(i, i + 1) + std::string(i, i + 1);
 		substitute_super(dst, trimmed, std::string(i, i + 1));
 	}
+	soft_trim(dst);
 }
 
 void soft_trim(std::string& dst, std::string set)

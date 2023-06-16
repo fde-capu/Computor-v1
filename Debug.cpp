@@ -4,15 +4,15 @@ bool Debug::power(DEBUG);
 std::string Debug::charTable("\"\"");
 
 Debug::Debug()
-: label(""), debug_string("-BUG-")
+: label(""), debug_string("-BUG-"), delimiter(false)
 { std::cout << *this << std::endl; }
 
 Debug::Debug(std::string u_string)
-: label(""), debug_string(u_string)
+: label(""), debug_string(u_string), delimiter(false)
 { std::cout << *this << std::endl; }
 
 Debug::Debug(const std::vector<std::string>& u_vector)
-: label(""), debug_string("[ ")
+: label(""), debug_string("[ "), delimiter(false)
 {
 	for (auto& v : u_vector)
 		debug_string += v + " , ";
@@ -28,7 +28,7 @@ Debug::Debug(std::string label, std::string u_string, bool delimiter)
 std::ostream& operator<< (std::ostream& o, Debug const& self)
 {
 	if (self.label.length())
-		o << self.label << ": ";
+		o << self.label << std::endl;
 	if (self.delimiter)
 		o << Debug::charTable.at(0);
 	o << self.debug_string;

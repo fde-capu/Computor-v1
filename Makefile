@@ -1,15 +1,3 @@
-# ********************************************* #
-#                                               #
-#                      ::::::|::::||:::|:|:::|  #
-#  Makefile            ||::|::|:||::||:|::||||  #
-#                      :|:|:|||:||:||||||:::::  #
-#                                               #
-#                                               #
-#  C20230612140008 :|::::                       #
-#  U20230612160125 :|||||                       #
-#                                               #
-# ********************************************* #
-
 ifndef OUTPUT
 .SILENT:
 endif
@@ -17,7 +5,7 @@ endif
 NAME	=	computor
 ARGS	=	"x"
 SRCS	=	Computor_v1.cpp Debug.cpp main.cpp \
-			StringTools.cpp
+			StringTools.cpp Computor_v1_algo.cpp
 HEAD	=	Makefile Computor_v1.hpp header.hpp \
 			Debug.hpp defines.hpp StringTools.hpp
 SHELL	=	/bin/sh
@@ -50,4 +38,3 @@ tt:			all
 	./$(NAME) $(ARGS)
 v:			all
 	$(VAL) ./$(NAME) $(ARGS)
-

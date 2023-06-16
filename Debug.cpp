@@ -25,6 +25,10 @@ Debug::Debug(std::string label, std::string u_string, bool delimiter)
 : label(label), debug_string(u_string), delimiter(delimiter)
 { std::cout << *this << std::endl; }
 
+Debug::Debug(std::string label, size_t number)
+: label(label), debug_string(std::to_string(number)), delimiter(false)
+{ std::cout << *this << std::endl; }
+
 std::ostream& operator<< (std::ostream& o, Debug const& self)
 {
 	if (self.label.length())

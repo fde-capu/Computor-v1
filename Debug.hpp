@@ -21,6 +21,7 @@ class Debug
 		Debug(std::string u_string);
 		Debug(const std::vector<std::string>& u_vector);
 		Debug(std::string label, std::string u_string, bool delimiter = false);
+		Debug(std::string label, size_t number);
 		~Debug();
 };
 

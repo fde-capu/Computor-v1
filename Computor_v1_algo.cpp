@@ -42,6 +42,10 @@ void Computor_v1::treat_implicits()
 {
 	for (auto& c : terms)
 	{
+		if (c != "=")
+			c = "+" + c;
+		if (c.find('x') == c.size() - 1)
+			c += "^0";
 		substitute_unloop(c, "+x", "+1*x");
 		substitute_unloop(c, "-x", "-1*x");
 		substitute_unloop(c, "+.", "+0.");
@@ -52,7 +56,6 @@ void Computor_v1::treat_implicits()
 		substitute_unloop(c, "++", "+");
 		substitute_unloop(c, "+-", "-");
 		substitute_unloop(c, "-+", "-");
-		if (isDigit(c.at(0))) c = "+" + c;
 		if (isNumber(c)) c += "*x^0";
 		substitute_unloop(c, "--", "+"); // Again.
 		substitute_unloop(c, "++", "+"); // Again.
@@ -64,14 +67,14 @@ void Computor_v1::treat_implicits()
 void Computor_v1::validate_terms()
 {
 	valid_terms = true;
-	char step = 0;
 	std::string point_to_error = "";
 	size_t point_position = 0;
 	std::string error_reason = "";
 
 	for (auto& t : terms)
 	{
-		step = 0;
+		char step = 0;
+		bool got_factor = false;
 		for (size_t i = 0; i < t.size(); i++)
 		{
 			if ((step == 0) \
@@ -84,9 +87,15 @@ void Computor_v1::validate_terms()
 			if (step == 1)
 			{
 				if (isNumberChar(t.at(i)))
+				{
+					got_factor = true;
 					continue ;
+				}
 				else
-					step++;
+				{
+					if (got_factor)
+						step++;
+				}
 			}
 			if ((step == 2) \
 			&& (t.at(i) == '*'))
@@ -115,13 +124,14 @@ void Computor_v1::validate_terms()
 			point_position = i;
 			error_reason =
 				step == 0 ? "Expected one and only one '+' or '-' mark." :
-				step == 1 ? "Expected NumberChars followed by '*x^n'." :
+				step == 1 ? "Expected factor." :
 				step == 2 ? "Expected '*x^n'." :
 				step == 3 ? "Expected 'x^n'." :
 				step == 4 ? "Expected '^n'." :
 				step == 5 ? "Expected term power." :
 					"Cosmic ray hit.";
 			Debug("point_position", i);
+			Debug("step", step);
 			if (!valid_terms) break ;
 		}
 		if (!valid_terms) break ;

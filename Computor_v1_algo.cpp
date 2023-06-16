@@ -10,6 +10,7 @@ void Computor_v1::run()
 	treat_implicits();
 	validate_terms();
 	if (!valid_terms) return ;
+	set_equal_to_zero();
 	output = "-> TODO, process output";
 }
 
@@ -140,4 +141,30 @@ void Computor_v1::validate_terms()
 		return ;
 	Debug("Detected invalid terms.", point_to_error);
 	Debug(std::string(point_position, ' ') + "^ " + error_reason);
+}
+
+void Computor_v1::set_equal_to_zero()
+{
+	bool before_equal_sign = true;
+	std::vector<std::string> zero_equal_equation = {};
+
+	for (auto& t : terms)
+	{
+		if (t == "=")
+		{
+			before_equal_sign = false;
+			continue ;
+		}
+		if (!before_equal_sign)
+		{
+			if (t.at(0) == '+')
+				t = "-" + t.substr(1);
+			else if (t.at(0) == '-')
+				t = "+" + t.substr(1);
+		}
+		zero_equal_equation.push_back(t);
+	}
+	terms = zero_equal_equation;
+	Debug("set_equal_to_zero");
+	(Debug(terms));
 }

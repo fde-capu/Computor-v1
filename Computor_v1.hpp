@@ -38,6 +38,7 @@ class Computor_v1
 		void treat_implicits();
 		void mount_terms();
 		void validate_terms();
+		void set_equal_to_zero();
 };
 
 std::ostream& operator<< (std::ostream&, Computor_v1 const&);

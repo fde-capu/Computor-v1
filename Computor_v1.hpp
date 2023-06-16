@@ -37,7 +37,7 @@ class Computor_v1
 		void treat_spaces();
 		void treat_implicits();
 		void mount_terms();
-		void validate_terms() const;
+		void validate_terms();
 };
 
 std::ostream& operator<< (std::ostream&, Computor_v1 const&);

@@ -8,7 +8,7 @@ void Computor_v1::run()
 	treat_spaces();
 	mount_terms();
 	treat_implicits();
-//	validate_terms();
+	validate_terms();
 	if (!valid_terms) return ;
 	output = "-> TODO, process output";
 }
@@ -61,16 +61,17 @@ void Computor_v1::treat_implicits()
 	(Debug(terms));
 }
 
-void Computor_v1::validate_terms() const
+void Computor_v1::validate_terms()
 {
+	valid_terms = true;
 	char step = 0;
-	bool valid = true;
 	std::string point_to_error = "";
 	size_t point_position = 0;
 	std::string error_reason = "";
 
 	for (auto& t : terms)
 	{
+		step = 0;
 		for (size_t i = 0; i < t.size(); i++)
 		{
 			if ((step == 0) \
@@ -109,7 +110,7 @@ void Computor_v1::validate_terms() const
 			{
 				continue ;
 			}
-			valid = false;
+			valid_terms = false;
 			point_to_error = t;
 			point_position = i;
 			error_reason =
@@ -121,12 +122,12 @@ void Computor_v1::validate_terms() const
 				step == 5 ? "Expected term power." :
 					"Cosmic ray hit.";
 			Debug("point_position", i);
-			if (!valid) break ;
+			if (!valid_terms) break ;
 		}
-		if (!valid) break ;
+		if (!valid_terms) break ;
 	}
-	if (valid)
+	if (valid_terms)
 		return ;
 	Debug("Detected invalid terms.", point_to_error);
-	Debug(std::string(point_position - 1, ' ') + "^ " + error_reason);
+	Debug(std::string(point_position, ' ') + "^ " + error_reason);
 }

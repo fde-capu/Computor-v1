@@ -396,6 +396,7 @@ bool isNumber(const std::string& u_str)
 			if (dot)
 				return false;
 			dot = true;
+			continue ;
 		}
 		if (!isDigit(str[i]))
 			return false;
@@ -720,7 +721,7 @@ std::pair<size_t, size_t> find_repeated_char_first_occurance(const std::string& 
 			count++;
 			verbose(V) << "(frcdo) start: " << start << ", count: " << count << std::endl;
 		}
-		else
+		else if (count >=2 )
 			break ;
 	}
 	if (count >= 2)

@@ -33,11 +33,20 @@ void Computor_v1::treat_spaces()
 
 void Computor_v1::mount_terms()
 {
+	substitute_super(treating, "x*x", "xx");
 	substitute_super(treating, "x x", "xx");
+	substitute_super(treating, " x", "x");
+	substitute_super(treating, ".x", "x");
 	std::pair<size_t, size_t> x_count = find_repeated_char_first_occurance(treating, 'x');
 	while (x_count.first != std::string::npos)
 	{
-		treating.replace(x_count.first, x_count.second, "x^" + std::to_string(x_count.second));
+		std::string asterisk = 
+			x_count.first == 0 ? "" :
+			treating.at(x_count.first - 1) == '*' ? "" : 
+			isDigit(treating.at(x_count.first - 1)) ? "*" : "";
+		treating.replace(x_count.first, x_count.second, asterisk + "x^" + std::to_string(x_count.second));
+		substitute_super(treating, "* ", "*");
+		substitute_super(treating, " *", "*");
 		x_count = find_repeated_char_first_occurance(treating, 'x');
 	}
 

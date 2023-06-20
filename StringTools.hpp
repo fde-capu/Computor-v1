@@ -7,10 +7,13 @@
 # include <cstdio>
 # include <string.h>
 # include "defines.hpp"
+# include <stdexcept>
 
 # define VERBOSE_LINE_LIMIT  60
 # define verbose(X) if (VERBOSE >= X) std::cout
 # define SHORT(X) X.substr(0, VERBOSE_LINE_LIMIT ) << " (" << X.length() << ")"
+
+# define DEBUG_BREAK static int DEB = 5; if (DEB-- <= 0) throw std::runtime_error("Debug break!");
 
 # define ST_SOFT_TRIM " \t\n\r"
 # define ST_HARD_TRIM " \t"

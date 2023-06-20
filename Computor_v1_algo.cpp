@@ -11,11 +11,13 @@ void Computor_v1::run()
 	validate_terms();
 	if (!valid_terms) return ;
 	set_equal_to_zero();
+	discriminate_factors();
 	output = "-> TODO, process output";
 }
 
 void Computor_v1::treat_spaces()
 {
+	Debug("treat_spaces:");
 	substitute_unloop(treating, "X", "x");
 	substitute_unloop(treating, "\\t", " ");
 	substitute_unloop(treating, "*", " * ");
@@ -29,14 +31,18 @@ void Computor_v1::treat_spaces()
 	substitute_super(treating, "- ", "-");
 	substitute_super(treating, "+ ", "+");
 	hard_trim(treating);
+	(Debug(treating));
 }
 
 void Computor_v1::mount_terms()
 {
+	Debug("mount_terms:");
 	substitute_super(treating, "x*x", "xx");
 	substitute_super(treating, "x x", "xx");
 	substitute_super(treating, " x", "x");
 	substitute_super(treating, ".x", "x");
+	(Debug(treating));
+
 	std::pair<size_t, size_t> x_count = find_repeated_char_first_occurance(treating, 'x');
 	while (x_count.first != std::string::npos)
 	{
@@ -51,7 +57,6 @@ void Computor_v1::mount_terms()
 	}
 
 	terms = split(treating);
-	Debug("mount_terms:");
 	(Debug(terms));
 }
 
@@ -181,4 +186,29 @@ void Computor_v1::set_equal_to_zero()
 	terms = zero_equal_equation;
 	Debug("set_equal_to_zero");
 	(Debug(terms));
+}
+
+void Computor_v1::discriminate_factors()
+{
+	double fact;
+	size_t deg;
+	this->degree = 0;
+
+	factors = {};
+	for (auto& term : terms)
+	{
+		fact = std::atoi(term.c_str());
+		deg = std::atoi(get_after_first(term, "^").c_str());
+		std::cout << "(" << term << ") factor " << fact << " degree " << deg << std::endl;
+		factors[degree] += fact;
+		degree = deg > degree && factors[degree] != 0.0 ? deg : degree;
+		Debug(std::to_string(degree) + "> " + std::to_string(factors[degree]));
+	}
+	
+	Debug("discriminate_factors degree:", this->degree);
+	size_t i = -1;
+	while (++i < 10)
+	{
+		Debug(std::to_string(i) + ") " + std::to_string(factors[i]));
+	}
 }

@@ -6,6 +6,7 @@
 # include "Debug.hpp"
 # include "StringTools.hpp"
 # include <vector>
+# include <map>
 
 class Computor_v1
 {
@@ -14,7 +15,9 @@ class Computor_v1
 		std::string input;
 		std::string treating;
 		std::vector<std::string> terms;
+		std::map<size_t, double> factors;
 		bool valid_terms;
+		size_t degree;
 
 	public:
 		Computor_v1(const std::string& u_input);
@@ -39,6 +42,7 @@ class Computor_v1
 		void mount_terms();
 		void validate_terms();
 		void set_equal_to_zero();
+		void discriminate_factors();
 };
 
 std::ostream& operator<< (std::ostream&, Computor_v1 const&);

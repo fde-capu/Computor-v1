@@ -706,7 +706,9 @@ std::vector<char*> vecstr2veccharp(const std::vector<std::string>& argv)
 
 std::pair<size_t, size_t> find_repeated_char_first_occurance(const std::string& src, char x)
 {
-	int V(30);
+	DEBUG_BREAK
+
+	int V(0);
 	size_t i = -1;
 	size_t start = std::string::npos;
 	size_t count = 0;
@@ -715,18 +717,20 @@ std::pair<size_t, size_t> find_repeated_char_first_occurance(const std::string& 
 	{
 		if (src.at(i) == x)
 		{
-			verbose(V) << "(frcdo) " << src.at(i) << " == " << x << std::endl;
+			verbose(V) << "(frcdo) " << src << ": " << i << ":: " << src.at(i) << " == " << x << std::endl;
 			if (!count)
 				start = i;
 			count++;
-			verbose(V) << "(frcdo) start: " << start << ", count: " << count << std::endl;
+			verbose(V) << "(frcdo) " << src << ": " << i << ":: start: " << start << ", count: " << count << std::endl;
 		}
 		else if (count >=2 )
 			break ;
+		else if (count)
+			count = 0;
 	}
 	if (count >= 2)
 	{
-		verbose(V) << "(frcdo) RETURNING start: " << start << ", count: " << count << std::endl;
+		verbose(V) << "(frcdo) " << src << " RETURNING start: " << start << ", count: " << count << std::endl;
 		return std::pair<size_t, size_t>{start, count};
 	}
 	verbose(V) << "(frcdo) std::string::npos!" << std::endl;

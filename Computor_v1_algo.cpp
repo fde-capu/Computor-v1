@@ -29,11 +29,18 @@ void Computor_v1::treat_spaces()
 	substitute_super(treating, "- ", "-");
 	substitute_super(treating, "+ ", "+");
 	hard_trim(treating);
-	substitute_super(treating, "x x", "xx");
 }
 
 void Computor_v1::mount_terms()
 {
+	substitute_super(treating, "x x", "xx");
+	std::pair<size_t, size_t> x_count = find_repeated_char_first_occurance(treating, 'x');
+	while (x_count.first != std::string::npos)
+	{
+		treating.replace(x_count.first, x_count.second, "x^" + std::to_string(x_count.second));
+		x_count = find_repeated_char_first_occurance(treating, 'x');
+	}
+
 	terms = split(treating);
 	Debug("mount_terms:");
 	(Debug(terms));

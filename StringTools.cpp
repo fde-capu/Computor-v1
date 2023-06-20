@@ -103,15 +103,27 @@ std::string itos(int i)
 
 std::string substitute_super(std::string& dst, std::string before, std::string after)
 {
+	int V(30);
 	bool pass = false;
 	while (!pass)
 	{
 		pass = true;
 		size_t pos = find_outside_quotes(dst, before);
 		size_t scap_t = find_outside_quotes(dst, std::string("\\" + before));
-		if (pos != scap_t + 1 && pos != std::string::npos)
+		verbose(V) << "(substitute_super) pos scap_t " << pos << " " << scap_t << std::endl;
+		if
+		(
+			(pos != std::string::npos)
+			&&
+			(
+				(pos != scap_t + 1)
+				||
+				(pos == 0 && scap_t == std::string::npos)
+			)
+		)
 		{
 			pass = false;
+			verbose(V) << "(substitute_super) replacing " << pos << std::endl;
 			dst.replace(pos, before.length(), after);
 		}
 	}
@@ -211,6 +223,7 @@ size_t find_outside_quotes(std::string& str, std::string needle, size_t u_start)
 					}
 					if (!*n)
 					{
+						verbose(V) << "(find_outside_quotes) found @" << (s - str.begin()) << std::endl;
 						return s - str.begin();
 					}
 				}

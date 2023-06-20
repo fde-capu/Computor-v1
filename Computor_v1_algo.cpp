@@ -22,13 +22,15 @@ void Computor_v1::treat_spaces()
 	substitute_unloop(treating, "+", " + ");
 	substitute_unloop(treating, "-", " - ");
 	substitute_unloop(treating, "=", " = ");
-	substitute_super(treating, " ^", "^");
-	substitute_super(treating, "^ ", "^");
-	substitute_super(treating, "* ", "*");
-	substitute_super(treating, " *", "*");
-	substitute_super(treating, "- ", "-");
-	substitute_super(treating, "+ ", "+");
-	hard_trim(treating);
+//	substitute_super(treating, " ^", "^");
+//	substitute_super(treating, "^ ", "^");
+//	substitute_super(treating, "* ", "*");
+//	substitute_super(treating, " *", "*");
+//	substitute_super(treating, "- ", "-");
+//	substitute_super(treating, "+ ", "+");
+//	hard_trim(treating);
+	Debug("treat_spaces:", treating, true);
+	substitute_super(treating, "x x", "xx");
 	Debug("treat_spaces:", treating, true);
 }
 
@@ -130,9 +132,7 @@ void Computor_v1::validate_terms()
 				step == 3 ? "Expected 'x^n'." :
 				step == 4 ? "Expected '^n'." :
 				step == 5 ? "Expected term power." :
-					"Cosmic ray hit.";
-			Debug("point_position", i);
-			Debug("step", step);
+					"~~~ (8> Cosmic ray detected! <8) ~~~";
 			if (!valid_terms) break ;
 		}
 		if (!valid_terms) break ;

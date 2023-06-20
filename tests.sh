@@ -8,7 +8,7 @@ test_computor() {
 }
 
 #test_computor "x"
-test_computor "x X XX"
+test_computor "x X x\t \t  XX"
 #test_computor "x *  x  * X x x X X x"
 #test_computor "\t5 + 4 * X\t\t   ^  1     - 9.3 * X^2    \t = -.1 * X^0 - -+++--x^2"
 #test_computor "5 * X^0 + 4 * X^1 - 9.3 * X^2 = 1 * X^0"

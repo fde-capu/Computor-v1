@@ -702,3 +702,8 @@ std::vector<char*> vecstr2veccharp(const std::vector<std::string>& argv)
 	vec_cp.push_back(NULL);
 	return vec_cp;
 }
+
+std::pair<size_t, size_t> find_repeated_char_first_occurance(const std::string& src, char x)
+{
+//	..TODO..
+}

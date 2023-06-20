@@ -76,5 +76,22 @@ size_t word_count(std::string);
 std::string word_from(const std::string&, size_t);
 size_t find_outside_quotes_set(std::string& str, std::string set, size_t u_start = 0);
 size_t find_outside_quotes(std::string& str, std::string needle, size_t u_start = 0);
+std::pair<size_t, size_t> find_repeated_char_first_occurance(const std::string& src, char x);
+std::string consume_until(std::string& src, const std::string delim_str);
+std::string consume_delims(std::string& src, const std::string delim_set);
+std::string stoa(size_t i);
+std::string get_file_extension(const std::string fpath);
+std::string remove_filename_from_path(const std::string fpath);
+bool not_in_word_set(char x);
+std::string query_for(std::string query, std::string& src);
+bool isInSet(const char& test_char, std::string set);
+bool startsWith(const std::string& full, const std::string& begining);
+std::string consume_bytes(std::string& src, size_t bytes);
+void just_consume_until(std::string& src, const std::string delim_str);
+std::string get_after_until_line(const std::string& src, const std::string phrase);
+std::string get_after_first(const std::string& src, const std::string phrase);
+std::string get_before_first(const std::string& src, const std::string phrase);
+size_t strhex2size_t(const std::string src);
+std::vector<char*> vecstr2veccharp(const std::vector<std::string>& argv);
 
 #endif

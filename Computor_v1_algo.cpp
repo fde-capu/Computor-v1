@@ -29,9 +29,7 @@ void Computor_v1::treat_spaces()
 	substitute_super(treating, "- ", "-");
 	substitute_super(treating, "+ ", "+");
 	hard_trim(treating);
-	Debug("treat_spaces:", treating, true);
 	substitute_super(treating, "x x", "xx");
-	Debug("treat_spaces:", treating, true);
 }
 
 void Computor_v1::mount_terms()

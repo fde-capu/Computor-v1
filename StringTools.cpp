@@ -706,7 +706,7 @@ std::vector<char*> vecstr2veccharp(const std::vector<std::string>& argv)
 
 std::pair<size_t, size_t> find_char_sequence(const std::string& src, char x, size_t start_position)
 {
-	int V(0);
+	int V(3);
 	size_t i = start_position - 1;
 	size_t start = std::string::npos;
 	size_t count = 0;

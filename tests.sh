@@ -8,7 +8,7 @@ test_computor() {
 	echo ;
 }
 
-test_computor "1 + 2x + 3xx"
+test_computor "1.0 + 2.1x + 3.2xx = -4.3x^2"
 #test_computor "x"
 #test_computor "x X x\t \t  XX"
 #test_computor "-0.x *  x  * X x x X X x"

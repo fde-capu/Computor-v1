@@ -97,4 +97,20 @@ std::string get_before_first(const std::string& src, const std::string phrase);
 size_t strhex2size_t(const std::string src);
 std::vector<char*> vecstr2veccharp(const std::vector<std::string>& argv);
 
+template <typename T>
+std::ostream & operator << (std::ostream & os, const std::vector<T> & vec)
+{
+	size_t i = -1;
+
+	os << "[ ";
+	while (++i < vec.size())
+    {
+        os << vec[i];
+		if (i + 1 < vec.size())
+			std::cout << " , ";
+    }
+	os << " ]";
+    return os;
+}
+
 #endif

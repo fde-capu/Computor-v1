@@ -706,7 +706,7 @@ std::vector<char*> vecstr2veccharp(const std::vector<std::string>& argv)
 
 std::pair<size_t, size_t> find_repeated_char_first_occurance(const std::string& src, char x)
 {
-	int V(0);
+	int V(3);
 	size_t i = -1;
 	size_t start = std::string::npos;
 	size_t count = 0;

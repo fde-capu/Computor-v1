@@ -2,10 +2,12 @@
 
 void Computor_v1::run()
 {
+	int V(1);
 	treating = input;
 	valid_terms = false;
 
 	treat_spaces();
+	verbose(V) << "RUNNING" << std::endl;
 	mount_terms();
 	treat_implicits();
 	validate_terms();
@@ -17,7 +19,8 @@ void Computor_v1::run()
 
 void Computor_v1::treat_spaces()
 {
-	Debug("treat_spaces:");
+	int V(1);
+	verbose(V) << "treat_spaces:" << std::endl;
 	substitute_unloop(treating, "X", "x");
 	substitute_unloop(treating, "\\t", " ");
 	substitute_unloop(treating, "*", " * ");
@@ -31,17 +34,18 @@ void Computor_v1::treat_spaces()
 	substitute_super(treating, "- ", "-");
 	substitute_super(treating, "+ ", "+");
 	hard_trim(treating);
-	(Debug(treating));
+	verbose(V) << treating << std::endl;
 }
 
 void Computor_v1::mount_terms()
 {
-	Debug("mount_terms:");
+	int V(1);
+	verbose(V) << "mount_terms:" << std::endl;
 	substitute_super(treating, "x*x", "xx");
 	substitute_super(treating, "x x", "xx");
 	substitute_super(treating, " x", "x");
 	substitute_super(treating, ".x", "x");
-	(Debug(treating));
+	verbose(V) << treating << std::endl;
 
 	std::pair<size_t, size_t> x_count = find_repeated_char_first_occurance(treating, 'x');
 	while (x_count.first != std::string::npos)
@@ -56,12 +60,17 @@ void Computor_v1::mount_terms()
 		x_count = find_repeated_char_first_occurance(treating, 'x');
 	}
 
+	verbose(V) << "treating: " << treating << std::endl;
 	terms = split(treating);
-	(Debug(terms));
+	verbose(V) << "terms (" << terms.size() << "): " << terms << std::endl;
+	std::cout << "---" << terms << "---" << std::endl;
+	for (auto& t : terms)
+		verbose(V) << "-->" << t << std::endl;
 }
 
 void Computor_v1::treat_implicits()
 {
+	int V(1);
 	for (auto& c : terms)
 	{
 		if (c != "=")
@@ -82,8 +91,8 @@ void Computor_v1::treat_implicits()
 		substitute_unloop(c, "--", "+"); // Again.
 		substitute_unloop(c, "++", "+"); // Again.
 	}
-	Debug("treat_implicits:");
-	(Debug(terms));
+	verbose(V) << "treat_implicits:" << std::endl;
+	verbose(V) << terms << std::endl;
 }
 
 void Computor_v1::validate_terms()
@@ -158,12 +167,13 @@ void Computor_v1::validate_terms()
 	}
 	if (valid_terms)
 		return ;
-	Debug("Detected invalid terms.", point_to_error);
-	Debug(std::string(point_position, ' ') + "^ " + error_reason);
+	std::cerr << "Detected invalid terms. " << point_to_error << std::endl;
+	std::cerr << (std::string(point_position, ' ') + "^ " + error_reason) << std::endl;
 }
 
 void Computor_v1::set_equal_to_zero()
 {
+	int V(1);
 	bool before_equal_sign = true;
 	std::vector<std::string> zero_equal_equation = {};
 
@@ -184,12 +194,13 @@ void Computor_v1::set_equal_to_zero()
 		zero_equal_equation.push_back(t);
 	}
 	terms = zero_equal_equation;
-	Debug("set_equal_to_zero");
-	(Debug(terms));
+	verbose(V) << "set_equal_to_zero" << std::endl;
+	verbose(V) << terms << std::endl;
 }
 
 void Computor_v1::discriminate_factors()
 {
+	int V(0);
 	double fact;
 	size_t deg;
 	this->degree = 0;
@@ -197,18 +208,18 @@ void Computor_v1::discriminate_factors()
 	factors = {};
 	for (auto& term : terms)
 	{
-		fact = std::atoi(term.c_str());
+		fact = std::stod(term.c_str());
 		deg = std::atoi(get_after_first(term, "^").c_str());
-		std::cout << "(" << term << ") factor " << fact << " degree " << deg << std::endl;
+		verbose(V) << "(" << term << ") factor " << fact << " degree " << deg << std::endl;
 		factors[degree] += fact;
 		degree = deg > degree && factors[degree] != 0.0 ? deg : degree;
-		Debug(std::to_string(degree) + "> " + std::to_string(factors[degree]));
+		verbose(V) << (std::to_string(degree) + "> " + std::to_string(factors[degree])) << std::endl;
 	}
 	
-	Debug("discriminate_factors degree:", this->degree);
+	verbose(V) << "discriminate_factors Equation degree: " << this->degree << std::endl;
 	size_t i = -1;
 	while (++i < 10)
 	{
-		Debug(std::to_string(i) + ") " + std::to_string(factors[i]));
+		verbose(V) << (std::to_string(i) + ") " + std::to_string(factors[i])) << std::endl;
 	}
 }

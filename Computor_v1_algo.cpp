@@ -3,11 +3,11 @@
 void Computor_v1::run()
 {
 	int V(1);
+	verbose(V) << "Computor_v1::run()" << std::endl;
 	treating = input;
 	valid_terms = false;
 
 	treat_spaces();
-	verbose(V) << "RUNNING" << std::endl;
 	mount_terms();
 	treat_implicits();
 	validate_terms();
@@ -47,25 +47,26 @@ void Computor_v1::mount_terms()
 	substitute_super(treating, ".x", "x");
 	verbose(V) << treating << std::endl;
 
-	std::pair<size_t, size_t> x_count = find_repeated_char_first_occurance(treating, 'x');
+	std::pair<size_t, size_t> x_count = find_char_sequence(treating, 'x');
 	while (x_count.first != std::string::npos)
 	{
+		verbose(V) << "(mount_terms) x_count " << x_count.first << ", " << x_count.second << std::endl;
 		std::string asterisk = 
 			x_count.first == 0 ? "" :
 			treating.at(x_count.first - 1) == '*' ? "" : 
 			isDigit(treating.at(x_count.first - 1)) ? "*" : "";
-		treating.replace(x_count.first, x_count.second, asterisk + "x^" + std::to_string(x_count.second));
+		std::string power = std::to_string(x_count.second);
+		if (x_count.first + x_count.second >= treating.size() || treating.at(x_count.first + x_count.second) != '^') 
+			treating.replace(x_count.first, x_count.second, asterisk + "x^" + power);
 		substitute_super(treating, "* ", "*");
 		substitute_super(treating, " *", "*");
-		x_count = find_repeated_char_first_occurance(treating, 'x');
+		x_count = find_char_sequence(treating, 'x', x_count.first + 3 + power.length());
+		DEBUG_BREAK(10);
 	}
 
-	verbose(V) << "treating: " << treating << std::endl;
+	verbose(V) << "(mount_terms) treating: " << treating << std::endl;
 	terms = split(treating);
-	verbose(V) << "terms (" << terms.size() << "): " << terms << std::endl;
-	std::cout << "---" << terms << "---" << std::endl;
-	for (auto& t : terms)
-		verbose(V) << "-->" << t << std::endl;
+	verbose(V) << "(mount_terms) terms (" << terms.size() << "): " << terms << std::endl;
 }
 
 void Computor_v1::treat_implicits()

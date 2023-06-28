@@ -79,7 +79,7 @@ size_t word_count(std::string);
 std::string word_from(const std::string&, size_t);
 size_t find_outside_quotes_set(std::string& str, std::string set, size_t u_start = 0);
 size_t find_outside_quotes(std::string& str, std::string needle, size_t u_start = 0);
-std::pair<size_t, size_t> find_repeated_char_first_occurance(const std::string& src, char x);
+std::pair<size_t, size_t> find_char_sequence(const std::string& src, char x, size_t = 0);
 std::string consume_until(std::string& src, const std::string delim_str);
 std::string consume_delims(std::string& src, const std::string delim_set);
 std::string stoa(size_t i);

@@ -15,6 +15,7 @@ void Computor_v1::run()
 	set_equal_to_zero();
 	discriminate_factors();
 	gen_reduced_form();
+	gen_output();
 	output = "-> TODO, process output";
 }
 
@@ -244,4 +245,13 @@ void Computor_v1::gen_reduced_form()
 	}
 	reduced_form += "= 0";
 	verbose(V) << "(reduced_form) " << reduced_form << std::endl;
+}
+
+void Computor_v1::gen_output()
+{
+	std::stringstream ss;
+	ss << "Reduced form: " << reduced_form << std::endl;
+	ss << "Polynomial degfree: " << degree << std::endl;
+	ss << message << std::endl;
+
 }

@@ -24,6 +24,7 @@ Computor_v1& Computor_v1::operator= (Computor_v1 const& rhs)
 		valid_terms = rhs.getValidTerms();
 		degree = rhs.getDegree();
 		reduced_form = rhs.getReducedForm();
+		message = rhs.getMessage();
 	}
 	return *this;
 }
@@ -60,3 +61,6 @@ const size_t& Computor_v1::getDegree() const
 
 const std::string& Computor_v1::getReducedForm() const
 { return reduced_form; }
+
+const std::string& Computor_v1::getMessage() const
+{ return message; }

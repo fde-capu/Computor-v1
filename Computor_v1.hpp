@@ -19,6 +19,7 @@ class Computor_v1
 		bool valid_terms;
 		size_t degree;
 		std::string reduced_form;
+		std::string message;
 
 	public:
 		Computor_v1(const std::string& u_input);
@@ -38,6 +39,7 @@ class Computor_v1
 		const bool& getValidTerms() const;
 		const size_t& getDegree() const;
 		const std::string& getReducedForm() const;
+		const std::string& getMessage() const;
 
 	private:
 		void run();
@@ -48,6 +50,7 @@ class Computor_v1
 		void set_equal_to_zero();
 		void discriminate_factors();
 		void gen_reduced_form();
+		void gen_output();
 };
 
 std::ostream& operator<< (std::ostream&, Computor_v1 const&);

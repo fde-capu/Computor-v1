@@ -734,3 +734,14 @@ std::pair<size_t, size_t> find_char_sequence(const std::string& src, char x, siz
 	verbose(V) << "(frcdo) Did not find, returning std::string::npos!" << std::endl;
 	return std::pair<size_t, size_t>{std::string::npos, std::string::npos};
 }
+
+std::string dtoa_clean(double n)
+{
+	std::string str{std::to_string (n)};
+	int offset{1};
+	if (str.find_last_not_of('0') == str.find('.')) {
+		offset = 0;
+	}
+	str.erase(str.find_last_not_of('0') + offset, std::string::npos);
+	return str;
+}

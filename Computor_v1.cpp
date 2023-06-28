@@ -16,12 +16,14 @@ Computor_v1& Computor_v1::operator= (Computor_v1 const& rhs)
 {
 	if (this != &rhs)
 	{
-		input = rhs.getInput();
 		output = rhs.getOutput();
+		input = rhs.getInput();
 		treating = rhs.getTreating();
 		terms = rhs.getTerms();
-		// TODO: get other properties.
-		valid_terms = rhs.getIsValidTerms();
+		factors = rhs.getFactors();
+		valid_terms = rhs.getValidTerms();
+		degree = rhs.getDegree();
+		reduced_form = rhs.getReducedForm();
 	}
 	return *this;
 }
@@ -47,5 +49,14 @@ const std::string& Computor_v1::getInput() const
 const std::vector<std::string>& Computor_v1::getTerms() const
 { return terms; }
 
-bool Computor_v1::getIsValidTerms() const
+const std::map<size_t, double>& Computor_v1::getFactors() const
+{ return factors; }
+
+const bool& Computor_v1::getValidTerms() const
 { return valid_terms; }
+
+const size_t& Computor_v1::getDegree() const
+{ return degree; }
+
+const std::string& Computor_v1::getReducedForm() const
+{ return reduced_form; }

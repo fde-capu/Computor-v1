@@ -34,7 +34,10 @@ class Computor_v1
 		const std::string& getInput() const;
 		const std::string& getTreating() const;
 		const std::vector<std::string>& getTerms() const;
-		bool getIsValidTerms() const;
+		const std::map<size_t, double>& getFactors() const;
+		const bool& getValidTerms() const;
+		const size_t& getDegree() const;
+		const std::string& getReducedForm() const;
 
 	private:
 		void run();

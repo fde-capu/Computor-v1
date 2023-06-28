@@ -18,6 +18,7 @@ class Computor_v1
 		std::map<size_t, double> factors;
 		bool valid_terms;
 		size_t degree;
+		std::string reduced_form;
 
 	public:
 		Computor_v1(const std::string& u_input);
@@ -43,6 +44,7 @@ class Computor_v1
 		void validate_terms();
 		void set_equal_to_zero();
 		void discriminate_factors();
+		void gen_reduced_form();
 };
 
 std::ostream& operator<< (std::ostream&, Computor_v1 const&);

@@ -20,6 +20,7 @@ Computor_v1& Computor_v1::operator= (Computor_v1 const& rhs)
 		output = rhs.getOutput();
 		treating = rhs.getTreating();
 		terms = rhs.getTerms();
+		// TODO: get other properties.
 		valid_terms = rhs.getIsValidTerms();
 	}
 	return *this;

@@ -14,6 +14,7 @@ void Computor_v1::run()
 	if (!valid_terms) return ;
 	set_equal_to_zero();
 	discriminate_factors();
+	gen_reduced_form();
 	output = "-> TODO, process output";
 }
 
@@ -229,4 +230,18 @@ void Computor_v1::discriminate_factors()
 	{
 		verbose(V) << "(discriminate_factors) " << (std::to_string(i) + ") " + std::to_string(factors[i])) << std::endl;
 	}
+}
+
+void Computor_v1::gen_reduced_form()
+{
+	int V(0);
+	reduced_form = "";
+	size_t i = -1;
+	while (++i <= this->degree)
+	{
+		reduced_form += factors[i] >= 0.0 ? "+" : "";
+		reduced_form += std::to_string(factors[i]) + "*x^" + std::to_string(i) + " ";
+	}
+	reduced_form += "= 0";
+	verbose(V) << "(reduced_form) " << reduced_form << std::endl;
 }

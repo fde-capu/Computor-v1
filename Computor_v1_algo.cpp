@@ -156,7 +156,7 @@ void Computor_v1::validate_terms()
 				step++;
 				continue ;
 			}
-			if (step == 5 && isDigit(t.at(i)))
+			if (step == 5 && (isDigit(t.at(i)) || t.at(i) == '+'))
 			{
 				continue ;
 			}
@@ -169,7 +169,7 @@ void Computor_v1::validate_terms()
 				step == 2 ? "Expected '*x^n'." :
 				step == 3 ? "Expected 'x^n'." :
 				step == 4 ? "Expected '^n'." :
-				step == 5 ? "Expected term power." :
+				step == 5 ? "Unexpected character. Term power must be positive integer." :
 					"~~~ (8> Cosmic ray detected! <8) ~~~";
 			if (!valid_terms) break ;
 		}

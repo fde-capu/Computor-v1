@@ -283,8 +283,9 @@ void Computor_v1::gen_results()
 		results[1].real = results[0].real;
 		results[1].imag = -results[0].imag;
 	}
-	noMinusZero(results[0].real);
-	if (discriminant && results[1].real == -0.0)
+	if (!results[0].real)
+		noMinusZero(results[0].real);
+	if (discriminant && !results[1].real)
 		noMinusZero(results[1].real);
 }
 

@@ -261,8 +261,25 @@ void Computor_v1::gen_results()
 	double	a	(factors[2]),
 			b	(factors[1]);
 
-	results[0] = ( -b - sqrt(discriminant) ) / ( 2 * a );
-	results[1] = ( -b + sqrt(discriminant) ) / ( 2 * a );
+	if (discriminant > 0.0)
+	{
+		results[0].real = ( -b - sqrt(discriminant) ) / ( 2 * a );
+		results[0].imag = 0;
+		results[1].real = ( -b + sqrt(discriminant) ) / ( 2 * a );
+		results[1].imag = 0;
+	}
+	else if (discriminant == 0.0)
+	{
+		results[0].real = -b / ( 2 * a );
+		results[0].imag = 0;
+	}
+	else if (discriminant < 0.0) // else
+	{
+		results[0].real = -b / ( 2 * a );
+        results[0].imag = sqrt(-discriminant) / ( 2 * a );
+		results[1].real = results[0].real;
+		results[1].imag = -results[0].imag;
+	}
 }
 
 void Computor_v1::gen_output()
@@ -285,7 +302,10 @@ void Computor_v1::gen_output()
 		ss << std::endl;
 		for (auto& r : results)
 		{
-			ss << r.second << std::endl;
+			ss << r.second.real;
+			if (r.second.imag != 0.0)
+				ss << (r.second.imag > 0.0 ? "+" : "") << r.second.imag << "i";
+			ss << std::endl;
 		}
 	}
 

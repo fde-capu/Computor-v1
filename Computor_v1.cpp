@@ -69,5 +69,5 @@ const std::string& Computor_v1::getMessage() const
 const double& Computor_v1::getDiscriminant() const
 { return discriminant; }
 
-const std::map<size_t, double>& Computor_v1::getResults() const
+const std::map<size_t, complex_t>& Computor_v1::getResults() const
 { return results; }

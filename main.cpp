@@ -4,25 +4,28 @@ void help()
 {
 		std::cout << "Computor v1 @42 by fde-capu" << std::endl;
 		std::cout << "Usage: ./computor args" << std::endl;
-		std::cout << "args examples:" << std::endl;
-		std::cout << "\t" << "\"5 * X^0 + 4 * X^1 - 9.3 * X^2 = 1 * X^0\"" << std::endl;
-		std::cout << "\t" << "Result:" << std::endl;
-		std::cout << "\t\t" << "Reduced form: 4 * X^0 + 4 * X^1 - 9.3 * X^2 = 0" << std::endl;
-		std::cout << "\t\t" << "Polynomial degree: 2" << std::endl;
-		std::cout << "\t\t" << "Discriminant is strictly positive, the two solutions are:" << std::endl;
-		std::cout << "\t\t" << "0.905239" << std::endl;
-		std::cout << "\t\t" << "-0.475131" << std::endl;
-		std::cout << "\t" << "5 * X^0 + 4 * X^1 = 4 * X^0\"" << std::endl;
-		std::cout << "\t\t" << "Result:" << std::endl;
-		std::cout << "\t\t" << "Reduced form: 1 * X^0 + 4 * X^1 = 0" << std::endl;
-		std::cout << "\t\t" << "Polynomial degree: 1" << std::endl;
-		std::cout << "\t\t" << "The solution is:" << std::endl;
-		std::cout << "\t\t" << "-0.25" << std::endl;
-		std::cout << "\t" << "8 * X^0 - 6 * X^1 + 0 * X^2 - 5.6 * X^3 = 3 * X^0\"" << std::endl;
-		std::cout << "\t\t" << "Result:" << std::endl;
-		std::cout << "\t\t" << "Reduced form: 5 * X^0 - 6 * X^1 + 0 * X^2 - 5.6 * X^3 = 0" << std::endl;
-		std::cout << "\t\t" << "Polynomial degree: 3" << std::endl;
-		std::cout << "\t\t" << "The polynomial degree is strictly greater than 2, I can't solve." << std::endl;
+		std::cout << std::endl;
+		std::cout << "args examples:" << std::endl << std::endl;
+		std::cout << "  " << "\"5 * X^0 + 4 * X^1 - 9.3 * X^2 = 1 * X^0\"" << std::endl;
+		std::cout << "  " << "Result:" << std::endl;
+		std::cout << "  " << "Reduced form: 4 * X^0 + 4 * X^1 - 9.3 * X^2 = 0" << std::endl;
+		std::cout << "  " << "Polynomial degree: 2" << std::endl;
+		std::cout << "  " << "Discriminant is strictly positive, the two solutions are:" << std::endl;
+		std::cout << "  " << "0.905239" << std::endl;
+		std::cout << "  " << "-0.475131" << std::endl;
+		std::cout << std::endl;
+		std::cout << "  " << "5 * X^0 + 4 * X^1 = 4 * X^0\"" << std::endl;
+		std::cout << "  " << "Result:" << std::endl;
+		std::cout << "  " << "Reduced form: 1 * X^0 + 4 * X^1 = 0" << std::endl;
+		std::cout << "  " << "Polynomial degree: 1" << std::endl;
+		std::cout << "  " << "The solution is:" << std::endl;
+		std::cout << "  " << "-0.25" << std::endl;
+		std::cout << std::endl;
+		std::cout << "  " << "8 * X^0 - 6 * X^1 + 0 * X^2 - 5.6 * X^3 = 3 * X^0\"" << std::endl;
+		std::cout << "  " << "Result:" << std::endl;
+		std::cout << "  " << "Reduced form: 5 * X^0 - 6 * X^1 + 0 * X^2 - 5.6 * X^3 = 0" << std::endl;
+		std::cout << "  " << "Polynomial degree: 3" << std::endl;
+		std::cout << "  " << "The polynomial degree is strictly greater than 2, I can't solve." << std::endl;
 }
 
 std::string argJoin(int argc, char** argv)

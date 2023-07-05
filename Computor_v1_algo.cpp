@@ -15,8 +15,8 @@ void Computor_v1::run()
 	discriminate_factors();
 	gen_reduced_form();
 	gen_discriminant();
+	gen_results();
 	gen_output();
-	output += "-> TODO, process output";
 }
 
 void Computor_v1::treat_spaces()
@@ -249,7 +249,20 @@ void Computor_v1::gen_reduced_form()
 
 void Computor_v1::gen_discriminant()
 {
-	discriminant = (factors[1] * factors[1]) - (4 * factors[0] * factors[2]);
+	double	a	(factors[2]),
+			b	(factors[1]),
+			c	(factors[0]);
+
+	discriminant = ( b * b ) - ( 4 * a * c );
+}
+
+void Computor_v1::gen_results()
+{
+	double	a	(factors[2]),
+			b	(factors[1]);
+
+	results[0] = ( -b - discriminant ) / ( 2 * a );
+	results[1] = ( -b + discriminant ) / ( 2 * a );
 }
 
 void Computor_v1::gen_output()
@@ -258,19 +271,23 @@ void Computor_v1::gen_output()
 	std::stringstream ss;
 	ss << "Reduced form: " << reduced_form << std::endl;
 	ss << "Polynomial degree: " << degree << std::endl;
-	if (this->degree <= 2)
+	if (this->degree > 2)
+	{
+		ss << "The polynomial degree is strictly greater than 2, I can't solve.";
+	}
+	else
 	{
 		if (V > 0)
 			ss << "Discriminant (delta): " << discriminant << std::endl;
 		ss << (discriminant > 0.0 ? "Discriminant is strictly positive, the two solutions are:"
 		: discriminant == 0.0 ? "Discriminant is zero, the polynomial has exactly one real root:"
 		: "Discriminant is negative, the polinomial has two distinct complex roots.");
+		ss << std::endl;
+		for (auto& r : results)
+		{
+			ss << r.second << std::endl;
+		}
 	}
-	else
-	{
-		ss << "The polynomial degree is strictly greater than 2, I can't solve.";
-	}
-
 
 	ss << std::endl;
 	ss << message << std::endl;

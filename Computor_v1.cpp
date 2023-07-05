@@ -25,6 +25,8 @@ Computor_v1& Computor_v1::operator= (Computor_v1 const& rhs)
 		degree = rhs.getDegree();
 		reduced_form = rhs.getReducedForm();
 		message = rhs.getMessage();
+		discriminant = rhs.getDiscriminant();
+		results = rhs.getResults();
 	}
 	return *this;
 }
@@ -35,8 +37,7 @@ std::ostream& operator<< (std::ostream& o, Computor_v1 const& self)
 	return o;
 }
 
-Computor_v1::~Computor_v1()
-{ Debug("Computor_v1 destructed."); }
+Computor_v1::~Computor_v1(){}
 
 const std::string& Computor_v1::getTreating() const
 { return treating; }
@@ -64,3 +65,9 @@ const std::string& Computor_v1::getReducedForm() const
 
 const std::string& Computor_v1::getMessage() const
 { return message; }
+
+const double& Computor_v1::getDiscriminant() const
+{ return discriminant; }
+
+const std::map<size_t, double>& Computor_v1::getResults() const
+{ return results; }

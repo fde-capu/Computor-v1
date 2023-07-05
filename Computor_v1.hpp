@@ -3,7 +3,6 @@
 
 # include <iostream>
 # include <string>
-# include "Debug.hpp"
 # include "StringTools.hpp"
 # include <vector>
 # include <map>
@@ -21,6 +20,7 @@ class Computor_v1
 		std::string reduced_form;
 		std::string message;
 		double discriminant; // delta
+		std::map<size_t, double> results;
 
 	public:
 		Computor_v1(const std::string& u_input);
@@ -41,6 +41,8 @@ class Computor_v1
 		const size_t& getDegree() const;
 		const std::string& getReducedForm() const;
 		const std::string& getMessage() const;
+		const double& getDiscriminant() const;
+		const std::map<size_t, double>& getResults() const;
 
 	private:
 		void run();
@@ -52,6 +54,7 @@ class Computor_v1
 		void discriminate_factors();
 		void gen_reduced_form();
 		void gen_discriminant();
+		void gen_results();
 		void gen_output();
 };
 

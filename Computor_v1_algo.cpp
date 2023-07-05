@@ -280,6 +280,8 @@ void Computor_v1::gen_results()
 		results[1].real = results[0].real;
 		results[1].imag = -results[0].imag;
 	}
+	if (results[0].real == -0.0) results[0].real *= -1;
+	if (results[1].real == -0.0) results[1].real *= -1;
 }
 
 void Computor_v1::gen_output()

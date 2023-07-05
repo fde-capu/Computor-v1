@@ -2,7 +2,7 @@
 
 void Computor_v1::run()
 {
-	int V(1);
+	int V(2);
 	verbose(V) << "Computor_v1::run()" << std::endl;
 	treating = input;
 	valid_terms = false;
@@ -14,13 +14,14 @@ void Computor_v1::run()
 	set_equal_to_zero();
 	discriminate_factors();
 	gen_reduced_form();
+	gen_discriminant();
 	gen_output();
-	output = "-> TODO, process output";
+	output += "-> TODO, process output";
 }
 
 void Computor_v1::treat_spaces()
 {
-	int V(1);
+	int V(2);
 	verbose(V) << "treat_spaces:" << std::endl;
 	substitute_unloop(treating, "X", "x");
 	substitute_unloop(treating, "\\t", " ");
@@ -40,7 +41,7 @@ void Computor_v1::treat_spaces()
 
 void Computor_v1::mount_terms()
 {
-	int V(1);
+	int V(2);
 	verbose(V) << "mount_terms:" << std::endl;
 	substitute_super(treating, "x*x", "xx");
 	substitute_super(treating, "x x", "xx");
@@ -70,7 +71,7 @@ void Computor_v1::mount_terms()
 
 void Computor_v1::treat_implicits()
 {
-	int V(1);
+	int V(2);
 	for (auto& c : terms)
 	{
 		substitute_unloop(c, "0x", "0*x");
@@ -182,7 +183,7 @@ void Computor_v1::validate_terms()
 
 void Computor_v1::set_equal_to_zero()
 {
-	int V(1);
+	int V(2);
 	bool before_equal_sign = true;
 	std::vector<std::string> zero_equal_equation = {};
 
@@ -208,7 +209,7 @@ void Computor_v1::set_equal_to_zero()
 
 void Computor_v1::discriminate_factors()
 {
-	int V(1);
+	int V(2);
 	double fact;
 	size_t deg;
 	this->degree = 0;
@@ -234,7 +235,7 @@ void Computor_v1::discriminate_factors()
 
 void Computor_v1::gen_reduced_form()
 {
-	int V(0);
+	int V(2);
 	reduced_form = "";
 	size_t i = this->degree + 1;
 	while (--i <= this->degree)
@@ -246,11 +247,23 @@ void Computor_v1::gen_reduced_form()
 	verbose(V) << "(reduced_form) " << reduced_form << std::endl;
 }
 
+void Computor_v1::gen_discriminant()
+{
+	discriminant = (factors[1] * factors[1]) - (4 * factors[0] * factors[2]);
+}
+
 void Computor_v1::gen_output()
 {
+	int V(1);
 	std::stringstream ss;
 	ss << "Reduced form: " << reduced_form << std::endl;
-	ss << "Polynomial degfree: " << degree << std::endl;
+	ss << "Polynomial degree: " << degree << std::endl;
+	if (V > 0)
+		ss << "Discriminant (delta): " << discriminant << std::endl;
+	ss << (discriminant > 0.0 ? "Discriminant is strictly positive, the two solutions are:"
+		: discriminant == 0.0 ? "Discriminant is zero, the polynomial has exactly one real root:"
+		: "Discriminant is negative, the polinomial has two distinct complex roots.")
+		<< std::endl;
 	ss << message << std::endl;
-
+	output = ss.str();
 }

@@ -20,6 +20,7 @@ class Computor_v1
 		size_t degree;
 		std::string reduced_form;
 		std::string message;
+		double discriminant; // delta
 
 	public:
 		Computor_v1(const std::string& u_input);
@@ -50,6 +51,7 @@ class Computor_v1
 		void set_equal_to_zero();
 		void discriminate_factors();
 		void gen_reduced_form();
+		void gen_discriminant();
 		void gen_output();
 };
 

@@ -3,7 +3,7 @@
 Computor_v1::Computor_v1(const std::string& u_input)
 : input(u_input)
 {
-	int V(1);
+	int V(2);
 	verbose(V) << "Computor_v1 constructed with input:" << std::endl;
 	verbose(V) << input << std::endl;
 	run();

@@ -47,9 +47,7 @@ std::string getEqOriginal(int argc, char** argv)
 bool validateArgCount(int argc, char** argv)
 {
 	if (!argc || argc == 1)
-	{
 		return false;
-	}
 	(void)argv;
 	return true;
 }
@@ -60,9 +58,17 @@ int main (int argc, char** argv)
 
 	if (!validateArgCount(argc, argv))
 	{ help(); return 1; }
+
 	equation_raw = getEqOriginal(argc, argv);
+	if (equation_raw == "--help"
+	||	equation_raw == "-h"
+	||	equation_raw == "-?")
+	{ help(); return 0; }
 
-	std::cout << Computor_v1(equation_raw) << std::endl;
+	Computor_v1 result(equation_raw);
 
-	return 0;
+	std::cout << std::endl << "-->";
+	std::cout << result << "<--" << std::endl;
+
+	return !result.getValidTerms();
 }

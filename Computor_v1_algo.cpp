@@ -6,7 +6,6 @@ void Computor_v1::run()
 	verbose(V) << "Computor_v1::run()" << std::endl;
 	treating = input;
 	valid_terms = false;
-
 	treat_spaces();
 	mount_terms();
 	treat_implicits();

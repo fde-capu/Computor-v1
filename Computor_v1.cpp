@@ -31,7 +31,7 @@ Computor_v1& Computor_v1::operator= (Computor_v1 const& rhs)
 
 std::ostream& operator<< (std::ostream& o, Computor_v1 const& self)
 {
-	o << self.getOutput() << std::endl;
+	o << self.getOutput();
 	return o;
 }
 

@@ -2,6 +2,6 @@
 # define DEFINES_HPP
 
 # define DEBUG true
-# define VERBOSE 1
+# define VERBOSE 2
 
 #endif

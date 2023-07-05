@@ -219,18 +219,18 @@ void Computor_v1::discriminate_factors()
 	{
 		fact = std::stod(term.c_str());
 		deg = std::atoi(get_after_first(term, "^").c_str());
-		verbose(V+1) << "(discriminate_factors) (" << term << ") factor " << fact << " degree " << deg << std::endl;
+		verbose(V) << "(discriminate_factors) (" << term << ") factor "
+			<< fact << " degree " << deg << std::endl;
 		factors[deg] += fact;
-		this->degree = deg > this->degree && factors[degree] != 0.0 ? deg : this->degree;
-		verbose(V+1) << "(discriminate_factors) " << (std::to_string(this->degree) + "> " + std::to_string(factors[deg])) << std::endl;
+		this->degree = factors.rbegin()->first;
+		verbose(V+1) << "(discriminate_factors) "
+			<< (std::to_string(this->degree) + "> "
+			+ std::to_string(factors[deg])) << std::endl;
 	}
-	
-	verbose(V+1) << "(discriminate_factors) Equation this->degree: " << this->degree << std::endl;
+	verbose(V) << "(discriminate_factors) Equation this->degree: " << this->degree << std::endl;
 	size_t i = -1;
 	while (++i <= this->degree)
-	{
 		verbose(V) << "(discriminate_factors) " << (std::to_string(i) + ") " + std::to_string(factors[i])) << std::endl;
-	}
 }
 
 void Computor_v1::gen_reduced_form()
@@ -258,12 +258,21 @@ void Computor_v1::gen_output()
 	std::stringstream ss;
 	ss << "Reduced form: " << reduced_form << std::endl;
 	ss << "Polynomial degree: " << degree << std::endl;
-	if (V > 0)
-		ss << "Discriminant (delta): " << discriminant << std::endl;
-	ss << (discriminant > 0.0 ? "Discriminant is strictly positive, the two solutions are:"
+	if (this->degree <= 2)
+	{
+		if (V > 0)
+			ss << "Discriminant (delta): " << discriminant << std::endl;
+		ss << (discriminant > 0.0 ? "Discriminant is strictly positive, the two solutions are:"
 		: discriminant == 0.0 ? "Discriminant is zero, the polynomial has exactly one real root:"
-		: "Discriminant is negative, the polinomial has two distinct complex roots.")
-		<< std::endl;
+		: "Discriminant is negative, the polinomial has two distinct complex roots.");
+	}
+	else
+	{
+		ss << "The polynomial degree is strictly greater than 2, I can't solve.";
+	}
+
+
+	ss << std::endl;
 	ss << message << std::endl;
 	output = ss.str();
 }

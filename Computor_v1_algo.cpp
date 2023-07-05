@@ -317,6 +317,5 @@ void Computor_v1::gen_output()
 	}
 
 	ss << std::endl;
-	ss << message << std::endl;
 	output = ss.str();
 }

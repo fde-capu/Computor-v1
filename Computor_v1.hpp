@@ -19,7 +19,6 @@ class Computor_v1
 		bool valid_terms;
 		size_t degree;
 		std::string reduced_form;
-		std::string message;
 		double discriminant; // delta
 		std::map<size_t, complex_t> results;
 
@@ -41,7 +40,6 @@ class Computor_v1
 		const bool& getValidTerms() const;
 		const size_t& getDegree() const;
 		const std::string& getReducedForm() const;
-		const std::string& getMessage() const;
 		const double& getDiscriminant() const;
 		const std::map<size_t, complex_t>& getResults() const;
 

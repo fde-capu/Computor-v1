@@ -270,7 +270,10 @@ void Computor_v1::gen_results()
 	}
 	else if (discriminant == 0.0)
 	{
-		results[0].real = -b / ( 2 * a );
+		if (2 * a)
+			results[0].real = -b / ( 2 * a );
+		else
+			results[0].real = 0.0;
 		results[0].imag = 0;
 	}
 	else if (discriminant < 0.0) // else
@@ -280,8 +283,9 @@ void Computor_v1::gen_results()
 		results[1].real = results[0].real;
 		results[1].imag = -results[0].imag;
 	}
-	if (results[0].real == -0.0) results[0].real *= -1;
-	if (results[1].real == -0.0) results[1].real *= -1;
+	noMinusZero(results[0].real);
+	if (discriminant && results[1].real == -0.0)
+		noMinusZero(results[1].real);
 }
 
 void Computor_v1::gen_output()

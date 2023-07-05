@@ -9,6 +9,8 @@ test_computor() {
 }
 
 # coefficient is zero..?
+#test_computor "0"
+
 test_computor "X^2 + 6 = 0"
 
 #test_computor "42*X0 = 42*X0"

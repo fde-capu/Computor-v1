@@ -58,7 +58,11 @@ void Computor_v1::mount_terms()
 			treating.at(x_count.first - 1) == '*' ? "" : 
 			isDigit(treating.at(x_count.first - 1)) ? "*" : "";
 		std::string power = std::to_string(x_count.second);
-		if (x_count.first + x_count.second >= treating.size() || treating.at(x_count.first + x_count.second) != '^') 
+		if (x_count.first + x_count.second >= treating.size()
+			|| (
+					treating.at(x_count.first + x_count.second) == ' ' 
+				)
+			)
 			treating.replace(x_count.first, x_count.second, asterisk + "x^" + power);
 		substitute_super(treating, "* ", "*");
 		substitute_super(treating, " *", "*");
@@ -301,18 +305,27 @@ void Computor_v1::gen_output()
 	}
 	else
 	{
-		if (V > 0)
-			ss << "Discriminant (delta): " << discriminant << std::endl;
-		ss << (discriminant > 0.0 ? "Discriminant is strictly positive, the two solutions are:"
-		: discriminant == 0.0 ? "Discriminant is zero, the polynomial has exactly one real root:"
-		: "Discriminant is negative, the polinomial has two distinct complex roots.");
-		ss << std::endl;
-		for (auto& r : results)
+		if (factors[0] == 0.0
+		&& factors[1] == 0.0
+		&& factors[2] == 0.0)
 		{
-			ss << r.second.real;
-			if (r.second.imag != 0.0)
-				ss << (r.second.imag > 0.0 ? "+" : "") << r.second.imag << "i";
+			ss << "Tautology. All real numbers possible as solution." << std::endl;
+		}
+		else
+		{
+			if (V > 0)
+				ss << "Discriminant (delta): " << discriminant << std::endl;
+			ss << (discriminant > 0.0 ? "Discriminant is strictly positive, the two solutions are:"
+			: discriminant == 0.0 ? "Discriminant is zero, the polynomial has exactly one real root:"
+			: "Discriminant is negative, the polinomial has two distinct complex roots.");
 			ss << std::endl;
+			for (auto& r : results)
+			{
+				ss << r.second.real;
+				if (r.second.imag != 0.0)
+					ss << (r.second.imag > 0.0 ? "+" : "") << r.second.imag << "i";
+				ss << std::endl;
+			}
 		}
 	}
 

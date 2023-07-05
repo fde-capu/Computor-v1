@@ -1,6 +1,6 @@
 #ifndef DEFINES_HPP
 # define DEFINES_HPP
 
-# define VERBOSE 0
+# define VERBOSE 1
 
 #endif

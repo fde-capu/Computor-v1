@@ -9,17 +9,21 @@ test_computor() {
 }
 
 # coefficient is zero..?
-test_computor "0"
-
-test_computor "X^2 + 6 = 0"
-
-#test_computor "42*X0 = 42*X0"
+#test_computor "0"
+#test_computor "0 = 0"
+#test_computor "0x = 0"
+#test_computor "0x^2 = 0"
+#test_computor "42*X^0 = 42*X^0"
+#test_computor "42*X^0 = 42"
+#test_computor "42*X^0 + 1x^2 = 42*X^0 + 1x^2"
 ## R: all real numbers
 
+
+#test_computor "X^2 + 6 = 0x^0"
 #test_computor "5 + 4 * X + X^2"
 ## R: -1.25
 
-test_computor "1 + 1x + 1xx"
+#test_computor "1 + 1x + 1xx"
 # R: complex
 
 #test_computor "1.0 + 2.1x + 3.2xx = +4.3x^2"

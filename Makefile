@@ -5,9 +5,10 @@ endif
 NAME	=	computor
 ARGS	=	"x"
 SRCS	=	Computor_v1.cpp main.cpp \
-			StringTools.cpp Computor_v1_algo.cpp
+			StringTools.cpp Computor_v1_algo.cpp \
+			MathTools.cpp
 HEAD	=	Makefile Computor_v1.hpp header.hpp \
-			defines.hpp StringTools.hpp
+			defines.hpp StringTools.hpp MathTools.hpp
 SHELL	=	/bin/sh
 CC		=	clang++ -std=c++20 -Wfatal-errors
 CCFLAGS	=	-Wall -Werror -Wextra -g -Wfatal-errors

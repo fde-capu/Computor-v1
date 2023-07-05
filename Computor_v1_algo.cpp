@@ -261,8 +261,8 @@ void Computor_v1::gen_results()
 	double	a	(factors[2]),
 			b	(factors[1]);
 
-	results[0] = ( -b - discriminant ) / ( 2 * a );
-	results[1] = ( -b + discriminant ) / ( 2 * a );
+	results[0] = ( -b - sqrt(discriminant) ) / ( 2 * a );
+	results[1] = ( -b + sqrt(discriminant) ) / ( 2 * a );
 }
 
 void Computor_v1::gen_output()

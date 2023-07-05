@@ -8,7 +8,18 @@ test_computor() {
 	echo ;
 }
 
-#negative exponent?
+# coefficient is zero..?
+##test_computor "X^2 + 6 = 0"
+
+#test_computor "42*X0 = 42*X0"
+## R: all real numbers
+
+#test_computor "5 + 4 * X + X^2"
+## R: -1.25
+
+#test_computor "1 + 1x + 1xx"
+## R: complex
+
 test_computor "1.0 + 2.1x + 3.2xx = +4.3x^2"
 #test_computor "x"
 #test_computor "x X x\t \t  XX"

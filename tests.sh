@@ -15,6 +15,28 @@ red() { ansi 31 "$@"; }
 green() { ansi 32 "$@"; }
 blue() { ansi 34 "$@"; }
 
+print_ko() {
+	red "[ KO ]";
+	echo
+	bold "<<< Expected $1."
+	echo
+	bold ">>> Actual output:"
+	echo
+	[[ "$actual_output" != "" ]] && echo "$actual_output" || echo "(empty)"
+	if [[ "$err_output" != "" ]] ; then
+		bold ">>> Error from program:"
+		echo
+		echo "$err_output"
+	fi;
+	((ko++))
+}
+
+print_ok() {
+	green "[ OK ]";
+	echo;
+	((ok++));
+}
+
 test_computor() {
 	test_name="${1}"
     input="${2}"
@@ -30,52 +52,18 @@ test_computor() {
 	blue "\"$input\" "
 
 	if [[ "$expected_output" == "error" ]]; then
-		[[ "$errno" == "0" ]] &&
-		(
-			red "[ KO ]";
-			bold "<<< Expected error."
-			echo
-			bold ">>> Actual output:"
-			echo
-			echo "$actual_output"
-			if [[ "$err_output" != "" ]] ; then
-				bold ">>> Error from program:"
-				echo
-				echo "$err_output"
-			fi;
-			((ko++))
-			[[ "$ko_break" == "true" ]] && exit;
-		) || (
-			green "[ OK ]";
-			echo;
-			((ok++));
-		)
+	[[ "$errno" == "0" ]] && print_ko "error" || print_ok; 
 		return 0;
 	fi;
 
     if diff -q <(echo "${expected_output}") <(echo "${actual_output}") > /dev/null; then
-        green "[ OK ]";
-		echo;
-		((ok++))
+		print_ok;
     else
-        red "[ KO ]"
-		echo
-		bold "<<< Expected:"
-		echo
-		echo "$expected_output"
-		bold ">>> Actual output:"
-		echo
-		echo "$actual_output"
-		if [[ "$err_output" != "" ]] ; then
-			bold ">>> Error from program:"
-			echo
-			echo "$err_output"
-		fi;
-		((ko++))
-		[[ "$ko_break" == "true" ]] && exit;
+		print_ko "output";
     fi
 
     [[ "$verbose" == "true" ]] && echo "${actual_output}";
+	[[ "$ko_break" == "true" ]] && [[ "$ko" != "0" ]] && exit;
 	[[ "$paused" == "true" ]] && read;
 }
 
@@ -244,22 +232,22 @@ Discriminant is strictly positive, the two solutions are:
 0.905239
 -0.475131"
 
-fi # > > > > > > > > > > > > > > > > > > > > > > > Jump line!
-
 test_computor \
 "err1" \
 "blablabla" \
 "error"
 
-exit;
+fi # > > > > > > > > > > > > > > > > > > > > > > > Jump line!
 
 test_computor \
 "i17" \
-" reduced 5 * X^0 + 4 * X^1 = 4 * X^0" \
+"5 * X^0 + 4 * X^1 = 4 * X^0" \
 "Reduced form: +4*x^1 +1*x^0 = 0
 Polynomial degree: 1
 Equation is first degree. One solution:
 -0.25"
+
+exit;
 
 test_computor \
 "i18" \

@@ -1,8 +1,9 @@
 #!/bin/bash
 
 verbose="true";
-paused="true";
+paused="false";
 ko_break="true";
+short="true";
 ok=0;
 ko=0;
 
@@ -17,10 +18,21 @@ blue() { ansi 34 "$@"; }
 
 print_ko() {
 	red "[ KO ]";
+	if [[ "$short" == "true" ]]; then
+		echo;
+		bold "$test_name "
+		[[ "$verbose" == "true" ]] && echo && blue "./computor ";
+		blue "\"$input\" "
+	fi
 	echo
-	bold "<<< Expected $1."
-	echo
-	bold ">>> Actual output:"
+	bold "<<< Expected $1"
+	if [[ "$1" == "error" ]] ; then
+		echo ".";
+	else
+		echo ":";
+		echo "$expected_output";
+	fi
+	bold ">>> Actual output"
 	echo
 	[[ "$actual_output" != "" ]] && echo "$actual_output" || echo "(empty)"
 	if [[ "$err_output" != "" ]] ; then
@@ -33,7 +45,7 @@ print_ko() {
 
 print_ok() {
 	green "[ OK ]";
-	echo;
+	[[ "$short" != "true" ]] && echo || echo -n " ";
 	((ok++));
 }
 
@@ -47,12 +59,14 @@ test_computor() {
 	err_output=$(<"$tmpfile")
 	rm "$tmpfile"
 
-    bold "$test_name "
-	[[ "$verbose" == "true" ]] && echo && blue "./computor ";
-	blue "\"$input\" "
+	if [[ "$short" != "true" ]]; then
+		bold "$test_name "
+		[[ "$verbose" == "true" ]] && echo && blue "./computor ";
+		blue "\"$input\" "
+	fi
 
 	if [[ "$expected_output" == "error" ]]; then
-	[[ "$errno" == "0" ]] && print_ko "error" || print_ok; 
+		[[ "$errno" == "0" ]] && print_ko "error" || print_ok; 
 		return 0;
 	fi;
 
@@ -62,7 +76,7 @@ test_computor() {
 		print_ko "output";
     fi
 
-    [[ "$verbose" == "true" ]] && echo "${actual_output}";
+    [[ "$verbose" == "true" ]] && [[ "$short" != "true" ]] && echo "${actual_output}" && echo;
 	[[ "$ko_break" == "true" ]] && [[ "$ko" != "0" ]] && exit;
 	[[ "$paused" == "true" ]] && read;
 }
@@ -80,30 +94,78 @@ final() {
 
 if false; then
 	echo "dummy line so jump may be right below" 2> /dev/null;
+fi # > > > > > > > > > > > > > > > > > > > > > > > Jump line!
 
 ############################################################### Begin
 
 # coefficient is zero..?
 test_computor \
-"i0 - Just passing 0" \
+"Just passing 0" \
 "0" \
 "Reduced form: +0*x^0 = 0
 Polynomial degree: 0
 Tautology. All real numbers possible as solution."
 
 test_computor \
-"i01 - Just passing 1" \
+"Just passing 1" \
 "1" \
 "Reduced form: +1*x^0 = 0
 Polynomial degree: 0
 No solution."
 
 test_computor \
-"i1" \
+"Passing 'true'" \
 "0 = 0" \
 "Reduced form: +0*x^0 = 0
 Polynomial degree: 0
 Tautology. All real numbers possible as solution."
+
+test_computor \
+"Passing 'false'" \
+"0 = 1" \
+"Reduced form: -1*x^0 = 0
+Polynomial degree: 0
+No solution.";
+
+test_computor \
+"Passing 'false' the other way" \
+"1 = 0" \
+"Reduced form: +1*x^0 = 0
+Polynomial degree: 0
+No solution.";
+
+test_computor \
+"Passing only 'b'" \
+"42.31x^1 = 0" \
+"Reduced form: +42.31*x^1 +0*x^0 = 0
+Polynomial degree: 1
+Equation is first degree. One solution:
+0";
+
+test_computor \
+"Passing only 'b', but factor of zero" \
+"0x^1 = 0" \
+"Reduced form: +0*x^1 +0*x^0 = 0
+Polynomial degree: 1
+Tautology. All real numbers possible as solution.";
+
+test_computor \
+"Passing 'b' and 'c' (Beyoncé??)" \
+"42x^1 + 7 = 0" \
+"Reduced form: +42*x^1 +7*x^0 = 0
+Polynomial degree: 1
+Equation is first degree. One solution:
+-0.166667";
+
+test_computor \
+"Passing 'b' and 'c', but 'b' is zero" \
+"0x^1 + 7 = 0" \
+"";
+
+test_computor \
+"Passing zero 'b' and zero 'c'" \
+"0x^1 + 0 = 0" \
+"";
 
 test_computor \
 "i2" \
@@ -237,8 +299,6 @@ test_computor \
 "blablabla" \
 "error"
 
-fi # > > > > > > > > > > > > > > > > > > > > > > > Jump line!
-
 test_computor \
 "i17" \
 "5 * X^0 + 4 * X^1 = 4 * X^0" \
@@ -246,8 +306,6 @@ test_computor \
 Polynomial degree: 1
 Equation is first degree. One solution:
 -0.25"
-
-exit;
 
 test_computor \
 "i18" \

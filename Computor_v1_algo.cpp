@@ -57,38 +57,43 @@ void Computor_v1::gen_results()
 		if (b != 0.0)
 		{
 			results[0].real = -c / b;
-			message = MSG_FIRST_DEF;
+			message = MSG_FIRST_DEGREE;
 		}
 		else
 			message = MSG_TAUTOLOGY;
 	}
 	else // 2nd degree
 	{
-		if (discriminant > 0.0)
+		if (a != 0.0)
 		{
-			results[0].real = ( -b - sqrt(discriminant) ) / ( 2 * a );
-			results[0].imag = 0;
-			results[1].real = ( -b + sqrt(discriminant) ) / ( 2 * a );
-			results[1].imag = 0;
-			message = MSG_DISC_POSITIVE;
-		}
-		else if (discriminant == 0.0)
-		{
-			if (2 * a)
+			if (discriminant > 0.0)
+			{
+				results[0].real = ( -b - sqrt(discriminant) ) / ( 2 * a );
+				results[0].imag = 0;
+				results[1].real = ( -b + sqrt(discriminant) ) / ( 2 * a );
+				results[1].imag = 0;
+				message = MSG_DISC_POSITIVE;
+			}
+			else if (discriminant == 0.0)
+			{
+				if (2 * a)
+					results[0].real = -b / ( 2 * a );
+				else
+					results[0].real = 0.0;
+				results[0].imag = 0;
+				message = MSG_DISC_ZERO;
+			}
+			else if (discriminant < 0.0) // else
+			{
 				results[0].real = -b / ( 2 * a );
-			else
-				results[0].real = 0.0;
-			results[0].imag = 0;
-			message = MSG_DISC_ZERO;
+				results[0].imag = sqrt(-discriminant) / ( 2 * a );
+				results[1].real = results[0].real;
+				results[1].imag = -results[0].imag;
+				message = MSG_DISC_NEG;
+			}
 		}
-		else if (discriminant < 0.0) // else
-		{
-			results[0].real = -b / ( 2 * a );
-			results[0].imag = sqrt(-discriminant) / ( 2 * a );
-			results[1].real = results[0].real;
-			results[1].imag = -results[0].imag;
-			message = MSG_DISC_NEG;
-		}
+		else
+			message = MSG_TAUTOLOGY;
 	}
 	if (!results[0].real)
 		noMinusZero(results[0].real);
@@ -105,7 +110,8 @@ void Computor_v1::gen_output()
 	if (this->degree == 2)
 		ss << "Discriminant (delta): " << discriminant << std::endl;
 	ss << message;
-	if (message == MSG_DISC_POSITIVE || message == MSG_DISC_ZERO || message == MSG_DISC_NEG)
+	if (message == MSG_DISC_POSITIVE || message == MSG_DISC_ZERO || message == MSG_DISC_NEG
+	|| message == MSG_FIRST_DEGREE)
 	{
 		ss << std::endl;
 		for (auto& r : results)

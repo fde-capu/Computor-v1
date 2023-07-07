@@ -6,18 +6,31 @@ ko_break="true";
 ok=0;
 ko=0;
 
+ansi() { echo -ne "\e[${1}m${*:2}\e[0m"; }
+bold() { ansi 1 "$@"; }
+italic() { ansi 3 "$@"; }
+underline() { ansi 4 "$@"; }
+strikethrough() { ansi 9 "$@"; }
+red() { ansi 31 "$@"; }
+green() { ansi 32 "$@"; }
+blue() { ansi 34 "$@"; }
+
 test_computor() {
 	test_name="${1}"
     input="${2}"
     expected_output="${3}"
     actual_output=$(./computor "${input}")
 
-    echo -n "$test_name) \`$input\` "
+    bold "$test_name "
+	[[ "$verbose" == "true" ]] && echo && blue "./computor ";
+	blue "\"$input\" "
     if diff -q <(echo "${expected_output}") <(echo "${actual_output}") > /dev/null; then
-        echo "[ OK ]"
+        green "[ OK ]";
+		echo;
 		((ok++))
     else
-        echo "[ KO ]"
+        red "[ KO ]"
+		echo
 		echo "==="
 		echo "<<< Expected:"
 		echo "$expected_output"
@@ -30,15 +43,25 @@ test_computor() {
 		((ko++))
     fi
 
-    [[ "$verbose" == "true" ]] && echo "${actual_output}" && echo;
+    [[ "$verbose" == "true" ]] && echo "${actual_output}";
 	[[ "$paused" == "true" ]] && read;
 }
 
 final() {
-	echo -n "[ Total: `echo \"$ok + $ko\" | bc`";
-	echo -n " | OK: $ok";
-	echo " | KO: $ko ]";
+	bold "[ Total: "
+	blue "`echo \"$ok + $ko\" | bc`";
+	bold " | ";
+	green "OK: $ok";
+	bold " | ";
+	red "KO: $ko"
+	bold "]";
+	echo;
 }
+
+if false; then
+	echo "dummy line so jump may be right below" 2> /dev/null;
+
+############################################################### Begin
 
 # coefficient is zero..?
 test_computor \
@@ -138,6 +161,8 @@ Discriminant (delta): 8.81
 Discriminant is strictly positive, the two solutions are:
 2.30371
 -0.39462"
+
+fi # > > > > > > > > > > > > > > > > > > > > > > > Jump line!
 
 test_computor \
 "i11" \

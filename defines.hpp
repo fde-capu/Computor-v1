@@ -5,7 +5,7 @@
 
 # define MSG_TAUTOLOGY "Tautology. All real numbers possible as solution."
 # define MSG_NO_SOLUTION "No solution."
-# define MSG_FIRST_DEF "Equation is first degree. One solution:"
+# define MSG_FIRST_DEGREE "Equation is first degree. One solution:"
 # define MSG_DISC_POSITIVE "Discriminant is strictly positive, the two solutions are:"
 # define MSG_DISC_ZERO "Discriminant is zero, the polynomial has exactly one real root:"
 # define MSG_DISC_NEG "Discriminant is negative, the polinomial has two distinct complex roots."

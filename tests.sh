@@ -25,6 +25,17 @@ print_ko() {
 		blue "\"$input\" "
 	fi
 	echo
+
+	bold ">>> Actual output:"
+	echo
+	[[ "$actual_output" != "" ]] && echo "$actual_output" || echo "(empty)"
+
+	if [[ "$err_output" != "" ]] ; then
+		bold ">>> Error from program:"
+		echo
+		echo "$err_output"
+	fi;
+
 	bold "<<< Expected $1"
 	if [[ "$1" == "error" ]] ; then
 		echo ".";
@@ -32,14 +43,7 @@ print_ko() {
 		echo ":";
 		echo "$expected_output";
 	fi
-	bold ">>> Actual output:"
-	echo
-	[[ "$actual_output" != "" ]] && echo "$actual_output" || echo "(empty)"
-	if [[ "$err_output" != "" ]] ; then
-		bold ">>> Error from program:"
-		echo
-		echo "$err_output"
-	fi;
+
 	((ko++))
 }
 
@@ -217,6 +221,13 @@ Discriminant (delta): -24
 Discriminant is negative, the polinomial has two distinct complex roots.
 0+2.44949i
 0-2.44949i"
+
+test_computor \
+"xxx" \
+"xxx" \
+"Reduced form: +1*x^3 +0*x^2 +0*x^1 +0*x^0 = 0
+Polynomial degree: 3
+The polynomial degree is strictly greater than 2, I can't solve."
 
 test_computor \
 "i8" \

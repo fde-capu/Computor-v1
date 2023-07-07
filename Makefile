@@ -6,7 +6,7 @@ NAME	=	computor
 ARGS	=	"x"
 SRCS	=	Computor_v1.cpp main.cpp \
 			StringTools.cpp Computor_v1_algo.cpp \
-			MathTools.cpp
+			MathTools.cpp Computor_v1_treats.cpp
 HEAD	=	Makefile Computor_v1.hpp header.hpp \
 			defines.hpp StringTools.hpp MathTools.hpp
 SHELL	=	/bin/sh

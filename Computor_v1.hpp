@@ -21,6 +21,7 @@ class Computor_v1
 		std::string reduced_form;
 		double discriminant; // delta
 		std::map<size_t, complex_t> results;
+		std::string message;
 
 	public:
 		Computor_v1(const std::string& u_input);
@@ -42,6 +43,7 @@ class Computor_v1
 		const std::string& getReducedForm() const;
 		const double& getDiscriminant() const;
 		const std::map<size_t, complex_t>& getResults() const;
+		const std::string& getMessage() const;
 
 	private:
 		void run();

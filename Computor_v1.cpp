@@ -26,6 +26,7 @@ Computor_v1& Computor_v1::operator= (Computor_v1 const& rhs)
 		reduced_form = rhs.getReducedForm();
 		discriminant = rhs.getDiscriminant();
 		results = rhs.getResults();
+		message = rhs.getMessage();
 	}
 	return *this;
 }
@@ -67,3 +68,6 @@ const double& Computor_v1::getDiscriminant() const
 
 const std::map<size_t, complex_t>& Computor_v1::getResults() const
 { return results; }
+
+const std::string& Computor_v1::getMessage() const
+{ return message; }

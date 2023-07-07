@@ -60,7 +60,7 @@ void Computor_v1::gen_results()
 			message = MSG_FIRST_DEGREE;
 		}
 		else
-			message = MSG_TAUTOLOGY;
+			message = c == 0.0 ? MSG_TAUTOLOGY : MSG_NO_SOLUTION;
 	}
 	else // 2nd degree
 	{

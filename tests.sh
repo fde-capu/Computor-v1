@@ -1,9 +1,9 @@
 #!/bin/bash
 
-verbose="true";
-paused="false";
-ko_break="true";
 short="true";
+show_output="true";
+paused="false";
+ko_break="false";
 ok=0;
 ko=0;
 
@@ -21,7 +21,7 @@ print_ko() {
 	if [[ "$short" == "true" ]]; then
 		echo;
 		bold "$test_name "
-		[[ "$verbose" == "true" ]] && echo && blue "./computor ";
+		[[ "$show_output" == "true" ]] && echo && blue "./computor ";
 		blue "\"$input\" "
 	fi
 	echo
@@ -61,12 +61,12 @@ test_computor() {
 
 	if [[ "$short" != "true" ]]; then
 		bold "$test_name "
-		[[ "$verbose" == "true" ]] && echo && blue "./computor ";
+		[[ "$show_output" == "true" ]] && echo && blue "./computor ";
 		blue "\"$input\" "
 	fi
 
 	if [[ "$expected_output" == "error" ]]; then
-		[[ "$errno" == "0" ]] && print_ko "error" || print_ok; 
+		[[ "$errno" == "0" ]] && (print_ko "error") || print_ok && [[ "$show_output" == "true" ]] && echo; 
 		return 0;
 	fi;
 
@@ -76,7 +76,7 @@ test_computor() {
 		print_ko "output";
     fi
 
-    [[ "$verbose" == "true" ]] && [[ "$short" != "true" ]] && echo "${actual_output}" && echo;
+    [[ "$show_output" == "true" ]] && [[ "$short" != "true" ]] && echo "${actual_output}" && echo;
 	[[ "$ko_break" == "true" ]] && [[ "$ko" != "0" ]] && exit;
 	[[ "$paused" == "true" ]] && read;
 }
@@ -160,12 +160,16 @@ Equation is first degree. One solution:
 test_computor \
 "Passing 'b' and 'c', but 'b' is zero" \
 "0x^1 + 7 = 0" \
-"";
+"Reduced form: +0*x^1 +7*x^0 = 0
+Polynomial degree: 1
+No solution.";
 
 test_computor \
 "Passing zero 'b' and zero 'c'" \
 "0x^1 + 0 = 0" \
-"";
+"Reduced form: +0*x^1 +0*x^0 = 0
+Polynomial degree: 1
+Tautology. All real numbers possible as solution.";
 
 test_computor \
 "i2" \

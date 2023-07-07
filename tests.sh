@@ -32,7 +32,7 @@ print_ko() {
 		echo ":";
 		echo "$expected_output";
 	fi
-	bold ">>> Actual output"
+	bold ">>> Actual output:"
 	echo
 	[[ "$actual_output" != "" ]] && echo "$actual_output" || echo "(empty)"
 	if [[ "$err_output" != "" ]] ; then

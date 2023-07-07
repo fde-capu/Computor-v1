@@ -70,7 +70,6 @@ int main (int argc, char** argv)
 
 	Computor_v1 result(equation_raw);
 
-	std::cout << std::endl << "Output:" << std::endl;
 	std::cout << result << std::endl;
 
 	return !result.getValidTerms();

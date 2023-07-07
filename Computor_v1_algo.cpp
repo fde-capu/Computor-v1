@@ -48,17 +48,19 @@ void Computor_v1::gen_results()
 			b	(factors[1]),
 			c	(factors[0]);
 
-	if (a == 0.0) // 1st degree
+	if (this->degree == 0)
+	{
+		message = c == 0.0 ? MSG_TAUTOLOGY : MSG_NO_SOLUTION;
+	}
+	else if (this->degree == 1)
 	{
 		if (b != 0.0)
-			results[0].real = -c / b;
-		else
 		{
-			if (c == 0.0)
-				message = MSG_TAUTOLOGY;
-			else
-				message = MSG_NO_SOLUTION;
+			results[0].real = -c / b;
+			message = MSG_FIRST_DEF;
 		}
+		else
+			message = MSG_TAUTOLOGY;
 	}
 	else // 2nd degree
 	{
@@ -103,9 +105,9 @@ void Computor_v1::gen_output()
 	if (this->degree == 2)
 		ss << "Discriminant (delta): " << discriminant << std::endl;
 	ss << message;
-	ss << std::endl;
 	if (message == MSG_DISC_POSITIVE || message == MSG_DISC_ZERO || message == MSG_DISC_NEG)
 	{
+		ss << std::endl;
 		for (auto& r : results)
 		{
 			ss << r.second.real;
@@ -114,6 +116,5 @@ void Computor_v1::gen_output()
 			ss << std::endl;
 		}
 	}
-	ss << std::endl;
 	output = ss.str();
 }

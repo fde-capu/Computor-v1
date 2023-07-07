@@ -103,6 +103,7 @@ void Computor_v1::gen_results()
 
 void Computor_v1::gen_output()
 {
+	if (!valid_terms) return;
 	std::stringstream ss;
 	ss << "Reduced form: " << reduced_form << std::endl;
 	ss << "Polynomial degree: " << degree << std::endl;
@@ -120,6 +121,7 @@ void Computor_v1::gen_output()
 			if (r.second.imag != 0.0)
 				ss << (r.second.imag > 0.0 ? "+" : "") << r.second.imag << "i";
 			ss << std::endl;
+			if (this->degree == 1) break;
 		}
 	}
 	output = ss.str();

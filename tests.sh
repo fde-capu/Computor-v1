@@ -19,11 +19,40 @@ test_computor() {
 	test_name="${1}"
     input="${2}"
     expected_output="${3}"
-    actual_output=$(./computor "${input}")
+	tmpfile=$(mktemp);
+    actual_output=$(./computor "${input}" 2>"$tmpfile")
+	errno=$?;
+	err_output=$(<"$tmpfile")
+	rm "$tmpfile"
 
     bold "$test_name "
 	[[ "$verbose" == "true" ]] && echo && blue "./computor ";
 	blue "\"$input\" "
+
+	if [[ "$expected_output" == "error" ]]; then
+		[[ "$errno" == "0" ]] &&
+		(
+			red "[ KO ]";
+			bold "<<< Expected error."
+			echo
+			bold ">>> Actual output:"
+			echo
+			echo "$actual_output"
+			if [[ "$err_output" != "" ]] ; then
+				bold ">>> Error from program:"
+				echo
+				echo "$err_output"
+			fi;
+			((ko++))
+			[[ "$ko_break" == "true" ]] && exit;
+		) || (
+			green "[ OK ]";
+			echo;
+			((ok++));
+		)
+		return 0;
+	fi;
+
     if diff -q <(echo "${expected_output}") <(echo "${actual_output}") > /dev/null; then
         green "[ OK ]";
 		echo;
@@ -31,16 +60,19 @@ test_computor() {
     else
         red "[ KO ]"
 		echo
-		echo "==="
-		echo "<<< Expected:"
+		bold "<<< Expected:"
+		echo
 		echo "$expected_output"
-		echo ">>> Actual output:"
+		bold ">>> Actual output:"
+		echo
 		echo "$actual_output"
-		if [ "$ko_break" == "true" ]; then
-			exit 
-		fi
-		echo "==="
+		if [[ "$err_output" != "" ]] ; then
+			bold ">>> Error from program:"
+			echo
+			echo "$err_output"
+		fi;
 		((ko++))
+		[[ "$ko_break" == "true" ]] && exit;
     fi
 
     [[ "$verbose" == "true" ]] && echo "${actual_output}";
@@ -53,8 +85,8 @@ final() {
 	bold " | ";
 	green "OK: $ok";
 	bold " | ";
-	red "KO: $ko"
-	bold "]";
+	[[ "$ko" != "0" ]] && red "KO: $ko" || green "Perfect!";
+	bold " ]";
 	echo;
 }
 
@@ -162,19 +194,21 @@ Discriminant is strictly positive, the two solutions are:
 2.30371
 -0.39462"
 
-fi # > > > > > > > > > > > > > > > > > > > > > > > Jump line!
-
 test_computor \
 "i11" \
 "x" \
 "Reduced form: +1*x^1 +0*x^0 = 0
-Polynomial degree: 1"
+Polynomial degree: 1
+Equation is first degree. One solution:
+0"
 
 test_computor \
 "i12" \
 "-x" \
 "Reduced form: -1*x^1 +0*x^0 = 0
-Polynomial degree: 1"
+Polynomial degree: 1
+Equation is first degree. One solution:
+0"
 
 test_computor \
 "i13" \
@@ -210,11 +244,22 @@ Discriminant is strictly positive, the two solutions are:
 0.905239
 -0.475131"
 
+fi # > > > > > > > > > > > > > > > > > > > > > > > Jump line!
+
+test_computor \
+"err1" \
+"blablabla" \
+"error"
+
+exit;
+
 test_computor \
 "i17" \
-"5 * X^0 + 4 * X^1 = 4 * X^0" \
+" reduced 5 * X^0 + 4 * X^1 = 4 * X^0" \
 "Reduced form: +4*x^1 +1*x^0 = 0
-Polynomial degree: 1"
+Polynomial degree: 1
+Equation is first degree. One solution:
+-0.25"
 
 test_computor \
 "i18" \

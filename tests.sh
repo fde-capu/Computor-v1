@@ -66,7 +66,7 @@ test_computor() {
 	fi
 
 	if [[ "$expected_output" == "error" ]]; then
-		[[ "$errno" == "0" ]] && (print_ko "error") || print_ok && [[ "$show_output" == "true" ]] && echo; 
+		[[ "$errno" == "0" ]] && (print_ko "error") || print_ok && [[ "$show_output" == "true" ]] && [[ "$short" != "true" ]] && echo; 
 		return 0;
 	fi;
 

@@ -1,9 +1,9 @@
 #!/bin/bash
 
-short="true";
+short="false";
 show_output="true";
-paused="false";
-ko_break="false";
+paused="true";
+ko_break="true";
 ok=0;
 ko=0;
 
@@ -96,6 +96,10 @@ final() {
 	echo;
 }
 
+c1_test() {
+	test_computor "${1}" "${2}" "${3}"
+}
+
 if false; then
 	echo "dummy line so jump may be right below" 2> /dev/null;
 fi # > > > > > > > > > > > > > > > > > > > > > > > Jump line!
@@ -103,133 +107,135 @@ fi # > > > > > > > > > > > > > > > > > > > > > > > Jump line!
 ############################################################### Begin
 
 # coefficient is zero..?
-test_computor \
+c1_test \
 "Just passing 0" \
 "0" \
-"Reduced form: +0*x^0 = 0
+"Reduced form: 0 = 0
 Polynomial degree: 0
 Tautology. All real numbers possible as solution."
 
-test_computor \
+c1_test \
 "Just passing 1" \
 "1" \
 "Reduced form: +1*x^0 = 0
 Polynomial degree: 0
 No solution."
 
-test_computor \
-"Passing 'true'" \
+c1_test \
+"Passing 0 = 0" \
 "0 = 0" \
-"Reduced form: +0*x^0 = 0
+"Reduced form: 0 = 0
 Polynomial degree: 0
 Tautology. All real numbers possible as solution."
 
-test_computor \
-"Passing 'false'" \
+c1_test \
+"Passing impossible statement." \
 "0 = 1" \
 "Reduced form: -1*x^0 = 0
 Polynomial degree: 0
 No solution.";
 
-test_computor \
-"Passing 'false' the other way" \
+c1_test \
+"Same but inverted." \
 "1 = 0" \
 "Reduced form: +1*x^0 = 0
 Polynomial degree: 0
 No solution.";
 
-test_computor \
+c1_test \
 "Passing only 'b'" \
 "42.31x^1 = 0" \
-"Reduced form: +42.31*x^1 +0*x^0 = 0
+"Reduced form: +42.31*x^1 = 0
 Polynomial degree: 1
 Equation is first degree. One solution:
 0";
 
-test_computor \
+c1_test \
 "Passing only 'b', but factor of zero" \
 "0x^1 = 0" \
-"Reduced form: +0*x^1 +0*x^0 = 0
+"Reduced form: 0 = 0
 Polynomial degree: 1
 Tautology. All real numbers possible as solution.";
 
-test_computor \
-"Passing 'b' and 'c' (Beyoncé??)" \
+c1_test \
+"Passing 'b' and 'c'" \
 "42x^1 + 7 = 0" \
 "Reduced form: +42*x^1 +7*x^0 = 0
 Polynomial degree: 1
 Equation is first degree. One solution:
 -0.166667";
 
-test_computor \
+c1_test \
 "Passing 'b' and 'c', but 'b' is zero" \
 "0x^1 + 7 = 0" \
-"Reduced form: +0*x^1 +7*x^0 = 0
+"Reduced form: +7*x^0 = 0
 Polynomial degree: 1
 No solution.";
 
-test_computor \
+c1_test \
 "Passing zero 'b' and zero 'c'" \
 "0x^1 + 0 = 0" \
-"Reduced form: +0*x^1 +0*x^0 = 0
+"Reduced form: 0 = 0
 Polynomial degree: 1
 Tautology. All real numbers possible as solution.";
 
-test_computor \
-"i2" \
-"0x = 0" \
-"Reduced form: +0*x^1 +0*x^0 = 0
-Polynomial degree: 1
-Tautology. All real numbers possible as solution."
+c1_test \
+"Passing only a" \
+"xx" \
+"Reduced form: +1*x^2 = 0
+Polynomial degree: 2
+Discriminant (delta): 0
+Discriminant is zero, the polynomial has exactly one real root:
+0"
 
-test_computor \
+c1_test \
 "i3" \
 "0x^2 = 0" \
-"Reduced form: +0*x^2 +0*x^1 +0*x^0 = 0
+"Reduced form: 0 = 0
 Polynomial degree: 2
 Discriminant (delta): 0
 Tautology. All real numbers possible as solution."
 
-test_computor \
+c1_test \
 "i4" \
 "42*X^0 = 42*X^0" \
-"Reduced form: +0*x^0 = 0
+"Reduced form: 0 = 0
 Polynomial degree: 0
 Tautology. All real numbers possible as solution."
 
-test_computor \
+c1_test \
 "i5" \
 "42*X^0 = 42" \
-"Reduced form: +0*x^0 = 0
+"Reduced form: 0 = 0
 Polynomial degree: 0
 Tautology. All real numbers possible as solution."
 
-test_computor \
+c1_test \
 "i6" \
 "42*X^0 + 1x^2 = 42*X^0 + 1x^2" \
-"Reduced form: +0*x^2 +0*x^1 +0*x^0 = 0
+"Reduced form: 0 = 0
 Polynomial degree: 2
 Discriminant (delta): 0
 Tautology. All real numbers possible as solution."
 
-test_computor \
+c1_test \
 "i7" \
 "X^2 + 6 = 0x^0" \
-"Reduced form: +1*x^2 +0*x^1 +6*x^0 = 0
+"Reduced form: +1*x^2 +6*x^0 = 0
 Polynomial degree: 2
 Discriminant (delta): -24
 Discriminant is negative, the polinomial has two distinct complex roots.
 0+2.44949i
 0-2.44949i"
 
-test_computor \
+c1_test \
 "xxx" \
 "xxx" \
-"Reduced form: +1*x^3 +0*x^2 +0*x^1 +0*x^0 = 0
+"Reduced form: +1*x^3 = 0
 Polynomial degree: 3
 The polynomial degree is strictly greater than 2, I can't solve."
 
-test_computor \
+c1_test \
 "i8" \
 "5 + 4 * X + X^2" \
 "Reduced form: +1*x^2 +4*x^1 +5*x^0 = 0
@@ -239,7 +245,7 @@ Discriminant is negative, the polinomial has two distinct complex roots.
 -2+1i
 -2-1i"
 
-test_computor \
+c1_test \
 "i9" \
 "1 + 1x + 1xx" \
 "Reduced form: +1*x^2 +1*x^1 +1*x^0 = 0
@@ -249,7 +255,7 @@ Discriminant is negative, the polinomial has two distinct complex roots.
 -0.5+0.866025i
 -0.5-0.866025i"
 
-test_computor \
+c1_test \
 "i10" \
 "1.0 + 2.1x + 3.2xx = +4.3x^2" \
 "Reduced form: -1.1*x^2 +2.1*x^1 +1*x^0 = 0
@@ -259,37 +265,37 @@ Discriminant is strictly positive, the two solutions are:
 2.30371
 -0.39462"
 
-test_computor \
+c1_test \
 "i11" \
 "x" \
-"Reduced form: +1*x^1 +0*x^0 = 0
+"Reduced form: +1*x^1 = 0
 Polynomial degree: 1
 Equation is first degree. One solution:
 0"
 
-test_computor \
+c1_test \
 "i12" \
 "-x" \
-"Reduced form: -1*x^1 +0*x^0 = 0
+"Reduced form: -1*x^1 = 0
 Polynomial degree: 1
 Equation is first degree. One solution:
 0"
 
-test_computor \
+c1_test \
 "i13" \
 "x X x\t \t  XX" \
-"Reduced form: +1*x^5 +0*x^4 +0*x^3 +0*x^2 +0*x^1 +0*x^0 = 0
+"Reduced form: +1*x^5 = 0
 Polynomial degree: 5
 The polynomial degree is strictly greater than 2, I can't solve."
 
-test_computor \
+c1_test \
 "i14" \
 "-0.x *  x  * X x x X X x" \
-"Reduced form: +0*x^8 +0*x^7 +0*x^6 +0*x^5 +0*x^4 +0*x^3 +0*x^2 +0*x^1 +0*x^0 = 0
+"Reduced form: 0 = 0
 Polynomial degree: 8
 The polynomial degree is strictly greater than 2, I can't solve."
 
-test_computor \
+c1_test \
 "i15" \
 "\t5 + 4 * X\t\t   ^  1     - 9.3 * X^2    \t = -.1 * X^0 - -+++--x^2" \
 "Reduced form: -10.3*x^2 +4*x^1 +5.1*x^0 = 0
@@ -299,7 +305,7 @@ Discriminant is strictly positive, the two solutions are:
 0.92414
 -0.535791"
 
-test_computor \
+c1_test \
 "i16" \
 "5 * X^0 + 4 * X^1 - 9.3 * X^2 = 1 * X^0" \
 "Reduced form: -9.3*x^2 +4*x^1 +4*x^0 = 0
@@ -309,12 +315,13 @@ Discriminant is strictly positive, the two solutions are:
 0.905239
 -0.475131"
 
-test_computor \
+c1_test \
 "err1" \
 "blablabla" \
 "error"
 
-test_computor \
+
+c1_test \
 "i17" \
 "5 * X^0 + 4 * X^1 = 4 * X^0" \
 "Reduced form: +4*x^1 +1*x^0 = 0
@@ -322,10 +329,10 @@ Polynomial degree: 1
 Equation is first degree. One solution:
 -0.25"
 
-test_computor \
+c1_test \
 "i18" \
 "8 * X^0 - 6 * X^1 + 0 * X^2 - 5.6 * X^3 = 3 * X^0" \
-"Reduced form: -5.6*x^3 +0*x^2 -6*x^1 +5*x^0 = 0
+"Reduced form: -5.6*x^3 -6*x^1 +5*x^0 = 0
 Polynomial degree: 3
 The polynomial degree is strictly greater than 2, I can't solve."
 

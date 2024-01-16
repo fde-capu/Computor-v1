@@ -26,9 +26,14 @@ void Computor_v1::gen_reduced_form()
 	size_t i = this->degree + 1;
 	while (--i <= this->degree)
 	{
-		reduced_form += factors[i] >= 0.0 ? "+" : "";
-		reduced_form += dtoa_clean(factors[i]) + "*x^" + std::to_string(i) + " ";
+		if (factors[i] != 0)
+		{
+			reduced_form += factors[i] >= 0.0 ? "+" : "";
+			reduced_form += dtoa_clean(factors[i]) + "*x^" + std::to_string(i) + " ";
+		}
 	}
+	if (!reduced_form.length())
+		reduced_form = "0 ";
 	reduced_form += "= 0";
 	verbose(V) << "(reduced_form) " << reduced_form << std::endl;
 }

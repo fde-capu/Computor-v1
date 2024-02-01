@@ -18,13 +18,10 @@ if debug:
 characters = ['+', '-', '0', ' ']
 random_max = 100
 
-if len(sys.argv) != 4:
-    print("Needs a, b, and c as arguments.")
+if len(sys.argv) != 4 and len(sys.argv) != 1:
+    print("Call without arguments to run all tests. Call with a, b, and c as arguments to run once.")
     sys.exit(1)
 
-a = float(sys.argv[1])
-b = float(sys.argv[2])
-c = float(sys.argv[3])
 
 # Use itertools.product to generate all permutations
 perms = list(itertools.product(characters, repeat=3))
@@ -123,8 +120,8 @@ def interpret_result(roots, discriminant):
 			if len(roots) == 1:
 				out += f'Discriminant is zero, the polynomial has exactly one real root:\n{root_a}'
 				return out
-		str_r0 = '0' if root_a.real == 0.0 else f'{root_a.real}'
-		str_r1 = '0' if root_b.real == 0.0 else f'{root_b.real}'
+		str_r0 = '0' if root_a.real == 0.0 else f'{format_number(root_a.real)}'
+		str_r1 = '0' if root_b.real == 0.0 else f'{format_number(root_b.real)}'
 		if discriminant < 0:
 			out += f'Discriminant (delta): {format_number(discriminant)}\n'\
 				+ 'Discriminant is negative, the polynomial has two distinct complex roots.\n' + \
@@ -149,27 +146,23 @@ def format_number(num):
 	else:
 		return f"{num:.6f}"
 
-#element = integers_perms[0]
-#poly_string, poly_roots, poly_discriminant = build_polynomial(element)
-#print(poly_string, f'-> delta: {poly_discriminant} -> y =', poly_roots)
+def diff_exec(args):
+	py_test = build_polynomial(args)
+	c1_test = subprocess.run(['./computor', str(args[0]) + 'x^2', str(args[1]) + 'x', str(args[2])], stdout=subprocess.PIPE).stdout.decode('utf-8').strip()
+	print('=========================================================== py_test ::::\n', py_test)
+	print('=========================================================== c1_test ::::\n', c1_test)
+	pyc1 = diff_strings(py_test, c1_test)
+	if len(pyc1) == 0:
+		print (	'==============================================================>>>>> [OK]')
+	else:
+		print('======================================================= py< >c1 >>>>> [KO] :(\n', pyc1, len(pyc1))
 
-args = [a, b, c]
-poly_string = build_polynomial(args)
-#print(poly_string)
-#print(interpret_result(poly_roots, poly_discriminant))
-
-py_test = build_polynomial(args)
-c1_test = subprocess.run(['./computor', str(args[0]) + 'x^2', str(args[1]) + 'x', str(args[2])], stdout=subprocess.PIPE).stdout.decode('utf-8').strip()
-
-print(		'========================================================= py_test :::::::\n', py_test)
-print(		'========================================================= c1_test :::::::\n', c1_test)
-pyc1 = diff_strings(py_test, c1_test)
-if len(pyc1) == 0:
-	print (	'==============================================================>>>>> [OK]')
-else:
-	print('======================================================= py< >c1 >>>>> [KO] :(\n', pyc1, len(pyc1))
-
-exit()
+if len(sys.argv) == 4:
+	a = float(sys.argv[1])
+	b = float(sys.argv[2])
+	c = float(sys.argv[3])
+	diff_exec([a, b, c])
+	exit()
 
 for perm in integers_perms:
 	print(perm)
@@ -177,6 +170,3 @@ for perm in integers_perms:
 	c1_test = subprocess.run(['./computor', '0', '1', '2'], stdout=subprocess.PIPE).stdout.decode('utf-8')
 	print('c1_test', c1_test)
 	print('\n')
-
-#for perm in floating_perms:
-#  print(perm)

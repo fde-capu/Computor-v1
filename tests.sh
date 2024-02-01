@@ -102,7 +102,6 @@ c1_test() {
 
 if false; then
 	echo "dummy line so jump may be right below" 2> /dev/null;
-fi # > > > > > > > > > > > > > > > > > > > > > > > Jump line!
 
 ############################################################### Begin
 
@@ -218,6 +217,7 @@ Polynomial degree: 2
 Discriminant (delta): 0
 Tautology. All real numbers possible as solution."
 
+fi # > > > > > > > > > > > > > > > > > > > > > > > Jump line!
 c1_test \
 "i7" \
 "X^2 + 6 = 0x^0" \

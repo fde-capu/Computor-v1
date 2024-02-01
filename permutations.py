@@ -4,28 +4,28 @@ import itertools
 import random
 import numpy as np
 
-# Define the set of characters
-characters = ['+', '-', '0', '?']
+characters = ['+', '-', '0', ' ']
+random_max = 100
 
 # Use itertools.product to generate all permutations
 perms = list(itertools.product(characters, repeat=3))
 
-# Function to map characters to integers or keep them as they are
+# Map characters to integers or keep them as they are
 def map_chars(char, t):
 	if t == 'integer':
 		if char == '+':
-			return random.randint(1, 100) # replace 100 with any upper limit you prefer
+			return random.randint(1, random_max)
 		elif char == '-':
-			return -random.randint(1, 100) # replace 100 with any upper limit you prefer
+			return -random.randint(1, random_max)
 		elif char == '0':
 			return 0;
 		else:
 			return char;
 	elif t == 'floatin':
 		if char == '+':
-			return random.uniform(0.1, 100) # replace 100 with any upper limit you prefer
+			return random.uniform(0.1, random_max)
 		elif char == '-':
-			return -random.uniform(0.1, 100) # replace 100 with any upper limit you prefer
+			return -random.uniform(0.1, random_max)
 		elif char == '0':
 			return 0;
 		else:
@@ -81,27 +81,31 @@ def build_polynomial(element):
 		root2 = complex(real_part, -imaginary_part)
 	return f_str, [root1, root2], discriminant
 
+# Made according to my Computor v1 output
 def interpret_result(roots, discriminant):
 	if discriminant > 0:
-		return f'Discriminant is strictly positive, the two solutions are:\n{roots[0]}\n{roots[1]}'
+		return f'Discriminant (delta): {discriminant}\n'\
+			+ f'Discriminant is strictly positive, the two solutions are:\n{roots[0]}\n{roots[1]}'
 	if discriminant == 0:
 		if len(roots) == 0:
 			return "Tautology. All real numbers possible as solution."
 		if len(roots) == 1:
 			return f'Discriminant is zero, the polyunomial has exactly one real root:\n{roots[0]}'
+	str_r0 = '0' if roots[0].real == 0.0 else f'{roots[0].real}'
+	str_r1 = '0' if roots[1].real == 0.0 else f'{roots[1].real}'
 	if discriminant < 0:
-		return 'Discriminant is negative, the polinomial has two distinct complex roots.\n' + \
-			f'{roots[0].real}+{abs(roots[0].imag)}i\n{roots[1].real}-{abs(roots[1].imag)}i'
+		return f'Discriminant (delta): {discriminant}\n'\
+			+ 'Discriminant is negative, the polinomial has two distinct complex roots.\n' + \
+			f'{str_r0}+{abs(roots[0].imag):.5f}i\n{str_r1}-{abs(roots[1].imag):.5f}i'
 
-# Get the first element from the first list
-first_element = integers_perms[0]
 
-# Build a polynomial using the first element
-poly_string, poly_roots, poly_discriminant = build_polynomial(first_element)
-
+element = integers_perms[0]
+poly_string, poly_roots, poly_discriminant = build_polynomial(element)
 print(poly_string, f'-> delta: {poly_discriminant} -> y =', poly_roots)
 
-poly_string, poly_roots, poly_discriminant = build_polynomial([1, 0, 6])
+manual = [1, 0, 6]
+poly_string, poly_roots, poly_discriminant = build_polynomial(manual)
 print(poly_string, f'-> delta: {poly_discriminant} -> y =', poly_roots)
+
 print(interpret_result(poly_roots, poly_discriminant))
 

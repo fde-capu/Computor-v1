@@ -116,7 +116,7 @@ std::string fixInt(double n)
 	while (i < ns.length() - 1 && ns[i] != '.')
 		i++;
 	i++;
-	while (i < ns.length() - 1 && ns[i] == '0')
+	while (i < ns.length() - 1 && (s[i] == '0' || s[i] == 'i'))
 		i++;
 	if (i == ns.length() - 1)
 	{
@@ -126,15 +126,10 @@ std::string fixInt(double n)
 		return ns;
 	}
 	if (n == static_cast<int>(n))
-	{
 		s << std::fixed << std::setprecision(0);
-		s << n << "";
-	}
 	else
-	{
 		s << std::fixed << std::setprecision(PRECISION);
-		s << n << "";
-	}
+	s << n;
 	return s.str();
 }
 
@@ -165,7 +160,7 @@ void Computor_v1::gen_output()
 			if (r.second.imag != 0.0)
 			{
 				ss << std::fixed << std::setprecision(PRECISION);
-				ss << (r.second.imag > 0.0 ? "+" : "") << r.second.imag << "i";
+				ss << (r.second.imag > 0.0 ? "+" : "") << fixInt(r.second.imag) << "i";
 			}
 			if (message != MSG_FIRST_DEGREE)
 				ss << std::endl;

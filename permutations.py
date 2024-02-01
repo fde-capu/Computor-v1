@@ -62,7 +62,10 @@ def build_polynomial(element):
 		if a != characters[3]:
 			a_sig = '+' if a >= 0 else '-'
 			a_abs = abs(a)
-			a_str = f'{a_sig}{format_number(a_abs)}*x^2 '
+			if a:
+				a_str = f'{a_sig}{format_number(a_abs)}*x^2 '
+			else:
+				a_str = None
 		else:
 			a_str = ''
 			a = 0
@@ -81,7 +84,8 @@ def build_polynomial(element):
 			c_str = '+0*x^0 '
 			c = 0
 		f_str = f'Reduced form: '
-		f_str += f'{a_str}'
+		if a:
+			f_str += f'{a_str}'
 		f_str += f'{b_str}'
 		f_str += f'{c_str}= 0'
 		d_degr = re.sub(' ', '', f_str)
@@ -89,7 +93,6 @@ def build_polynomial(element):
 		d_numb = [int(d) for d in d_test]
 		degree = max(d_numb) if d_numb else 0
 		f_str += f'\nPolynomial degree: {degree}\n'
-		# Calculate the roots
 		discriminant = b**2 - 4*a*c
 		if a:
 			if discriminant >= 0:
@@ -102,7 +105,8 @@ def build_polynomial(element):
 				root2 = complex(real_part, -imaginary_part)
 			f_str += interpret_result([root1, root2], discriminant)
 		else:
-			f_str += 'Equation is first degree. One solution:\n'
+			if b:
+				f_str += f'Equation is first degree. One solution:\n{format_number(-c/b)}'
 		return f_str
 	except Exception as e:
 		print(f'--[{e}]--')
@@ -191,6 +195,7 @@ def diff_exec(args):
 	global ko_count
 	global ok_count
 
+	print(HEADER, f'\n                           {args}', ENDC)
 	print(HEADER, '//= py_test ============================================\\\\ py_test ::::', ENDC)
 	py_test = build_polynomial(args)
 	print(py_test)
@@ -201,7 +206,7 @@ def diff_exec(args):
 	pyc1 = diff_strings(py_test, c1_test)
 	if len(pyc1) == 0:
 		ok_count += 1
-		print (HEADER, f'\\\\=======================================================// {OK}>>>>>> [OK]', ENDC)
+		print (HEADER, f'\\\\======================================================// {OK}>>>>>>> [OK]', ENDC)
 		return 0
 	else:
 		ko_count += 1

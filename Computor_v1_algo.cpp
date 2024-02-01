@@ -125,13 +125,10 @@ std::string fixInt(double n)
 			ns = "0";
 		return ns;
 	}
-
-
 	if (n == static_cast<int>(n))
 	{
 		s << std::fixed << std::setprecision(0);
 		s << n << "";
-//		s << std::to_string((int)n) << "???";
 	}
 	else
 	{

@@ -191,21 +191,21 @@ def diff_exec(args):
 	global ko_count
 	global ok_count
 
-	print(HEADER, '= py_test ================================================= py_test ::::', ENDC)
+	print(HEADER, '//= py_test ============================================\\\\ py_test ::::', ENDC)
 	py_test = build_polynomial(args)
 	print(py_test)
-	print(HEADER, '= c1_test ================================================= c1_test ::::', ENDC)
+	print(HEADER, '||= c1_test ============================================|| c1_test ::::', ENDC)
 	c1_test = subprocess.run([f'./computor', f'{str(a)}x^2 {str(b)}x {str(c)}'], stdout=subprocess.PIPE).stdout.decode('utf-8').strip()
 	print(c1_test)
 
 	pyc1 = diff_strings(py_test, c1_test)
 	if len(pyc1) == 0:
 		ok_count += 1
-		print (OK, '==============================================================>>>>> [OK]', ENDC)
+		print (HEADER, f'\\\\=======================================================// {OK}>>>>>> [OK]', ENDC)
 		return 0
 	else:
 		ko_count += 1
-		print(KO, '  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  py< >c1 >>>>> [KO] :(\n', ENDC, pyc1)
+		print(HEADER, f' \\\\========================================= py < > c1 =// {KO}>>>>>> [KO] :(\n', ENDC, pyc1)
 		print(f'{OK}[OK]{ENDC}: {ok_count}', end = '')
 		if ko_count:
 			print(f' {KO}[KO]{ENDC}: {ko_count}')
@@ -221,6 +221,7 @@ if len(sys.argv) >= 4:
 
 for perm in integers_perms:
 	out = diff_exec(perm)
+	print()
 	if out:
 		exit(1)
 exit(0)

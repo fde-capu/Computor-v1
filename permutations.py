@@ -18,8 +18,8 @@ if debug:
 characters = ['+', '-', '0', ' ']
 random_max = 100
 
-if len(sys.argv) != 4 and len(sys.argv) != 1:
-    print("Call without arguments to run all tests. Call with a, b, and c as arguments to run once.")
+if len(sys.argv) != 4 and len(sys.argv) != 1 and len(sys.argv) != 5:
+    print("Call without arguments to run all tests. Call with a, b, and c as arguments to run once. Call with a d argument to run only Python.")
     sys.exit(1)
 
 ok_count = 0
@@ -120,8 +120,9 @@ def interpret_result(roots, discriminant):
 			if len(roots) == 0:
 				out += "Tautology. All real numbers possible as solution."
 				return out
-			if len(roots) == 1:
-				out += f'Discriminant is zero, the polynomial has exactly one real root:\n{ra}'
+			if len(roots) >= 1: # because it's [0.0, -0.0]
+				out += f'Discriminant (delta): {format_number(discriminant)}\n'
+				out += f'Discriminant is zero, the polynomial has exactly one real root:\n{format_number(ra)}'
 				return out
 		str_r0 = '0' if ra.real == 0.0 else f'{format_number(ra.real)}'
 		str_r1 = '0' if rb.real == 0.0 else f'{format_number(rb.real)}'
@@ -199,10 +200,12 @@ def diff_exec(args):
 			print(f' {KO}[KO]{ENDC}: {ko_count}')
 			return 1
 
-if len(sys.argv) == 4:
+if len(sys.argv) >= 4:
 	a = float(sys.argv[1])
 	b = float(sys.argv[2])
 	c = float(sys.argv[3])
+	if len(sys.argv) == 5:
+		exit(build_polynomial([a, b, c]))
 	exit(diff_exec([a, b, c]))
 
 for perm in integers_perms:

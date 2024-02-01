@@ -9,6 +9,8 @@ import numpy as np
 import sys
 import re
 import pdb
+import difflib
+import subprocess
 
 if debug:
 	pdb.set_trace()
@@ -51,12 +53,6 @@ def map_chars(char, t):
 # Create two lists with mapped values
 integers_perms = [[map_chars(char, 'integer') for char in perm] for perm in perms]
 floating_perms = [[map_chars(char, 'floatin') for char in perm] for perm in perms]
-
-#for perm in integers_perms:
-#  print(perm)
-
-#for perm in floating_perms:
-#  print(perm)
 
 def build_polynomial(element):
 	try:
@@ -109,14 +105,6 @@ def build_polynomial(element):
 		print(f'--[{e}]--')
 		pdb.set_trace()
 
-def format_number(num):
-	if isinstance(num, str):
-		return num
-	if num == int(num):
-		return str(int(num))
-	else:
-		return f"{num:.6f}"
-
 def interpret_result(roots, discriminant):
 	try:
 		root_a, root_b = roots
@@ -130,18 +118,33 @@ def interpret_result(roots, discriminant):
 				out += "Tautology. All real numbers possible as solution."
 				return out
 			if len(roots) == 1:
-				out += f'Discriminant is zero, the polyunomial has exactly one real root:\n{root_a}'
+				out += f'Discriminant is zero, the polynomial has exactly one real root:\n{root_a}'
 				return out
 		str_r0 = '0' if root_a.real == 0.0 else f'{root_a.real}'
 		str_r1 = '0' if root_b.real == 0.0 else f'{root_b.real}'
 		if discriminant < 0:
 			out += f'Discriminant (delta): {discriminant:.4f}\n'\
-				+ 'Discriminant is negative, the polinomial has two distinct complex roots.\n' + \
+				+ 'Discriminant is negative, the polynomial has two distinct complex roots.\n' + \
 				f'{str_r0}+{abs(root_a.imag):.5f}i\n{str_r1}-{abs(root_b.imag):.5f}i'
-			return out
+		return out
 	except Exception as e:
 		print(f'--[{e}]--')
 		pdb.set_trace()
+
+def diff_multiline_strings(str1, str2):
+	str1_lines = str1.splitlines(True)
+	str2_lines = str2.splitlines(True)
+	diff_gen = difflib.unified_diff(str1_lines, str2_lines)
+	diff_str = ''.join(diff_gen)
+	return diff_str
+
+def format_number(num):
+	if isinstance(num, str):
+		return num
+	if num == int(num):
+		return str(int(num))
+	else:
+		return f"{num:.6f}"
 
 #element = integers_perms[0]
 #poly_string, poly_roots, poly_discriminant = build_polynomial(element)
@@ -149,6 +152,19 @@ def interpret_result(roots, discriminant):
 
 args = [a, b, c]
 poly_string = build_polynomial(args)
-print(poly_string)
+#print(poly_string)
 #print(interpret_result(poly_roots, poly_discriminant))
 
+py_test = build_polynomial([0, 1, 2])
+c1_test = subprocess.run(['./computor', '0', '1', '2'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+exit()
+
+for perm in integers_perms:
+	print(perm)
+	py_test = build_polynomial(perm)
+	c1_test = subprocess.run(['./computor', '0', '1', '2'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+	print('c1_test', c1_test)
+	print('\n')
+
+#for perm in floating_perms:
+#  print(perm)

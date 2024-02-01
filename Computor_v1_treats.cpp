@@ -207,7 +207,16 @@ void Computor_v1::discriminate_factors()
 		verbose(V) << "(discriminate_factors) (" << term << ") factor "
 			<< fact << " degree " << deg << std::endl;
 		factors[deg] += fact;
-		this->degree = factors.rbegin()->first;
+		int highestDegree = -1;
+		for (auto it = factors.rbegin(); it != factors.rend(); ++it)
+		{
+			if (it->second != 0)
+			{
+				highestDegree = it->first;
+				break;
+			}
+		}
+		this->degree = highestDegree;
 		verbose(V+1) << "(discriminate_factors) "
 			<< (std::to_string(this->degree) + "> "
 			+ std::to_string(factors[deg])) << std::endl;

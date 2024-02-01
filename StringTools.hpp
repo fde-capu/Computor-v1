@@ -96,7 +96,7 @@ std::string get_after_first(const std::string& src, const std::string phrase);
 std::string get_before_first(const std::string& src, const std::string phrase);
 size_t strhex2size_t(const std::string src);
 std::vector<char*> vecstr2veccharp(const std::vector<std::string>& argv);
-std::string dtoa_clean(double);
+std::string dtoa_clean(double, size_t precision = 0);
 
 template <typename T>
 std::ostream & operator << (std::ostream & os, const std::vector<T> & vec)

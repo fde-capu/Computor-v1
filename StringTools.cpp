@@ -735,7 +735,7 @@ std::pair<size_t, size_t> find_char_sequence(const std::string& src, char x, siz
 	return std::pair<size_t, size_t>{std::string::npos, std::string::npos};
 }
 
-std::string dtoa_clean(double n)
+std::string dtoa_clean(double n, size_t precision)
 {
 	std::string str{std::to_string (n)};
 	int offset{1};
@@ -744,5 +744,22 @@ std::string dtoa_clean(double n)
 	}
 	str.erase(str.find_last_not_of('0') \
 		+ offset, std::string::npos);
+	if (!precision)
+		return str;
+	size_t i = 0;
+	size_t count = 0;
+	while (i < str.length())
+	{
+		if (count)
+			count++;
+		if (str[i] == '.')
+			count = 1;
+		i++;
+	}
+	while (count < 6)
+	{
+		str += "0";
+		count++;
+	}
 	return str;
 }

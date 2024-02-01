@@ -106,6 +106,18 @@ void Computor_v1::gen_results()
 		noMinusZero(results[1].real);
 }
 
+std::string fixInt(double n)
+{
+	std::stringstream s;
+	if (static_cast<int>(n) == n)
+	{
+		return std::to_string(static_cast<int>(n));
+	}
+	s << std::fixed << std::setprecision(PRECISION);
+	s << n;
+	return s.str();
+}
+
 void Computor_v1::gen_output()
 {
 	std::stringstream ss;
@@ -128,11 +140,12 @@ void Computor_v1::gen_output()
 		ss << std::endl;
 		for (auto& r : results)
 		{
-			ss << std::fixed << std::setprecision(PRECISION);
-			ss << r.second.real;
+			ss.str("");
+			ss << fixInt(r.second.real);
+
 			if (r.second.imag != 0.0)
 			{
-				ss << std::fixed << std::setprecision(PRECISION - 1);
+				ss << std::fixed << std::setprecision(PRECISION);
 				ss << (r.second.imag > 0.0 ? "+" : "") << r.second.imag << "i";
 			}
 			if (message != MSG_FIRST_DEGREE)

@@ -170,10 +170,7 @@ def format_number(num):
 	if num == int(num):
 		return str(int(num))
 	else:
-		if num < 1:
-			out = f"{num:.6f}"
-		else:
-			out = f"{num:.5f}"
+		out = f"{num:.6f}"
 		return out
 
 def diff_exec(args):
@@ -195,9 +192,7 @@ def diff_exec(args):
 		print(f'[OK]: {ok_count}', end = '')
 		if ko_count:
 			print(f' [KO]: {ko_count}')
-		else:
-			print()
-		return 1
+			return 1
 
 if len(sys.argv) == 4:
 	a = float(sys.argv[1])
@@ -206,5 +201,7 @@ if len(sys.argv) == 4:
 	exit(diff_exec([a, b, c]))
 
 for perm in integers_perms:
-	diff_exec(perm)
-	input("Press Enter to continue...")
+	out = diff_exec(perm)
+	if out:
+		exit(1)
+exit(0)

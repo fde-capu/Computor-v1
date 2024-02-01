@@ -86,8 +86,11 @@ def build_polynomial(element):
 		f_str = f'Reduced form: '
 		if a:
 			f_str += f'{a_str}'
-		f_str += f'{b_str}'
-		f_str += f'{c_str}= 0'
+		if b:
+			f_str += f'{b_str}'
+		if c:
+			f_str += f'{c_str}'
+		f_str + '= 0'
 		d_degr = re.sub(' ', '', f_str)
 		d_test = re.findall('\^(\d)', d_degr)
 		d_numb = [int(d) for d in d_test]

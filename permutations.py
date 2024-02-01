@@ -188,6 +188,7 @@ def diff_exec(args):
 	if len(pyc1) == 0:
 		ok_count += 1
 		print (	'==============================================================>>>>> [OK]')
+		return 0
 	else:
 		ko_count += 1
 		print(	'  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  py< >c1 >>>>> [KO] :(\n', pyc1, len(pyc1))
@@ -196,14 +197,14 @@ def diff_exec(args):
 			print(f' [KO]: {ko_count}')
 		else:
 			print()
-		input("Press Enter to continue...")
+		return 1
 
 if len(sys.argv) == 4:
 	a = float(sys.argv[1])
 	b = float(sys.argv[2])
 	c = float(sys.argv[3])
-	diff_exec([a, b, c])
-	exit()
+	exit(diff_exec([a, b, c]))
 
 for perm in integers_perms:
 	diff_exec(perm)
+	input("Press Enter to continue...")

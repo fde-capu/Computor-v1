@@ -140,7 +140,6 @@ void Computor_v1::gen_output()
 		ss << std::endl;
 		for (auto& r : results)
 		{
-			ss.str("");
 			ss << fixInt(r.second.real);
 
 			if (r.second.imag != 0.0)

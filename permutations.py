@@ -54,6 +54,7 @@ integers_perms = [[map_chars(char, 'integer') for char in perm] for perm in perm
 floating_perms = [[map_chars(char, 'floatin') for char in perm] for perm in perms]
 
 def build_polynomial(element):
+	global characters;
 	try:
 		for i in range(3):
 			element[i] = 0.0 if i <= len(element) and not element[i] else element[i]
@@ -180,13 +181,23 @@ KO = '\033[91m'
 ENDC = '\033[0m'
 
 def diff_exec(args):
+	global characters;
+
+	for i in range(len(args)):
+		if args[i] == characters[3]:
+			args[i] = 0
+	a, b, c = args
+
 	global ko_count
 	global ok_count
 
+	print(HEADER, '= py_test ================================================= py_test ::::', ENDC)
 	py_test = build_polynomial(args)
-	c1_test = subprocess.run(['./computor', str(args[0]) + 'x^2', str(args[1]) + 'x', str(args[2])], stdout=subprocess.PIPE).stdout.decode('utf-8').strip()
-	print(HEADER, '= py_test ================================================= py_test ::::\n', ENDC, py_test)
-	print(HEADER, '= c1_test ================================================= c1_test ::::\n', ENDC, c1_test)
+	print(py_test)
+	print(HEADER, '= c1_test ================================================= c1_test ::::', ENDC)
+	c1_test = subprocess.run([f'./computor', f'{str(a)}x^2 {str(b)}x {str(c)}'], stdout=subprocess.PIPE).stdout.decode('utf-8').strip()
+	print(c1_test)
+
 	pyc1 = diff_strings(py_test, c1_test)
 	if len(pyc1) == 0:
 		ok_count += 1

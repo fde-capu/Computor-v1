@@ -116,7 +116,7 @@ std::string fixInt(double n)
 	while (i <= ns.length() - 1 && ns[i] != '.')
 		i++;
 	i++;
-	while (i <= ns.length() - 1 && (s[i] == '0' || s[i] == 'i'))
+	while (i <= ns.length() - 1 && (ns[i] == '0' || ns[i] == 'i'))
 		i++;
 	if (i == ns.length() - 1)
 	{

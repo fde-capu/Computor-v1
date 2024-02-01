@@ -216,7 +216,7 @@ void Computor_v1::discriminate_factors()
 				break;
 			}
 		}
-		this->degree = highestDegree;
+		this->degree = highestDegree <= 0 ? 0 : highestDegree;
 		verbose(V+1) << "(discriminate_factors) "
 			<< (std::to_string(this->degree) + "> "
 			+ std::to_string(factors[deg])) << std::endl;
@@ -224,5 +224,5 @@ void Computor_v1::discriminate_factors()
 	verbose(V) << "(discriminate_factors) Equation this->degree: " << this->degree << std::endl;
 	size_t i = -1;
 	while (++i <= this->degree)
-		verbose(V) << "(discriminate_factors) " << (std::to_string(i) + ") " + std::to_string(factors[i])) << std::endl;
+		verbose(V) << "(discriminate_factors) " << (std::to_string(i) + ") " + std::to_string(factors[i]) + " " + std::to_string(this->degree)) << std::endl;
 }

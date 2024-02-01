@@ -173,22 +173,27 @@ def format_number(num):
 		out = f"{num:.6f}"
 		return out
 
+HEADER = '\033[94m'
+OK = '\033[92m'
+FAIL = '\033[91m'
+ENDC = '\033[0m'
+
 def diff_exec(args):
 	global ko_count
 	global ok_count
 
 	py_test = build_polynomial(args)
 	c1_test = subprocess.run(['./computor', str(args[0]) + 'x^2', str(args[1]) + 'x', str(args[2])], stdout=subprocess.PIPE).stdout.decode('utf-8').strip()
-	print('= py_test ================================================= py_test ::::\n', py_test)
-	print('= c1_test ================================================= c1_test ::::\n', c1_test)
+	print(HEADER, '= py_test ================================================= py_test ::::\n', ENDC, py_test)
+	print(HEADER, '= c1_test ================================================= c1_test ::::\n', ENDC, c1_test)
 	pyc1 = diff_strings(py_test, c1_test)
 	if len(pyc1) == 0:
 		ok_count += 1
-		print (	'==============================================================>>>>> [OK]')
+		print (OK, '==============================================================>>>>> [OK]', ENDC)
 		return 0
 	else:
 		ko_count += 1
-		print(	'  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  py< >c1 >>>>> [KO] :(\n', pyc1, len(pyc1))
+		print(FAIL, '  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  py< >c1 >>>>> [KO] :(\n', ENDC, pyc1)
 		print(f'[OK]: {ok_count}', end = '')
 		if ko_count:
 			print(f' [KO]: {ko_count}')

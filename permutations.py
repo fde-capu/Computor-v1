@@ -62,21 +62,21 @@ def build_polynomial(element):
 		if a != characters[3]:
 			a_sig = '+' if a >= 0 else '-'
 			a_abs = abs(a)
-			a_str = f'{a_sig}{format_number(a_abs)}x^2 '
+			a_str = f'{a_sig}{format_number(a_abs)}*x^2 '
 		else:
 			a_str = ''
 			a = 0
 		if b != characters[3]:
 			b_sig = '+' if b >= 0 else '-'
 			b_abs = abs(b)
-			b_str = f'{b_sig}{format_number(b_abs)}x^1 '
+			b_str = f'{b_sig}{format_number(b_abs)}*x^1 '
 		else:
 			b_str = ''
 			b = 0
 		if c != characters[3]:
 			c_sig = '+' if c >= 0 else '-'
 			c_abs = abs(c)
-			c_str = f'{c_sig}{format_number(c_abs)}x^0 '
+			c_str = f'{c_sig}{format_number(c_abs)}*x^0 '
 		else:
 			c_str = ''
 			c = 0
@@ -91,15 +91,18 @@ def build_polynomial(element):
 		f_str += f'\nPolynomial degree: {degree}\n'
 		# Calculate the roots
 		discriminant = b**2 - 4*a*c
-		if discriminant >= 0:
-			root1 = (-b + np.sqrt(discriminant)) / (2*a)
-			root2 = (-b - np.sqrt(discriminant)) / (2*a)
+		if a:
+			if discriminant >= 0:
+				root1 = (-b + np.sqrt(discriminant)) / (2*a)
+				root2 = (-b - np.sqrt(discriminant)) / (2*a)
+			else:
+				real_part = -b / (2*a)
+				imaginary_part = np.sqrt(-discriminant) / (2*a)
+				root1 = complex(real_part, imaginary_part)
+				root2 = complex(real_part, -imaginary_part)
+			f_str += interpret_result([root1, root2], discriminant)
 		else:
-			real_part = -b / (2*a)
-			imaginary_part = np.sqrt(-discriminant) / (2*a)
-			root1 = complex(real_part, imaginary_part)
-			root2 = complex(real_part, -imaginary_part)
-		f_str += interpret_result([root1, root2], discriminant)
+			f_str += 'Equation is first degree. One solution:\n'
 		return f_str
 	except Exception as e:
 		print(f'--[{e}]--')
@@ -110,7 +113,7 @@ def interpret_result(roots, discriminant):
 		root_a, root_b = roots
 		out = ''
 		if discriminant > 0:
-			out += f'Discriminant (delta): {discriminant:.4f}\n'\
+			out += f'Discriminant (delta): {format_number(discriminant)}\n'\
 				+ f'Discriminant is strictly positive, the two solutions are:\n{root_a}\n{root_b}'
 			return out
 		if discriminant == 0:
@@ -123,7 +126,7 @@ def interpret_result(roots, discriminant):
 		str_r0 = '0' if root_a.real == 0.0 else f'{root_a.real}'
 		str_r1 = '0' if root_b.real == 0.0 else f'{root_b.real}'
 		if discriminant < 0:
-			out += f'Discriminant (delta): {discriminant:.4f}\n'\
+			out += f'Discriminant (delta): {format_number(discriminant)}\n'\
 				+ 'Discriminant is negative, the polynomial has two distinct complex roots.\n' + \
 				f'{str_r0}+{abs(root_a.imag):.5f}i\n{str_r1}-{abs(root_b.imag):.5f}i'
 		return out
@@ -131,7 +134,7 @@ def interpret_result(roots, discriminant):
 		print(f'--[{e}]--')
 		pdb.set_trace()
 
-def diff_multiline_strings(str1, str2):
+def diff_strings(str1, str2):
 	str1_lines = str1.splitlines(True)
 	str2_lines = str2.splitlines(True)
 	diff_gen = difflib.unified_diff(str1_lines, str2_lines)
@@ -155,8 +158,17 @@ poly_string = build_polynomial(args)
 #print(poly_string)
 #print(interpret_result(poly_roots, poly_discriminant))
 
-py_test = build_polynomial([0, 1, 2])
-c1_test = subprocess.run(['./computor', '0', '1', '2'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+py_test = build_polynomial(args)
+c1_test = subprocess.run(['./computor', str(args[0]) + 'x^2', str(args[1]) + 'x', str(args[2])], stdout=subprocess.PIPE).stdout.decode('utf-8').strip()
+
+print(		'========================================================= py_test :::::::\n', py_test)
+print(		'========================================================= c1_test :::::::\n', c1_test)
+pyc1 = diff_strings(py_test, c1_test)
+if len(pyc1) == 0:
+	print (	'==============================================================>>>>> [OK]')
+else:
+	print('======================================================= py< >c1 >>>>> [KO] :(\n', pyc1, len(pyc1))
+
 exit()
 
 for perm in integers_perms:

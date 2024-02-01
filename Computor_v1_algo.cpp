@@ -116,6 +116,11 @@ void Computor_v1::gen_output()
 	if (this->degree == 2)
 		ss << "Discriminant (delta): " << discriminant << std::endl;
 	ss << message;
+	if (message == MSG_NO_SOLUTION)
+	{
+		output = ss.str();
+		return ;
+	}
 	if (message == MSG_DISC_POSITIVE || message == MSG_DISC_ZERO || message == MSG_DISC_NEG
 	|| message == MSG_FIRST_DEGREE)
 	{

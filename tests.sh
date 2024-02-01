@@ -224,7 +224,7 @@ c1_test \
 "(debug)Reduced form: +1*x^2 +6*x^0 = 0
 Polynomial degree: 2
 Discriminant (delta): -24
-Discriminant is negative, the polinomial has two distinct complex roots.
+Discriminant is negative, the polynomial has two distinct complex roots.
 0+2.44949i
 0-2.44949i"
 
@@ -241,7 +241,7 @@ c1_test \
 "(debug)Reduced form: +1*x^2 +4*x^1 +5*x^0 = 0
 Polynomial degree: 2
 Discriminant (delta): -4
-Discriminant is negative, the polinomial has two distinct complex roots.
+Discriminant is negative, the polynomial has two distinct complex roots.
 -2+1i
 -2-1i"
 
@@ -251,7 +251,7 @@ c1_test \
 "(debug)Reduced form: +1*x^2 +1*x^1 +1*x^0 = 0
 Polynomial degree: 2
 Discriminant (delta): -3
-Discriminant is negative, the polinomial has two distinct complex roots.
+Discriminant is negative, the polynomial has two distinct complex roots.
 -0.5+0.866025i
 -0.5-0.866025i"
 

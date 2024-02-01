@@ -1,5 +1,5 @@
 See `subject.md` for the project instructions.
-`tests.sh` tests all possible cases for second degree polinomial equations (listed below).
+`tests.sh` tests all possible cases for second degree polynomial equations (listed below).
 ```
 | a   | b   | c   | Example           | Explanation |
 |-----|-----|-----|-------------------|-------------|

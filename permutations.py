@@ -22,6 +22,8 @@ if len(sys.argv) != 4 and len(sys.argv) != 1:
     print("Call without arguments to run all tests. Call with a, b, and c as arguments to run once.")
     sys.exit(1)
 
+ok_count = 0
+ko_count = 0
 
 # Use itertools.product to generate all permutations
 perms = list(itertools.product(characters, repeat=3))
@@ -107,55 +109,97 @@ def build_polynomial(element):
 
 def interpret_result(roots, discriminant):
 	try:
-		root_a, root_b = roots
+		ra, rb = roots
 		out = ''
 		if discriminant > 0:
 			out += f'Discriminant (delta): {format_number(discriminant)}\n'\
-				+ f'Discriminant is strictly positive, the two solutions are:\n{root_a}\n{root_b}'
+				+ f'Discriminant is strictly positive, the two solutions are:\n'\
+				+ f'{format_number(ra)}\n{format_number(rb)}'
 			return out
 		if discriminant == 0:
 			if len(roots) == 0:
 				out += "Tautology. All real numbers possible as solution."
 				return out
 			if len(roots) == 1:
-				out += f'Discriminant is zero, the polynomial has exactly one real root:\n{root_a}'
+				out += f'Discriminant is zero, the polynomial has exactly one real root:\n{ra}'
 				return out
-		str_r0 = '0' if root_a.real == 0.0 else f'{format_number(root_a.real)}'
-		str_r1 = '0' if root_b.real == 0.0 else f'{format_number(root_b.real)}'
+		str_r0 = '0' if ra.real == 0.0 else f'{format_number(ra.real)}'
+		str_r1 = '0' if rb.real == 0.0 else f'{format_number(rb.real)}'
 		if discriminant < 0:
 			out += f'Discriminant (delta): {format_number(discriminant)}\n'\
-				+ 'Discriminant is negative, the polynomial has two distinct complex roots.\n' + \
-				f'{str_r0}+{abs(root_a.imag):.5f}i\n{str_r1}-{abs(root_b.imag):.5f}i'
+				+ 'Discriminant is negative, the polynomial has two distinct complex roots.\n'
+			if ra.real < 1:
+				out += f'{str_r0}+{format_number(abs(ra.imag))}i'
+			else:
+				out += f'{str_r0}+{format_number(abs(ra.imag))}i'
+			if rb.real < 1:
+				out += f'\n{str_r1}-{format_number(abs(rb.imag))}i'
+			else:
+				out += f'\n{str_r1}-{format_number(abs(rb.imag))}i'
 		return out
 	except Exception as e:
 		print(f'--[{e}]--')
 		pdb.set_trace()
 
+def pre_float(line):
+	return re.sub(r'(^.\d*\.{1}\d*?).*', r'\1', line)
+
+def sort_last_two_lines(multiline_string):
+	try:
+		lines = multiline_string.split('\n')
+		last_two_lines = lines[-2:]
+		sorted_lines = sorted([float(pre_float(line)) for line in last_two_lines], key = lambda x: x.real)
+		sorted_multiline_string = '\n'.join(lines[:-2] + [format_number(line) for line in sorted_lines])
+		return sorted_multiline_string
+	except Exception as e:
+		print(f'--[{e}]--\n{locals()}')
+		pdb.set_trace()
+
 def diff_strings(str1, str2):
+	str1 = sort_last_two_lines(str1)
+	str2 = sort_last_two_lines(str2)
 	str1_lines = str1.splitlines(True)
 	str2_lines = str2.splitlines(True)
 	diff_gen = difflib.unified_diff(str1_lines, str2_lines)
-	diff_str = ''.join(diff_gen)
+	diff_str = '\n'.join(diff_gen)
+	diff_str = re.sub('\n+', '\n', diff_str)
 	return diff_str
 
 def format_number(num):
+	if not num:
+		return '0'
 	if isinstance(num, str):
 		return num
 	if num == int(num):
 		return str(int(num))
 	else:
-		return f"{num:.6f}"
+		if num < 1:
+			out = f"{num:.6f}"
+		else:
+			out = f"{num:.5f}"
+		return out
 
 def diff_exec(args):
+	global ko_count
+	global ok_count
+
 	py_test = build_polynomial(args)
 	c1_test = subprocess.run(['./computor', str(args[0]) + 'x^2', str(args[1]) + 'x', str(args[2])], stdout=subprocess.PIPE).stdout.decode('utf-8').strip()
-	print('=========================================================== py_test ::::\n', py_test)
-	print('=========================================================== c1_test ::::\n', c1_test)
+	print('= py_test ================================================= py_test ::::\n', py_test)
+	print('= c1_test ================================================= c1_test ::::\n', c1_test)
 	pyc1 = diff_strings(py_test, c1_test)
 	if len(pyc1) == 0:
+		ok_count += 1
 		print (	'==============================================================>>>>> [OK]')
 	else:
-		print('======================================================= py< >c1 >>>>> [KO] :(\n', pyc1, len(pyc1))
+		ko_count += 1
+		print(	'===================================================== py< >c1 >>>>> [KO] :(\n', pyc1, len(pyc1))
+		print(f'[OK]: {ok_count}', end = '')
+		if ko_count:
+			print(f' [KO]: {ko_count}')
+		else:
+			print()
+		input("Press Enter to continue...")
 
 if len(sys.argv) == 4:
 	a = float(sys.argv[1])
@@ -165,8 +209,4 @@ if len(sys.argv) == 4:
 	exit()
 
 for perm in integers_perms:
-	print(perm)
-	py_test = build_polynomial(perm)
-	c1_test = subprocess.run(['./computor', '0', '1', '2'], stdout=subprocess.PIPE).stdout.decode('utf-8')
-	print('c1_test', c1_test)
-	print('\n')
+	diff_exec(perm)

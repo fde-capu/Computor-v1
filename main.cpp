@@ -57,6 +57,7 @@ bool validateArgCount(int argc, char** argv)
 
 int main (int argc, char** argv)
 {
+	std::cout << std::fixed << std::setprecision(PRECISION);
 	std::string equation_raw;
 
 	if (!validateArgCount(argc, argv))

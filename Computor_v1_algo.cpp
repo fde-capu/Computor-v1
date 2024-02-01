@@ -91,7 +91,7 @@ void Computor_v1::gen_results()
 			else if (discriminant < 0.0) // else
 			{
 				results[0].real = -b / ( 2 * a );
-				results[0].imag = sqrt(-discriminant) / ( 2 * a );
+				results[0].imag = sqrt( -discriminant ) / ( 2 * a );
 				results[1].real = results[0].real;
 				results[1].imag = -results[0].imag;
 				message = MSG_DISC_NEG;
@@ -108,8 +108,13 @@ void Computor_v1::gen_results()
 
 void Computor_v1::gen_output()
 {
-	if (!valid_terms) return;
+	std::stringstream ss_real;
+	std::stringstream ss_imag;
+	std::string real;
+	std::string imag;
 	std::stringstream ss;
+
+	if (!valid_terms) return;
 	ss << "Reduced form: " << reduced_form << std::endl;
 	ss << "Polynomial degree: " << degree << std::endl;
 	if (this->degree > 2) message = MSG_OVER_DEGREE;
@@ -125,14 +130,23 @@ void Computor_v1::gen_output()
 	|| message == MSG_FIRST_DEGREE)
 	{
 		ss << std::endl;
+
 		for (auto& r : results)
 		{
-			ss << r.second.real;
+			ss_real.str("");
+			ss_real << std::fixed << std::setprecision(PRECISION);
+			ss_real << r.second.real;
+			real = ss_real.str();
+			while (real.length() > 1 && (real[real.length() - 1] == '0' || real[real.length() - 1] == '.'))
+				real.pop_back();
+
+			ss << real;
 			if (r.second.imag != 0.0)
 				ss << (r.second.imag > 0.0 ? "+" : "") << r.second.imag << "i";
 			if (message != MSG_FIRST_DEGREE)
 				ss << std::endl;
-			if (this->degree == 1) break;
+			else
+				break;
 		}
 	}
 	output = ss.str();

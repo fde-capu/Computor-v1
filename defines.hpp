@@ -2,6 +2,7 @@
 # define DEFINES_HPP
 
 # define VERBOSE 0
+# define PRECISION 6
 
 # define MSG_TAUTOLOGY "Tautology. All real numbers possible as solution."
 # define MSG_NO_SOLUTION "No solution."

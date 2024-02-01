@@ -207,3 +207,5 @@ c,c,b,b,a
 
 
 - Some random cases of messy syntax, to test the parser.
+- PRECISION set to 10, to be compatible with the python test.
+	(28x^2+9x: I was getting 1.26629e-13 instead of 0)

@@ -119,14 +119,13 @@ void Computor_v1::gen_output()
 	if (message == MSG_DISC_POSITIVE || message == MSG_DISC_ZERO || message == MSG_DISC_NEG
 	|| message == MSG_FIRST_DEGREE)
 	{
-		int i = 0;
 		ss << std::endl;
 		for (auto& r : results)
 		{
 			ss << r.second.real;
 			if (r.second.imag != 0.0)
 				ss << (r.second.imag > 0.0 ? "+" : "") << r.second.imag << "i";
-			if (i++ < 1 && message != MSG_DISC_ZERO)
+			if (message != MSG_FIRST_DEGREE)
 				ss << std::endl;
 			if (this->degree == 1) break;
 		}

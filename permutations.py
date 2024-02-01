@@ -175,7 +175,7 @@ def format_number(num):
 
 HEADER = '\033[94m'
 OK = '\033[92m'
-FAIL = '\033[91m'
+KO = '\033[91m'
 ENDC = '\033[0m'
 
 def diff_exec(args):
@@ -193,10 +193,10 @@ def diff_exec(args):
 		return 0
 	else:
 		ko_count += 1
-		print(FAIL, '  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  py< >c1 >>>>> [KO] :(\n', ENDC, pyc1)
-		print(f'[OK]: {ok_count}', end = '')
+		print(KO, '  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  py< >c1 >>>>> [KO] :(\n', ENDC, pyc1)
+		print(f'{OK}[OK]{ENDC}: {ok_count}', end = '')
 		if ko_count:
-			print(f' [KO]: {ko_count}')
+			print(f' {KO}[KO]{ENDC}: {ko_count}')
 			return 1
 
 if len(sys.argv) == 4:

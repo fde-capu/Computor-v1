@@ -112,6 +112,7 @@ void Computor_v1::gen_output()
 	std::stringstream ss_imag;
 	std::string real;
 	std::string imag;
+	float first_p;
 	std::stringstream ss;
 
 	if (!valid_terms) return;
@@ -136,13 +137,20 @@ void Computor_v1::gen_output()
 			ss_real.str("");
 			ss_real << std::fixed << std::setprecision(PRECISION);
 			ss_real << r.second.real;
-			real = ss_real.str();
-			while (real.length() > 1 && (real[real.length() - 1] == '0' || real[real.length() - 1] == '.'))
-				real.pop_back();
+			ss_real >> first_p;
+//			real = first_p.str();
+//			while (real.length() > 7 && (real[real.length() - 1] == '0' || real[real.length() - 1] == '.'))
+//				real.pop_back();
+//			if (real == "-" || real == "+")
+//				real = "0";
 
-			ss << real;
+			ss << std::fixed << std::setprecision(PRECISION);
+			ss << first_p;
 			if (r.second.imag != 0.0)
+			{
+				ss << std::fixed << std::setprecision(PRECISION - 1);
 				ss << (r.second.imag > 0.0 ? "+" : "") << r.second.imag << "i";
+			}
 			if (message != MSG_FIRST_DEGREE)
 				ss << std::endl;
 			else

@@ -3,6 +3,7 @@
 
 # include <iostream>
 # include <string>
+# include <sstream>
 # include "StringTools.hpp"
 # include "MathTools.hpp"
 # include <vector>

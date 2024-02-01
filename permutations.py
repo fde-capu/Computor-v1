@@ -77,7 +77,7 @@ def build_polynomial(element):
 			c_abs = abs(c)
 			c_str = f'{c_sig}{format_number(c_abs)}*x^0 '
 		else:
-			c_str = ''
+			c_str = '+0*x^0 '
 			c = 0
 		f_str = f'Reduced form: '
 		f_str += f'{a_str}'
@@ -141,14 +141,11 @@ def interpret_result(roots, discriminant):
 		print(f'--[{e}]--')
 		pdb.set_trace()
 
-def pre_float(line):
-	return re.sub(r'(^.\d*\.{1}\d*?).*', r'\1', line)
-
 def sort_last_two_lines(multiline_string):
 	try:
 		lines = multiline_string.split('\n')
 		last_two_lines = lines[-2:]
-		sorted_lines = sorted([float(pre_float(line)) for line in last_two_lines], key = lambda x: x.real)
+		sorted_lines = sorted([line for line in last_two_lines])
 		sorted_multiline_string = '\n'.join(lines[:-2] + [format_number(line) for line in sorted_lines])
 		return sorted_multiline_string
 	except Exception as e:
@@ -193,7 +190,7 @@ def diff_exec(args):
 		print (	'==============================================================>>>>> [OK]')
 	else:
 		ko_count += 1
-		print(	'===================================================== py< >c1 >>>>> [KO] :(\n', pyc1, len(pyc1))
+		print(	'  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  py< >c1 >>>>> [KO] :(\n', pyc1, len(pyc1))
 		print(f'[OK]: {ok_count}', end = '')
 		if ko_count:
 			print(f' [KO]: {ko_count}')

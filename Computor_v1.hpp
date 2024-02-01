@@ -8,6 +8,8 @@
 # include <vector>
 # include <map>
 
+static const bool ommitFactorZero = false;
+
 class Computor_v1
 {
 	private:

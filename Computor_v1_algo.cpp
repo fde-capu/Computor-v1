@@ -26,7 +26,7 @@ void Computor_v1::gen_reduced_form()
 	size_t i = this->degree + 1;
 	while (--i <= this->degree)
 	{
-		if (factors[i] != 0)
+		if (factors[i] != 0 or !ommitFactorZero)
 		{
 			reduced_form += factors[i] >= 0.0 ? "+" : "";
 			reduced_form += dtoa_clean(factors[i]) + "*x^" + std::to_string(i) + " ";
@@ -119,13 +119,16 @@ void Computor_v1::gen_output()
 	if (message == MSG_DISC_POSITIVE || message == MSG_DISC_ZERO || message == MSG_DISC_NEG
 	|| message == MSG_FIRST_DEGREE)
 	{
+		size_t i = 0;
 		ss << std::endl;
 		for (auto& r : results)
 		{
+			i++;
 			ss << r.second.real;
 			if (r.second.imag != 0.0)
 				ss << (r.second.imag > 0.0 ? "+" : "") << r.second.imag << "i";
-			ss << std::endl;
+			if (i < this->degree)
+				ss << std::endl;
 			if (this->degree == 1) break;
 		}
 	}

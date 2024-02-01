@@ -742,6 +742,7 @@ std::string dtoa_clean(double n)
 	if (str.find_last_not_of('0') == str.find('.')) {
 		offset = 0;
 	}
-	str.erase(str.find_last_not_of('0') + offset, std::string::npos);
+	str.erase(str.find_last_not_of('0') \
+		+ offset, std::string::npos);
 	return str;
 }

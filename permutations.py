@@ -86,11 +86,17 @@ def build_polynomial(element):
 		f_str += f'{b_str} '
 		f_str += f'{c_str} '
 		f_str += '= 0'
-		f_str = re.sub('[^\d][\+\-]?0\*x\^2', '', f_str)
+		new_f_str = re.sub('[^\d][\+\-]?0\*x\^2', '', f_str)
+		if new_f_str != f_str:
+			f_str = new_f_str
+			f_str = re.sub('[^\d][\+\-]?0\*x\^1', '', f_str)
 		d_test = re.findall(r'\^(\d)', f_str)
 		d_numb = [int(d) for d in d_test]
 		degree = max(d_numb) if d_numb else 0
 		f_str += f'\nPolynomial degree: {degree}\n'
+		if not degree:
+			f_str += 'No solution.'
+			return f_str
 		discriminant = b**2 - 4*a*c
 		if a:
 			if discriminant >= 0:
@@ -204,7 +210,7 @@ def diff_exec(args):
 	pyc1 = diff_strings(py_test, c1_test)
 	if len(pyc1) == 0:
 		ok_count += 1
-		print (HEADER, f'\\\\======================================================// {OK}>>>>>>> [OK]', ENDC)
+		print (HEADER, f'\\\\======================================================// {OK}>>>>>>> [OK]', ok_count, ENDC)
 		return 0
 	else:
 		ko_count += 1

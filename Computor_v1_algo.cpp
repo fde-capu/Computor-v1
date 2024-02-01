@@ -26,7 +26,7 @@ void Computor_v1::gen_reduced_form()
 	size_t i = this->degree + 1;
 	while (--i <= this->degree)
 	{
-		if (factors[i] != 0 or !ommitFactorZero)
+		if (!ommitFactorZero)
 		{
 			reduced_form += factors[i] >= 0.0 ? "+" : "";
 			reduced_form += dtoa_clean(factors[i]) + "*x^" + std::to_string(i) + " ";
@@ -113,10 +113,10 @@ std::string fixInt(double n)
 
 	std::string ns = std::to_string(n);
 	i = 0;
-	while (i < ns.length() - 1 && ns[i] != '.')
+	while (i <= ns.length() - 1 && ns[i] != '.')
 		i++;
 	i++;
-	while (i < ns.length() - 1 && (s[i] == '0' || s[i] == 'i'))
+	while (i <= ns.length() - 1 && (s[i] == '0' || s[i] == 'i'))
 		i++;
 	if (i == ns.length() - 1)
 	{
@@ -159,8 +159,8 @@ void Computor_v1::gen_output()
 
 			if (r.second.imag != 0.0)
 			{
-				ss << std::fixed << std::setprecision(PRECISION);
-				ss << (r.second.imag > 0.0 ? "+" : "") << fixInt(r.second.imag) << "i";
+				ss << (r.second.imag > 0.0 ? "+" : "");
+				ss << fixInt(r.second.imag) << "i";
 			}
 			if (message != MSG_FIRST_DEGREE)
 				ss << std::endl;

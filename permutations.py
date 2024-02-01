@@ -59,40 +59,35 @@ def build_polynomial(element):
 		for i in range(3):
 			element[i] = 0.0 if i <= len(element) and not element[i] else element[i]
 		a, b, c = element
+
+		a_str = '+0*x^2'
 		if a != characters[3]:
 			a_sig = '+' if a >= 0 else '-'
 			a_abs = abs(a)
 			if a:
-				a_str = f'{a_sig}{format_number(a_abs)}*x^2 '
-			else:
-				a_str = None
-		else:
-			a_str = ''
-			a = 0
+				a_str = f'{a_sig}{format_number(a_abs)}*x^2'
+
+		b_str = '+0*x^1'
 		if b != characters[3]:
 			b_sig = '+' if b >= 0 else '-'
 			b_abs = abs(b)
-			b_str = f'{b_sig}{format_number(b_abs)}*x^1 '
-		else:
-			b_str = ''
-			b = 0
+			if b:
+				b_str = f'{b_sig}{format_number(b_abs)}*x^1'
+
+		c_str = '+0*x^0'
 		if c != characters[3]:
 			c_sig = '+' if c >= 0 else '-'
 			c_abs = abs(c)
-			c_str = f'{c_sig}{format_number(c_abs)}*x^0 '
-		else:
-			c_str = '+0*x^0 '
-			c = 0
+			if c:
+				c_str = f'{c_sig}{format_number(c_abs)}*x^0'
+
 		f_str = f'Reduced form: '
-		if a:
-			f_str += f'{a_str}'
-		if b:
-			f_str += f'{b_str}'
-		if c:
-			f_str += f'{c_str}'
-		f_str + '= 0'
-		d_degr = re.sub(' ', '', f_str)
-		d_test = re.findall('\^(\d)', d_degr)
+		f_str += f'{a_str} '
+		f_str += f'{b_str} '
+		f_str += f'{c_str} '
+		f_str += '= 0'
+		f_str = re.sub('[^\d][\+\-]?0\*x\^2', '', f_str)
+		d_test = re.findall(r'\^(\d)', f_str)
 		d_numb = [int(d) for d in d_test]
 		degree = max(d_numb) if d_numb else 0
 		f_str += f'\nPolynomial degree: {degree}\n'
@@ -213,7 +208,7 @@ def diff_exec(args):
 		return 0
 	else:
 		ko_count += 1
-		print(HEADER, f' \\\\========================================= py < > c1 =// {KO}>>>>>> [KO] :(\n', ENDC, pyc1)
+		print(HEADER, f' \\\\========================================= py < > c1 =// {KO}>>>>>>> [KO] :(\n', ENDC, pyc1)
 		print(f'{OK}[OK]{ENDC}: {ok_count}', end = '')
 		if ko_count:
 			print(f' {KO}[KO]{ENDC}: {ko_count}')

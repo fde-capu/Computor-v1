@@ -94,8 +94,11 @@ def build_polynomial(element):
 		d_numb = [int(d) for d in d_test]
 		degree = max(d_numb) if d_numb else 0
 		f_str += f'\nPolynomial degree: {degree}\n'
-		if not degree:
-			f_str += 'No solution.'
+		if degree == 0:
+			if c:
+				f_str += 'No solution.'
+			else:
+				f_str += 'Tautology. All real numbers possible as solution.'
 			return f_str
 		discriminant = b**2 - 4*a*c
 		if a:

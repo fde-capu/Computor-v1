@@ -109,22 +109,15 @@ void Computor_v1::gen_results()
 std::string fixInt(double n)
 {
 	std::stringstream s;
-	size_t i;
+	std::vector<std::string> intTest;
 
-	std::string ns = std::to_string(n);
-	i = 0;
-	while (i <= ns.length() - 1 && ns[i] != '.')
-		i++;
-	i++;
-	while (i <= ns.length() - 1 && (ns[i] == '0' || ns[i] == 'i'))
-		i++;
-	if (i == ns.length() - 1)
-	{
-		ns = split(ns, ".")[0];
-		if (ns == "-0")
-			ns = "0";
-		return ns;
-	}
+	s << std::fixed << std::setprecision(PRECISION);
+	s << n;
+	intTest = split(s.str(), ".");
+	if (isAllInSet(intTest[1], "0i"))
+		return intTest[0] == "-0" ? "0" : intTest[0];
+
+	s.str("");
 	if (n == static_cast<int>(n))
 		s << std::fixed << std::setprecision(0);
 	else

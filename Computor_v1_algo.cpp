@@ -135,7 +135,7 @@ void Computor_v1::gen_output()
 	ss << "Polynomial degree: " << degree << std::endl;
 	if (this->degree > 2) message = MSG_OVER_DEGREE;
 	if (this->degree == 2)
-		ss << "Discriminant (delta): " << discriminant << std::endl;
+		ss << "Discriminant (delta): " << fixInt(discriminant) << std::endl;
 	ss << message;
 	if (message == MSG_NO_SOLUTION)
 	{

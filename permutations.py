@@ -65,21 +65,21 @@ def build_polynomial(element):
 			a_sig = '+' if a >= 0 else '-'
 			a_abs = abs(a)
 			if a:
-				a_str = f'{a_sig}{format_number(a_abs)}*x^2'
+				a_str = f'{a_sig}{format_number(a_abs,True)}*x^2'
 
 		b_str = '+0*x^1'
 		if b != characters[3]:
 			b_sig = '+' if b >= 0 else '-'
 			b_abs = abs(b)
 			if b:
-				b_str = f'{b_sig}{format_number(b_abs)}*x^1'
+				b_str = f'{b_sig}{format_number(b_abs,True)}*x^1'
 
 		c_str = '+0*x^0'
 		if c != characters[3]:
 			c_sig = '+' if c >= 0 else '-'
 			c_abs = abs(c)
 			if c:
-				c_str = f'{c_sig}{format_number(c_abs)}*x^0'
+				c_str = f'{c_sig}{format_number(c_abs,True)}*x^0'
 
 		f_str = f'Reduced form: '
 		f_str += f'{a_str} '
@@ -175,7 +175,7 @@ def diff_strings(str1, str2):
 	diff_str = re.sub('\n+', '\n', diff_str)
 	return diff_str
 
-def format_number(num):
+def format_number(num, cut_trailing_zeros = False):
 	if not num:
 		return '0'
 	if isinstance(num, str):
@@ -184,6 +184,8 @@ def format_number(num):
 		return str(int(num))
 	else:
 		out = f"{num:.6f}"
+		if cut_trailing_zeros:
+			out = re.sub('0+$', '', out)
 		return out
 
 HEADER = '\033[94m'
@@ -236,4 +238,11 @@ for perm in integers_perms:
 	print()
 	if out:
 		exit(1)
+
+for perm in floating_perms:
+	out = diff_exec(perm)
+	print()
+	if out:
+		exit(1)
+
 exit(0)

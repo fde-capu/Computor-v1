@@ -32,10 +32,21 @@ std::string argJoin(int argc, char** argv)
 {
 	std::string out("");
 
-	while (argc-- > 1)
-		out = std::string(argv[argc]) \
-			+ (out.length() ? " " : "") \
-			+ out;
+	if (isAllInSet(out, "0123456789 +-") && argc == 4)
+	{ // alternative notation, get only 'a b c'
+		out = std::string(argv[1]) + "*x^2 " \
+			+ argv[2] + "*x^1 " \
+			+ argv[3] + "*x^0 = 0";
+	}
+	else
+	{
+		while (argc-- > 1)
+		{
+			out = std::string(argv[argc]) \
+				+ (out.length() ? " " : "") \
+				+ out;
+		}
+	}
 	return out;
 }
 

@@ -12,7 +12,7 @@ double sqrt(double number)
 
 void noMinusZero(double& d)
 {
-	std::string noMinus = dtoa_clean(d);
+	std::string noMinus = dtoa(d);
 	if (noMinus.at(0) == '-')
 		noMinus = noMinus.substr(1);
 	d = std::stod(noMinus.c_str());

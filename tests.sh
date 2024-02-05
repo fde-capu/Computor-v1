@@ -338,6 +338,10 @@ The polynomial degree is strictly greater than 2, I can't solve."
 
 final
 
+# Nice test of narrow parabole:
+# 42 0.42 0
+# -> must give 0, 0.01
+
 #### NOT WORKING: 87.32 0.36 0
 # permutations gives 0, -0.004216 (correct)
 # computor gives 0.001332 and 0.002884 (WRONG!)

@@ -1,7 +1,7 @@
 #ifndef DEFINES_HPP
 # define DEFINES_HPP
 
-# define VERBOSE 2
+# define VERBOSE 3
 # define PRECISION 6
 
 # define MSG_TAUTOLOGY "Tautology. All real numbers possible as solution."

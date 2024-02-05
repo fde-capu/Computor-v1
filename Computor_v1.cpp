@@ -6,7 +6,7 @@
 /*   By: fde-capu <fde-capu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 10:23:27 by fde-capu          #+#    #+#             */
-/*   Updated: 2024/02/05 11:18:54 by fde-capu         ###   ########.fr       */
+/*   Updated: 2024/02/05 13:50:45 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ Computor_v1::Computor_v1(const std::string& u_input)
 : input(u_input)
 {
 	int V(2);
+
 	verbose(V) << "Computor_v1 constructed with input:" << std::endl;
 	verbose(V) << this->input << std::endl;
 	run();

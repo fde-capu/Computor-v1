@@ -735,7 +735,7 @@ std::pair<size_t, size_t> find_char_sequence(const std::string& src, char x, siz
 	return std::pair<size_t, size_t>{std::string::npos, std::string::npos};
 }
 
-std::string dtoa_clean(double n, size_t precision)
+std::string dtoa(double n, size_t precision)
 {
 	std::string str{std::to_string (n)};
 	int offset{1};

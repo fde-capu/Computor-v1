@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   StringTools.hpp                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fde-capu <fde-capu@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/05 14:46:18 by fde-capu          #+#    #+#             */
+/*   Updated: 2024/02/05 15:15:51 by fde-capu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef STRINGTOOLS_HPP
 # define STRINGTOOLS_HPP
 
@@ -29,74 +41,74 @@
 # define ST_ID "(StringTools) "
 # define ST_ERR_UNMATCHED_BRACKETS ST_ID " Unmatched bracket."
 
-bool isWordContained(const std::string&, const std::string&);
-void remove_dup_char(std::string&, const char);
-void remove_rep_char(std::string&, const char);
-std::string to_lower(std::string);
-std::string to_upper(std::string);
-bool is_equal_insensitive(const std::string, const std::string);
+bool		isWordContained(const std::string&, const std::string&);
+void		remove_dup_char(std::string&, const char);
+void		remove_rep_char(std::string&, const char);
+std::string	to_lower(std::string);
+std::string	to_upper(std::string);
+bool		is_equal_insensitive(const std::string, const std::string);
 std::string trim(std::string&);
 std::string& trim(std::string& str, std::string set);
-void soft_trim(std::string&);
-void soft_trim(std::string&, std::string);
-void hard_trim(std::string&);
-std::string hard_trim(const std::string&);
-void hard_trim(std::string&, std::string);
-std::string dual_trim(std::string&, std::string);
-void remove_all(std::string&, std::string);
+void		soft_trim(std::string&);
+void		soft_trim(std::string&, std::string);
+void 		hard_trim(std::string&);
+std::string	hard_trim(const std::string&);
+void		hard_trim(std::string&, std::string);
+std::string	dual_trim(std::string&, std::string);
+void		remove_all(std::string&, std::string);
 std::string& substitute_all(std::string&, std::string, std::string);
 std::string& substitute_unloop(std::string& dst, std::string before, std::string after);
-std::string substitute_super(std::string&, std::string, std::string);
-void erase_boundaries(std::string&, std::string);
-void erase_boundaries(std::string&, std::string, std::string);
-size_t find_closing_bracket(std::string);
-void remove_comments(std::string&);
-std::string remove_quotes(std::string&);
-std::string remove_quotes(const std::string&);
-std::string escape_char(const std::string, std::string);
-bool isNumber(const std::string&);
-bool isNumberChar(const char& c);
-bool isAllNumber(std::vector<std::string>);
-bool isAllNumber(std::string);
-bool isDigit(char);
-bool isWord(const std::string);
-bool isWordInWordSet(std::string, std::vector<std::string>);
-bool isBoolStr(std::string);
-std::string itos(int);
-std::string apply_quotes(std::string);
-std::string apply_quotes(std::string, std::string);
+std::string	substitute_super(std::string&, std::string, std::string);
+void		erase_boundaries(std::string&, std::string);
+void		erase_boundaries(std::string&, std::string, std::string);
+size_t		find_closing_bracket(std::string);
+void		remove_comments(std::string&);
+std::string	remove_quotes(std::string&);
+std::string	remove_quotes(const std::string&);
+std::string	escape_char(const std::string, std::string);
+bool		isNumber(const std::string&);
+bool		isNumberChar(const char& c);
+bool		isAllNumber(std::vector<std::string>);
+bool		isAllNumber(std::string);
+bool		isDigit(char);
+bool		isWord(const std::string);
+bool		isWordInWordSet(std::string, std::vector<std::string>);
+bool		isBoolStr(std::string);
+std::string	itos(int);
+std::string	apply_quotes(std::string);
+std::string	apply_quotes(std::string, std::string);
 std::vector<std::string> split(const std::string str, const std::string sep = ST_DEFAULT_SPLIT);
 std::vector<std::string> split_trim(const std::string, const std::string);
 std::vector<std::string> splitOutsideQuotes(std::string);
-std::string itoa(int);
-bool isFileName(std::string);
-bool is_size_t(std::string);
-bool is_int(std::string);
-bool isUri(std::string);
-bool isAllInSet(std::string, std::string);
-std::string nth_word(std::string, int);
-size_t word_count(std::string);
-std::string word_from(const std::string&, size_t);
-size_t find_outside_quotes_set(std::string& str, std::string set, size_t u_start = 0);
-size_t find_outside_quotes(std::string& str, std::string needle, size_t u_start = 0);
+std::string	itoa(int);
+bool		isFileName(std::string);
+bool		is_size_t(std::string);
+bool		is_int(std::string);
+bool		isUri(std::string);
+bool		isAllInSet(std::string, std::string);
+std::string	nth_word(std::string, int);
+size_t		word_count(std::string);
+std::string	word_from(const std::string&, size_t);
+size_t		find_outside_quotes_set(std::string& str, std::string set, size_t u_start = 0);
+size_t		find_outside_quotes(std::string& str, std::string needle, size_t u_start = 0);
 std::pair<size_t, size_t> find_char_sequence(const std::string& src, char x, size_t = 0);
-std::string consume_until(std::string& src, const std::string delim_str);
-std::string consume_delims(std::string& src, const std::string delim_set);
-std::string stoa(size_t i);
-std::string get_file_extension(const std::string fpath);
-std::string remove_filename_from_path(const std::string fpath);
-bool not_in_word_set(char x);
-std::string query_for(std::string query, std::string& src);
-bool isInSet(const char& test_char, std::string set);
-bool startsWith(const std::string& full, const std::string& begining);
-std::string consume_bytes(std::string& src, size_t bytes);
-void just_consume_until(std::string& src, const std::string delim_str);
-std::string get_after_until_line(const std::string& src, const std::string phrase);
-std::string get_after_first(const std::string& src, const std::string phrase);
-std::string get_before_first(const std::string& src, const std::string phrase);
-size_t strhex2size_t(const std::string src);
+std::string	consume_until(std::string& src, const std::string delim_str);
+std::string	consume_delims(std::string& src, const std::string delim_set);
+std::string	stoa(size_t i);
+std::string	get_file_extension(const std::string fpath);
+std::string	remove_filename_from_path(const std::string fpath);
+bool		not_in_word_set(char x);
+std::string	query_for(std::string query, std::string& src);
+bool		isInSet(const char& test_char, std::string set);
+bool		startsWith(const std::string& full, const std::string& begining);
+std::string	consume_bytes(std::string& src, size_t bytes);
+void		just_consume_until(std::string& src, const std::string delim_str);
+std::string	get_after_until_line(const std::string& src, const std::string phrase);
+std::string	get_after_first(const std::string& src, const std::string phrase);
+std::string	get_before_first(const std::string& src, const std::string phrase);
+size_t		strhex2size_t(const std::string src);
 std::vector<char*> vecstr2veccharp(const std::vector<std::string>& argv);
-std::string dtoa_clean(double, size_t precision = 0);
+std::string	dtoa(double, size_t precision = 0);
 
 template <typename T>
 std::ostream & operator << (std::ostream & os, const std::vector<T> & vec)

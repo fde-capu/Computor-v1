@@ -6,7 +6,7 @@
 /*   By: fde-capu <fde-capu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 14:46:18 by fde-capu          #+#    #+#             */
-/*   Updated: 2024/02/05 15:15:51 by fde-capu         ###   ########.fr       */
+/*   Updated: 2024/02/05 15:20:44 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@
 # include "defines.hpp"
 # include <stdexcept>
 
+# define VERBOSE_ELEVATION 1
 # define VERBOSE_LINE_LIMIT  60
-# define verbose(X) if (VERBOSE >= X) std::cout
+# define verbose(X) if (VERBOSE >= X + VERBOSE_ELEVATION) std::cout
 # define SHORT(X) X.substr(0, VERBOSE_LINE_LIMIT ) << " (" << X.length() << ")"
 
 # define DEBUG_BREAK(X) static int DEB = X; if (DEB-- <= 0) throw std::runtime_error("Debug break!");

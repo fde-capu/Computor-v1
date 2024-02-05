@@ -6,7 +6,7 @@
 /*   By: fde-capu <fde-capu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 10:23:59 by fde-capu          #+#    #+#             */
-/*   Updated: 2024/02/05 15:16:11 by fde-capu         ###   ########.fr       */
+/*   Updated: 2024/02/05 15:19:14 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ void Computor_v1::gen_results()
 			b	(this->factors[1]),
 			c	(this->factors[0]);
 
-	verbose(V) << "(gen_results) a " << str(a) << " b " << str(b) << " c " << \
-		str(c) << std::endl;
+	verbose(V) << "(gen_results) a " << dtoa(a) << " b " << dtoa(b) << " c " << \
+		dtoa(c) << std::endl;
 	verbose(V) << "(gen_results) degree " << dtoa(this->degree) << std::endl;
 	if (this->degree == 0)
 	{
@@ -195,7 +195,7 @@ void Computor_v1::gen_results()
 	{
 		verbose(V) << "(gen_results) delta != 0.0 && [1].real == 0.0: delta: " \
 			<< dtoa(this->discriminant) << ", [1].real: " << \
-			dtoa(this->results[1]) << std::endl;
+			dtoa(this->results[1].real) << std::endl;
 		noMinusZero(this->results[1].real);
 		verbose(V) << "(gen_results) [0].real corrected -0: " << \
 			dtoa(this->results[0].real) << std::endl;

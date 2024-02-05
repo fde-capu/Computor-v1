@@ -1,63 +1,77 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Computor_v1_treats.cpp                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fde-capu <fde-capu@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/05 10:26:06 by fde-capu          #+#    #+#             */
+/*   Updated: 2024/02/05 11:08:03 by fde-capu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Computor_v1.hpp"
 
 void Computor_v1::treat_spaces()
 {
 	int V(2);
+
 	verbose(V) << "treat_spaces:" << std::endl;
-	substitute_unloop(treating, "X", "x");
-	substitute_unloop(treating, "\\t", " ");
-	substitute_unloop(treating, "*", " * ");
-	substitute_unloop(treating, "+", " + ");
-	substitute_unloop(treating, "-", " - ");
-	substitute_unloop(treating, "=", " = ");
-	substitute_super(treating, " ^", "^");
-	substitute_super(treating, "^ ", "^");
-	substitute_super(treating, "* ", "*");
-	substitute_super(treating, " *", "*");
-	substitute_super(treating, "- ", "-");
-	substitute_super(treating, "+ ", "+");
-	hard_trim(treating);
-	verbose(V) << treating << std::endl;
+	substitute_unloop(this->treating, "X", "x");
+	substitute_unloop(this->treating, "\\t", " ");
+	substitute_unloop(this->treating, "*", " * ");
+	substitute_unloop(this->treating, "+", " + ");
+	substitute_unloop(this->treating, "-", " - ");
+	substitute_unloop(this->treating, "=", " = ");
+	substitute_super(this->treating, " ^", "^");
+	substitute_super(this->treating, "^ ", "^");
+	substitute_super(this->treating, "* ", "*");
+	substitute_super(this->treating, " *", "*");
+	substitute_super(this->treating, "- ", "-");
+	substitute_super(this->treating, "+ ", "+");
+	hard_trim(this->treating);
+	verbose(V) << this->treating << std::endl;
 }
 
 void Computor_v1::mount_terms()
 {
 	int V(2);
-	verbose(V) << "mount_terms:" << std::endl;
-	substitute_super(treating, "x*x", "xx");
-	substitute_super(treating, "x x", "xx");
-	substitute_super(treating, " x", "x");
-	substitute_super(treating, ".x", "x");
-	verbose(V) << treating << std::endl;
 
-	std::pair<size_t, size_t> x_count = find_char_sequence(treating, 'x');
+	verbose(V) << "mount_terms:" << std::endl;
+	substitute_super(this->treating, "x*x", "xx");
+	substitute_super(this->treating, "x x", "xx");
+	substitute_super(this->treating, " x", "x");
+	substitute_super(this->treating, ".x", "x");
+	verbose(V) << this->treating << std::endl;
+	std::pair<size_t, size_t> x_count = find_char_sequence(this->treating, 'x');
 	while (x_count.first != std::string::npos)
 	{
 		verbose(V+1) << "(mount_terms) x_count " << x_count.first << ", " << x_count.second << std::endl;
 		std::string asterisk = 
 			x_count.first == 0 ? "" :
-			treating.at(x_count.first - 1) == '*' ? "" : 
-			isDigit(treating.at(x_count.first - 1)) ? "*" : "";
+			this->treating.at(x_count.first - 1) == '*' ? "" : 
+			isDigit(this->treating.at(x_count.first - 1)) ? "*" : "";
 		std::string power = std::to_string(x_count.second);
-		if (x_count.first + x_count.second >= treating.size()
+		if (x_count.first + x_count.second >= this->treating.size()
 			|| (
-					treating.at(x_count.first + x_count.second) == ' ' 
+					this->treating.at(x_count.first + x_count.second) == ' ' 
 				)
 			)
-			treating.replace(x_count.first, x_count.second, asterisk + "x^" + power);
-		substitute_super(treating, "* ", "*");
-		substitute_super(treating, " *", "*");
-		x_count = find_char_sequence(treating, 'x', x_count.first + 3 + power.length());
+			this->treating.replace(x_count.first, x_count.second, asterisk + "x^" + power);
+		substitute_super(this->treating, "* ", "*");
+		substitute_super(this->treating, " *", "*");
+		x_count = find_char_sequence(this->treating, 'x', x_count.first + 3 + power.length());
 	}
-	verbose(V+1) << "(mount_terms) treating: " << treating << std::endl;
-	terms = split(treating);
-	verbose(V) << "(mount_terms) terms (" << terms.size() << "): " << terms << std::endl;
+	verbose(V+1) << "(mount_terms) this->treating: " << this->treating << std::endl;
+	this->terms = split(this->treating);
+	verbose(V) << "(mount_terms) this->terms (" << this->terms.size() << "): " << this->terms << std::endl;
 }
 
 void Computor_v1::treat_implicits()
 {
 	int V(2);
-	for (auto& c : terms)
+	 
+	for (auto& c : this->terms)
 	{
 		substitute_unloop(c, "0x", "0*x");
 		substitute_unloop(c, "1x", "1*x");
@@ -87,17 +101,17 @@ void Computor_v1::treat_implicits()
 		substitute_unloop(c, "--", "+"); // Again.
 		substitute_unloop(c, "++", "+"); // Again.
 	}
-	verbose(V) << "(treat_implicits): " << terms << std::endl;
+	verbose(V) << "(treat_implicits): " << this->terms << std::endl;
 }
 
 void Computor_v1::validate_terms()
 {
-	valid_terms = true;
+	this->valid_terms = true;
 	std::string point_to_error = "";
 	size_t point_position = 0;
 	std::string error_reason = "";
 
-	for (auto& t : terms)
+	for (auto& t : this->terms)
 	{
 		char step = 0;
 		bool got_factor = false;
@@ -145,7 +159,7 @@ void Computor_v1::validate_terms()
 			{
 				continue ;
 			}
-			valid_terms = false;
+			this->valid_terms = false;
 			point_to_error = t;
 			point_position = i;
 			error_reason =
@@ -156,13 +170,13 @@ void Computor_v1::validate_terms()
 				step == 4 ? "Expected '^n'." :
 				step == 5 ? "Unexpected character. Term power must be positive integer." :
 					"~~~ (8> Cosmic ray detected! <8) ~~~";
-			if (!valid_terms) break ;
+			if (!this->valid_terms) break ;
 		}
-		if (!valid_terms) break ;
+		if (!this->valid_terms) break ;
 	}
-	if (valid_terms)
+	if (this->valid_terms)
 		return ;
-	std::cerr << "Detected invalid terms:" << std::endl << point_to_error << std::endl;
+	std::cerr << "Detected invalid this->terms:" << std::endl << point_to_error << std::endl;
 	std::cerr << (std::string(point_position, ' ') + "^ " + error_reason) << std::endl;
 }
 
@@ -172,7 +186,7 @@ void Computor_v1::set_equal_to_zero()
 	bool before_equal_sign = true;
 	std::vector<std::string> zero_equal_equation = {};
 
-	for (auto& t : terms)
+	for (auto& t : this->terms)
 	{
 		if (t == "=")
 		{
@@ -188,8 +202,8 @@ void Computor_v1::set_equal_to_zero()
 		}
 		zero_equal_equation.push_back(t);
 	}
-	terms = zero_equal_equation;
-	verbose(V) << "(set_equal_to_zero) " << terms << std::endl;
+	this->terms = zero_equal_equation;
+	verbose(V) << "(set_equal_to_zero) " << this->terms << std::endl;
 }
 
 void Computor_v1::discriminate_factors()
@@ -198,17 +212,17 @@ void Computor_v1::discriminate_factors()
 	double fact;
 	size_t deg;
 	this->degree = 0;
+	this->factors = {};
 
-	factors = {};
-	for (auto& term : terms)
+	for (auto& term : this->terms)
 	{
 		fact = std::stod(term.c_str());
 		deg = std::atoi(get_after_first(term, "^").c_str());
 		verbose(V) << "(discriminate_factors) (" << term << ") factor "
-			<< fact << " degree " << deg << std::endl;
-		factors[deg] += fact;
+			<< fact << " this->degree " << deg << std::endl;
+		this->factors[deg] += fact;
 		int highestDegree = -1;
-		for (auto it = factors.rbegin(); it != factors.rend(); ++it)
+		for (auto it = this->factors.rbegin(); it != this->factors.rend(); ++it)
 		{
 			if (it->second != 0)
 			{
@@ -219,10 +233,10 @@ void Computor_v1::discriminate_factors()
 		this->degree = highestDegree <= 0 ? 0 : highestDegree;
 		verbose(V+1) << "(discriminate_factors) "
 			<< (std::to_string(this->degree) + "> "
-			+ std::to_string(factors[deg])) << std::endl;
+			+ std::to_string(this->factors[deg])) << std::endl;
 	}
 	verbose(V) << "(discriminate_factors) Equation this->degree: " << this->degree << std::endl;
 	size_t i = -1;
 	while (++i <= this->degree)
-		verbose(V) << "(discriminate_factors) " << (std::to_string(i) + ") " + std::to_string(factors[i]) + " " + std::to_string(this->degree)) << std::endl;
+		verbose(V) << "(discriminate_factors) " << (std::to_string(i) + ") " + std::to_string(this->factors[i]) + " " + std::to_string(this->degree)) << std::endl;
 }

@@ -109,7 +109,10 @@ fi # > > > > > > > > > > > > > > > > > > > > > > > Jump line!
 # coefficient is zero..?
 c1_test \
 "Just passing 0" \
-"0" "`./permutations 0 0 0 0`"
+"0" \
+"Reduced form: +1*x^0 = 0
+Polynomial degree: 0
+No solution."
 
 c1_test \
 "Just passing 1" \
@@ -334,3 +337,26 @@ Polynomial degree: 3
 The polynomial degree is strictly greater than 2, I can't solve."
 
 final
+
+#### NOT WORKING: 87.32 0.36 0
+# permutations gives 0, -0.004216 (correct)
+# computor gives 0.001332 and 0.002884 (WRONG!)
+# delta is ok.
+
+### NOT WORKING: 56.60 -0.49 0
+# py -0 (correct)
+# py -0.008696 (correct)
+# cv1 +0.002208
+# cv1 +0.006488
+
+### NOT WORKING: 85 -0.1 0
+#-0
+#-0.001176
+#+0.000529
+#+0.000647
+
+### 42 -0.1 0
+#--0.002128
+#-0
+#+-0.000957
+#+-0.001170

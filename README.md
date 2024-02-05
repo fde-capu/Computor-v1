@@ -47,5 +47,8 @@ See `subject.md` for the project instructions.
 - Optional equality syntax "= 0", "=", and empty.
 - Cases of third, forth, or N degree.
 Note:
-- PRECISION set to 10, to be compatible with the python test.
-	(ie. 28x^2+9x: was resulting 1.26629e-13 instead of 0)
+- PRECISION set to 6, to be compatible with the python test.
+  (ie. 28x^2+9x: was resulting 1.26629e-13 instead of 0.)
+  Still, some tests might fail on the 6th decimal with factor >= 10.
+  `for i in {0..100}; do permutations.py || break; done` will probably show that. 
+- ANOTHER PRECISION PROBLEM is for too narrow parabole solution.

@@ -1,8 +1,6 @@
 #!/bin/python3
 # Outputs made according to my Computor v1 output
 
-debug = False
-
 import itertools
 import random
 import numpy as np
@@ -11,6 +9,13 @@ import re
 import pdb
 import difflib
 import subprocess
+
+debug = False
+
+HEADER = '\033[94m'
+OK = '\033[92m'
+KO = '\033[91m'
+ENDC = '\033[0m'
 
 if debug:
 	pdb.set_trace()
@@ -59,28 +64,24 @@ def build_polynomial(element):
 		for i in range(3):
 			element[i] = 0.0 if i <= len(element) and not element[i] else element[i]
 		a, b, c = element
-
 		a_str = '+0*x^2'
 		if a != characters[3]:
 			a_sig = '+' if a >= 0 else '-'
 			a_abs = abs(a)
 			if a:
 				a_str = f'{a_sig}{format_number(a_abs,True)}*x^2'
-
 		b_str = '+0*x^1'
 		if b != characters[3]:
 			b_sig = '+' if b >= 0 else '-'
 			b_abs = abs(b)
 			if b:
 				b_str = f'{b_sig}{format_number(b_abs,True)}*x^1'
-
 		c_str = '+0*x^0'
 		if c != characters[3]:
 			c_sig = '+' if c >= 0 else '-'
 			c_abs = abs(c)
 			if c:
 				c_str = f'{c_sig}{format_number(c_abs,True)}*x^0'
-
 		f_str = f'Reduced form: '
 		f_str += f'{a_str} '
 		f_str += f'{b_str} '
@@ -188,22 +189,15 @@ def format_number(num, cut_trailing_zeros = False):
 			out = re.sub('0+$', '', out)
 		return out
 
-HEADER = '\033[94m'
-OK = '\033[92m'
-KO = '\033[91m'
-ENDC = '\033[0m'
-
 def diff_exec(args):
 	global characters;
+	global ko_count
+	global ok_count
 
 	for i in range(len(args)):
 		if args[i] == characters[3]:
 			args[i] = 0
 	a, b, c = args
-
-	global ko_count
-	global ok_count
-
 	print(HEADER, f'\n                           {args}', ENDC)
 	print(HEADER, '//= py_test ============================================\\\\ py_test ::::', ENDC)
 	py_test = build_polynomial(args)
@@ -211,7 +205,6 @@ def diff_exec(args):
 	print(HEADER, '||= c1_test ============================================|| c1_test ::::', ENDC)
 	c1_test = subprocess.run([f'./computor', f'{str(a)}x^2 {str(b)}x {str(c)}'], stdout=subprocess.PIPE).stdout.decode('utf-8').strip()
 	print(c1_test)
-
 	pyc1 = diff_strings(py_test, c1_test)
 	if len(pyc1) == 0:
 		ok_count += 1
@@ -230,7 +223,8 @@ if len(sys.argv) >= 4:
 	b = float(sys.argv[2])
 	c = float(sys.argv[3])
 	if len(sys.argv) == 5:
-		exit(build_polynomial([a, b, c]))
+		print(build_polynomial([a, b, c]))
+		exit(0)
 	exit(diff_exec([a, b, c]))
 
 for perm in integers_perms:

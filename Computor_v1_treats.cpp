@@ -6,7 +6,7 @@
 /*   By: fde-capu <fde-capu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 10:26:06 by fde-capu          #+#    #+#             */
-/*   Updated: 2024/02/05 13:43:25 by fde-capu         ###   ########.fr       */
+/*   Updated: 2024/02/05 15:55:21 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,10 +235,10 @@ void Computor_v1::discriminate_factors()
 			<< (std::to_string(this->degree) + "> "
 			+ std::to_string(this->factors[deg])) << std::endl;
 	}
-	verbose(V) << "(discriminate_factors) Polynomial degree: " << this->degree << std::endl;
+	verbose(V) << "(discriminate_factors) Polynomial degree: " << this->degree \
+		<< std::endl;
 	size_t i = -1;
 	while (++i <= this->degree)
-		verbose(V) << "(discriminate_factors) " << (std::to_string(i) + ") " \
-			+ std::to_string(this->factors[i]) + " " \
-			+ std::to_string(this->degree)) << std::endl;
+		verbose(V) << "(discriminate_factors) degree " << std::to_string(i) + \
+			" value = " + std::to_string(this->factors[i]) << std::endl;
 }

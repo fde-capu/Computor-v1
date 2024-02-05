@@ -6,7 +6,7 @@
 /*   By: fde-capu <fde-capu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 10:23:59 by fde-capu          #+#    #+#             */
-/*   Updated: 2024/02/05 15:19:14 by fde-capu         ###   ########.fr       */
+/*   Updated: 2024/02/05 16:10:55 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void Computor_v1::gen_reduced_form()
 	if (!this->reduced_form.length())
 		this->reduced_form = "0 ";
 	this->reduced_form += "= 0";
-	verbose(V) << "(this->reduced_form) " << this->reduced_form << std::endl;
+	verbose(V) << "(gen_reduced_form) " << this->reduced_form << std::endl;
 }
 
 void Computor_v1::gen_discriminant()
@@ -59,7 +59,7 @@ void Computor_v1::gen_discriminant()
 			c	(this->factors[0]);
 
 	this->discriminant = ( b * b ) - ( 4 * a * c );
-	verbose(V) << "(gen_discriminant) (b * b) - ( 4 * a * c ) = " << \
+	verbose(V) << "(gen_discriminant) ( b * b ) - ( 4 * a * c ) = " << \
 		dtoa(this->discriminant) << std::endl;
 }
 
@@ -72,64 +72,73 @@ void Computor_v1::gen_results()
 
 	verbose(V) << "(gen_results) a " << dtoa(a) << " b " << dtoa(b) << " c " << \
 		dtoa(c) << std::endl;
-	verbose(V) << "(gen_results) degree " << dtoa(this->degree) << std::endl;
 	if (this->degree == 0)
 	{
+		verbose(V) << "(gen_results) degree == 0: " << dtoa(this->degree) << std::endl;
 		if (c == 0.0)
 		{
-			verbose(V) << "(gen_results) c == 0.0." << std::endl;
+			verbose(V) << "(gen_results) c == 0.0: " << dtoa(c) << std::endl;
 			this->message = MSG_TAUTOLOGY;
 		}
 		else
 		{
-			verbose(V) << "(gen_results) c != 0.0." << std::endl;
+			verbose(V) << "(gen_results) c != 0.0: " << dtoa(c) << std::endl;
 			this->message = MSG_NO_SOLUTION;
 		}
 	}
 	else if (this->degree == 1)
 	{
+		verbose(V) << "(gen_results) degree == 1: " << dtoa(this->degree) << std::endl;
 		if (b != 0.0)
 		{
-			verbose(V) << "(gen_results) b != 0.0." << std::endl;
+			verbose(V) << "(gen_results) b != 0.0: " << dtoa(b) << std::endl;
 			this->results[0].real = -c / b;
 			verbose(V) << "(gen_results) results[0].real (-c/b) " << \
+				dtoa(-c) << "/" << dtoa(b) << " = " << \
 				dtoa(this->results[0].real) << std::endl;
 			this->message = MSG_FIRST_DEGREE;
 		}
 		else
 		{
-			verbose(V) << "(gen_results) b == 0.0." << std::endl;
+			verbose(V) << "(gen_results) b == 0.0: " << dtoa(b) << std::endl;
 			if (c == 0.0)
 			{
-				verbose(V) << "(gen_results) c == 0.0." << std::endl;
+				verbose(V) << "(gen_results) c == 0.0: " << dtoa(c) << std::endl;
 				this->message = MSG_TAUTOLOGY;
 			}
 			else
 			{
-				verbose(V) << "(gen_results) c != 0.0." << std::endl;
+				verbose(V) << "(gen_results) c != 0.0: " << dtoa(c) << std::endl;
 				this->message = MSG_NO_SOLUTION;
 			}
 		}
 	}
 	else // 2nd degree
 	{
+		verbose(V) << "(gen_results) degree == 2: " << dtoa(this->degree) << std::endl;
 		if (a != 0.0)
 		{
-			verbose(V) << "(gen_results) a != 0.0." << std::endl;
+			verbose(V) << "(gen_results) a != 0.0: " << dtoa(a) << std::endl;
 			if (this->discriminant > 0.0)
 			{
 				verbose(V) << "(gen_results) discriminant > 0.0: " << \
 					dtoa(this->discriminant) << std::endl;
 				this->results[0].real = ( -b - sqrt(this->discriminant) ) \
 										/ ( 2 * a );
-				verbose(V) << "(gen_results) [0].real (-b-sqr(delta)/2a " << \
+				verbose(V) << "(gen_results) [0].real (-b-sqr(delta))/2a " << \
+					"( " << dtoa(-b) << " - " << \
+					dtoa(sqrt(this->discriminant)) << \
+					" ) / " << dtoa(2 * a) << " = " << \
 					dtoa(this->results[0].real) << std::endl;
 				this->results[0].imag = 0;
 				verbose(V) << "(gen_results) [0].imag is 0: " << \
 					dtoa(this->results[0].imag) << std::endl;
 				this->results[1].real = ( -b + sqrt(this->discriminant) ) \
 										/ ( 2 * a );
-				verbose(V) << "(gen_results) [1].real (-b+sqrt(delta)/2a " << \
+				verbose(V) << "(gen_results) [0].real (-b+sqr(delta))/2a " << \
+					"( " << dtoa(-b) << " + " << \
+					dtoa(sqrt(this->discriminant)) << \
+					" ) / " << dtoa(2 * a) << " = " << \
 					dtoa(this->results[1].real) << std::endl;
 				this->results[1].imag = 0;
 				verbose(V) << "(gen_results) [1].imag is 0: " << \
@@ -142,14 +151,17 @@ void Computor_v1::gen_results()
 					dtoa(this->discriminant) << std::endl;
 				if (2 * a)
 				{
-					verbose(V) << "(gen_results) 2 * a != 0.0 " << std::endl;
+					verbose(V) << "(gen_results) 2 * a != 0.0: " << \
+						dtoa(2 * a) << std::endl;
 					this->results[0].real = -b / ( 2 * a );
 					verbose(V) << "(gen_results) [0].real (-b/2a) " << \
+						dtoa(-b) << "/" << dtoa(2 * a) << " = " << \
 						dtoa(this->results[0].real) << std::endl;
 				}
 				else
 				{
-					verbose(V) << "(gen_results) 2 * a == 0.0 " << std::endl;
+					verbose(V) << "(gen_results) 2 * a == 0.0: " << \
+						dtoa(2 * a) << std::endl;
 					this->results[0].real = 0.0;
 					verbose(V) << "(gen_results) [0].real can only be 0: " << \
 						dtoa(this->results[0].real) << std::endl;
@@ -164,29 +176,42 @@ void Computor_v1::gen_results()
 				verbose(V) << "(gen_results) discriminant < 0.0: " << \
 					dtoa(this->discriminant) << std::endl;
 				this->results[0].real = -b / ( 2 * a );
+
 				verbose(V) << "(gen_results) [0].real (-b/2a) " << \
+					dtoa(-b) << "/" << dtoa(2 * a) << " = " << \
 					dtoa(this->results[0].real) << std::endl;
+
 				this->results[0].imag = sqrt( -this->discriminant ) / ( 2 * a );
+
 				verbose(V) << "(gen_results) [0].imag (sqrt(-delta)/2a) " << \
-					dtoa(this->results[0].imag) << std::endl;
+					"sqrt(" << dtoa(-this->discriminant) << ") / " << dtoa(2 * a) << \
+					" = " << dtoa(this->results[0].imag) << "i" << std::endl;
+
 				this->results[1].real = this->results[0].real;
+
 				verbose(V) << "(gen_results) [1].real (-b/2a) " << \
+					dtoa(-b) << "/" << dtoa(2 * a) << " = " << \
 					dtoa(this->results[1].real) << std::endl;
+
 				this->results[1].imag = -this->results[0].imag;
+
 				verbose(V) << "(gen_results) [1].imag (sqrt(-delta)/2a) " << \
-					dtoa(this->results[1].imag) << std::endl;
+					"sqrt(" << dtoa(-this->discriminant) << ") / " << dtoa(2 * a) << \
+					" = " << dtoa(this->results[1].imag) << "i" << std::endl;
+
 				this->message = MSG_DISC_NEG;
 			}
 		}
 		else
 		{
-			verbose(V) << "(gen_results) a == 0.0." << std::endl;
+			verbose(V) << "(gen_results) a == 0.0: " << dtoa(a) << std::endl;
 			this->message = MSG_TAUTOLOGY;
 		}
 	}
 	if (!this->results[0].real)
 	{
-		verbose(V) << "(gen_results) [0].real == 0.0 " << std::endl;
+		verbose(V) << "(gen_results) [0].real == 0.0: " << \
+			dtoa(this->results[0].real) << std::endl;
 		noMinusZero(this->results[0].real);
 		verbose(V) << "(gen_results) [0].real corrected -0: " << \
 			dtoa(this->results[0].real) << std::endl;

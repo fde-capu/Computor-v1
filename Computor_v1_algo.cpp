@@ -6,7 +6,7 @@
 /*   By: fde-capu <fde-capu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 10:23:59 by fde-capu          #+#    #+#             */
-/*   Updated: 2024/02/05 17:50:26 by fde-capu         ###   ########.fr       */
+/*   Updated: 2024/02/05 18:22:28 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,12 +181,12 @@ void Computor_v1::gen_results()
 					dtoa(-b) << "/" << dtoa(2 * a) << " = " << \
 					dtoa(this->results[0].real) << std::endl;
 				this->results[0].imag = sqrt( -this->discriminant ) / ( 2 * a );
-				verbose(V) << "(gen_results) [0].imag sqrt(-discriminant)/2a: " << std::endl;
-				verbose(V) << "sqrt(-" << dtoa(-discriminant) << ") \\" << std::endl;
-				verbose(V) << "/ ( 2 * " << dtoa(a) << " )" << std::endl;
-				verbose(V) << "-> " << dtoa(sqrt(-this->discriminant)) << "\\" << std::endl;
-				verbose(V) << " / " << dtoa(2 * a) << \
-					" = " << dtoa(this->results[0].imag) << "i" << std::endl;
+				verbose(V) << "(gen_results) [0].imag: " << \
+					"sqrt(-discriminant)/2a: " << "sqrt(-" << \
+					dtoa(-discriminant) << ") / ( 2 * " << dtoa(a) << " )" << \
+					"-> " << dtoa(sqrt(-this->discriminant)) << \
+					" / " << dtoa(2 * a) << " = " << \
+					dtoa(this->results[0].imag) << "i" << std::endl;
 				this->results[1].real = this->results[0].real;
 				verbose(V) << "(gen_results) [1].real (-b/2a) " << \
 					dtoa(-b) << "/" << dtoa(2 * a) << " = " << \

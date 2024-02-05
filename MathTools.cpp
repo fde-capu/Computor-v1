@@ -6,7 +6,7 @@
 /*   By: fde-capu <fde-capu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:19:54 by fde-capu          #+#    #+#             */
-/*   Updated: 2024/02/05 16:24:22 by fde-capu         ###   ########.fr       */
+/*   Updated: 2024/02/05 17:44:44 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 double sqrt(double number)
 {
     double error = 0.000001;
-    double guess = number;
+    double guess = 1.0;
 
-    while (guess - (number / guess) > error)
+	if (number == 0 || number == 1)
+		return number;
+    while (std::abs((guess * guess) - number) > error)
         guess = (guess + (number / guess)) / 2;
     return guess;
 }

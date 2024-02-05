@@ -6,7 +6,7 @@
 /*   By: fde-capu <fde-capu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 10:23:59 by fde-capu          #+#    #+#             */
-/*   Updated: 2024/02/05 16:10:55 by fde-capu         ###   ########.fr       */
+/*   Updated: 2024/02/05 17:50:26 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,14 @@ void Computor_v1::gen_reduced_form()
 
 void Computor_v1::gen_discriminant()
 {
-	int V(2);
+	int V(1);
 	double	a	(this->factors[2]),
 			b	(this->factors[1]),
 			c	(this->factors[0]);
 
 	this->discriminant = ( b * b ) - ( 4 * a * c );
-	verbose(V) << "(gen_discriminant) ( b * b ) - ( 4 * a * c ) = " << \
+	verbose(V) << "(gen_discriminant) ( b * b ) - ( 4 * a * c ): " << \
+		"( " << dtoa(b * b) << " ) - " << dtoa(4 * a * c) << " = " << \
 		dtoa(this->discriminant) << std::endl;
 }
 
@@ -176,29 +177,23 @@ void Computor_v1::gen_results()
 				verbose(V) << "(gen_results) discriminant < 0.0: " << \
 					dtoa(this->discriminant) << std::endl;
 				this->results[0].real = -b / ( 2 * a );
-
 				verbose(V) << "(gen_results) [0].real (-b/2a) " << \
 					dtoa(-b) << "/" << dtoa(2 * a) << " = " << \
 					dtoa(this->results[0].real) << std::endl;
-
 				this->results[0].imag = sqrt( -this->discriminant ) / ( 2 * a );
-
-				verbose(V) << "(gen_results) [0].imag (sqrt(-delta)/2a) " << \
-					"sqrt(" << dtoa(-this->discriminant) << ") / " << dtoa(2 * a) << \
+				verbose(V) << "(gen_results) [0].imag sqrt(-discriminant)/2a: " << std::endl;
+				verbose(V) << "sqrt(-" << dtoa(-discriminant) << ") \\" << std::endl;
+				verbose(V) << "/ ( 2 * " << dtoa(a) << " )" << std::endl;
+				verbose(V) << "-> " << dtoa(sqrt(-this->discriminant)) << "\\" << std::endl;
+				verbose(V) << " / " << dtoa(2 * a) << \
 					" = " << dtoa(this->results[0].imag) << "i" << std::endl;
-
 				this->results[1].real = this->results[0].real;
-
 				verbose(V) << "(gen_results) [1].real (-b/2a) " << \
 					dtoa(-b) << "/" << dtoa(2 * a) << " = " << \
 					dtoa(this->results[1].real) << std::endl;
-
 				this->results[1].imag = -this->results[0].imag;
-
-				verbose(V) << "(gen_results) [1].imag (sqrt(-delta)/2a) " << \
-					"sqrt(" << dtoa(-this->discriminant) << ") / " << dtoa(2 * a) << \
+				verbose(V) << "(gen_results) [1].imag = -[0].imag" << 
 					" = " << dtoa(this->results[1].imag) << "i" << std::endl;
-
 				this->message = MSG_DISC_NEG;
 			}
 		}
@@ -218,7 +213,7 @@ void Computor_v1::gen_results()
 	}
 	if (this->discriminant && !this->results[1].real)
 	{
-		verbose(V) << "(gen_results) delta != 0.0 && [1].real == 0.0: delta: " \
+		verbose(V) << "(gen_results) discriminant != 0.0 && [1].real == 0.0: discriminant: " \
 			<< dtoa(this->discriminant) << ", [1].real: " << \
 			dtoa(this->results[1].real) << std::endl;
 		noMinusZero(this->results[1].real);

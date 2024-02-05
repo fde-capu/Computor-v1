@@ -113,7 +113,7 @@ def build_polynomial(element):
 			else:
 				f_str += 'Tautology. All real numbers possible as solution.'
 			return f_str
-		discriminant = b**2 - 4*a*c
+		discriminant = (b**2) - (4*a*c)
 		if a:
 			if discriminant >= 0:
 				root1 = (-b + np.sqrt(discriminant)) / (2*a)

@@ -6,14 +6,14 @@
 /*   By: fde-capu <fde-capu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:25:17 by fde-capu          #+#    #+#             */
-/*   Updated: 2024/02/05 16:25:18 by fde-capu         ###   ########.fr       */
+/*   Updated: 2024/02/05 17:20:29 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DEFINES_HPP
 # define DEFINES_HPP
 
-# define VERBOSE 3
+# define VERBOSE 2
 # define PRECISION 6
 
 # define MSG_TAUTOLOGY "Tautology. All real numbers possible as solution."

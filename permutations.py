@@ -32,20 +32,43 @@ ENDC = '\033[0m'
 if debug:
 	pdb.set_trace()
 
-characters = ['+', '-', '0', ' ']
 random_max = 100
+characters = ['+', '-', '0', ' ']
 
-if len(sys.argv) != 4 and len(sys.argv) != 1 and len(sys.argv) != 5:
-    print("Call without arguments to run all tests. Call with a, b, and c as arguments to run once. Call with a d argument to run only Python.")
-    sys.exit(1)
+if len(sys.argv) != 1 and \
+	len(sys.argv) != 2 and \
+	len(sys.argv) != 4 and \
+	len(sys.argv) != 5:
+	print("Call without arguments to run all tests.")
+	print("Call with a, b, and c as arguments to run manual test.")
+	print("Call with a b c and `d` argument (any value) to run only Python test.")
+	print("`--table`: outputs permutation table")
+	sys.exit(1)
+
+perms = list(itertools.product(characters, repeat=3))
+if len(sys.argv) == 2 and sys.argv[1] == '--table':
+	print('| a | b | c | Example')
+	print('|---|---|---|')
+	for p in perms:
+		print(f'| {p[0]} | {p[1]} | {p[2]} | ', end = '')
+		i = 2
+		for e in p:
+			if e == '+':
+				print(f'+N*x^{i} ', end = '')
+			elif e == '-':
+				print(f'-N*x^{i} ', end = '')
+			elif e == '0':
+				print(f'0*x^{i} ', end = '')
+			elif e == ' ':
+				print('', end = '')
+			i -= 1
+			if i == -1:
+				print()
+	exit(0)
 
 ok_count = 0
 ko_count = 0
 
-# Use itertools.product to generate all permutations
-perms = list(itertools.product(characters, repeat=3))
-
-# Map characters to integers or keep them as they are
 def map_chars(char, t):
 	if t == 'integer':
 		if char == '+':

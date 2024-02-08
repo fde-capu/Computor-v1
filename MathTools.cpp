@@ -6,7 +6,7 @@
 /*   By: fde-capu <fde-capu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:19:54 by fde-capu          #+#    #+#             */
-/*   Updated: 2024/02/05 17:44:44 by fde-capu         ###   ########.fr       */
+/*   Updated: 2024/02/08 08:30:15 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ double sqrt(double number)
 void noMinusZero(double& d)
 {
 	std::string noMinus = dtoa(d);
+
 	if (noMinus.at(0) == '-')
 		noMinus = noMinus.substr(1);
 	d = std::stod(noMinus.c_str());

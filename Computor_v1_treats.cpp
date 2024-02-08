@@ -6,7 +6,7 @@
 /*   By: fde-capu <fde-capu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 10:26:06 by fde-capu          #+#    #+#             */
-/*   Updated: 2024/02/05 15:55:21 by fde-capu         ###   ########.fr       */
+/*   Updated: 2024/02/08 10:05:02 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void Computor_v1::mount_terms()
 void Computor_v1::treat_implicits()
 {
 	int V(2);
-	 
+
 	for (auto& c : this->terms)
 	{
 		substitute_unloop(c, "0x", "0*x");
@@ -185,7 +185,12 @@ void Computor_v1::set_equal_to_zero()
 	int V(2);
 	bool before_equal_sign = true;
 	std::vector<std::string> zero_equal_equation = {};
+	this->inputElements = 0;
 
+	for (auto& t : this->terms)
+	{
+		this->inputElements += t != "=" && stod(t) != 0.0;
+	}
 	for (auto& t : this->terms)
 	{
 		if (t == "=")
@@ -196,9 +201,9 @@ void Computor_v1::set_equal_to_zero()
 		if (!before_equal_sign)
 		{
 			if (t.at(0) == '+')
-				t = "-" + t.substr(1);
+				t = this->inputElements > 1 ? "-" + t.substr(1) : t;
 			else if (t.at(0) == '-')
-				t = "+" + t.substr(1);
+				t = this->inputElements > 1 ? "+" + t.substr(1) : t;
 		}
 		zero_equal_equation.push_back(t);
 	}

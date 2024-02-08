@@ -6,7 +6,7 @@
 /*   By: fde-capu <fde-capu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 10:23:27 by fde-capu          #+#    #+#             */
-/*   Updated: 2024/02/05 13:50:45 by fde-capu         ###   ########.fr       */
+/*   Updated: 2024/02/08 09:55:26 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ Computor_v1::Computor_v1(const std::string& u_input)
 
 	verbose(V) << "Computor_v1 constructed with input:" << std::endl;
 	verbose(V) << this->input << std::endl;
+	verbose(V) << this->inputElements << " elements." << std::endl;
 	run();
 }
 
@@ -40,6 +41,7 @@ Computor_v1& Computor_v1::operator= (Computor_v1 const& rhs)
 		this->discriminant = rhs.getDiscriminant();
 		this->results = rhs.getResults();
 		this->message = rhs.getMessage();
+		this->inputElements = rhs.getInputElements();
 	}
 	return *this;
 }
@@ -60,6 +62,9 @@ const std::string& Computor_v1::getOutput() const
 
 const std::string& Computor_v1::getInput() const
 { return this->input; }
+
+size_t Computor_v1::getInputElements() const
+{ return this->inputElements; }
 
 const std::vector<std::string>& Computor_v1::getTerms() const
 { return this->terms; }

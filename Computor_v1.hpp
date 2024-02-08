@@ -6,7 +6,7 @@
 /*   By: fde-capu <fde-capu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:25:09 by fde-capu          #+#    #+#             */
-/*   Updated: 2024/02/05 16:25:10 by fde-capu         ###   ########.fr       */
+/*   Updated: 2024/02/08 09:53:17 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ class Computor_v1
 		double discriminant; // delta
 		std::map<size_t, complex_t> results;
 		std::string message;
+		size_t inputElements;
 
 	public:
 		Computor_v1(const std::string& u_input);
@@ -60,6 +61,7 @@ class Computor_v1
 		const double& getDiscriminant() const;
 		const std::map<size_t, complex_t>& getResults() const;
 		const std::string& getMessage() const;
+		size_t getInputElements() const;
 
 	private:
 		void run();

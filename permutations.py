@@ -11,11 +11,10 @@
 #                                                                              #
 # **************************************************************************** #
 
-# Outputs made according to my Computor v1 output
+# Outputs made according to my own Computor v1 output, ipsi litteris.
 
 import itertools
 import random
-import numpy as np
 import sys
 import re
 import pdb

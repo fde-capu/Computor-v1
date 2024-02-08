@@ -6,7 +6,7 @@
 /*   By: fde-capu <fde-capu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:24:29 by fde-capu          #+#    #+#             */
-/*   Updated: 2024/02/05 16:24:30 by fde-capu         ###   ########.fr       */
+/*   Updated: 2024/02/08 08:34:01 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ std::string hard_trim(const std::string &dst)
 {
 	std::string out(dst);
 	hard_trim(out);
+
 	return out;
 }
 
@@ -94,6 +95,7 @@ void remove_comments(std::string& dst)
 	std::string new_p = "";
 	std::istringstream ptois(dst);
 	std::string new_line;
+
 	while (std::getline(ptois, line))
 	{
 		new_line = line.substr(0, line.find(ST_COMMENT_INLINE)) + "\n";
@@ -109,6 +111,7 @@ void remove_all(std::string& dst, std::string to_remove)
 std::string itos(int i)
 {
 	std::ostringstream s;
+
 	s << i;
 	return std::string(s.str());
 }
@@ -168,6 +171,7 @@ std::string& substitute_all(std::string& dst, std::string before, std::string af
 {
 	bool pass = false;
 	size_t lastp = 0;
+
 	while (!pass)
 	{
 		pass = true;
@@ -249,6 +253,7 @@ size_t find_outside_quotes(std::string& str, std::string needle, size_t u_start)
 size_t find_outside_quotes_set(std::string& str, std::string set, size_t u_start)
 {
 	size_t out = std::string::npos;
+
 	for (std::string::iterator i = set.begin(); *i; i++)
 	{
 		size_t first = find_outside_quotes(str, std::string(i, i + 1), u_start);
@@ -262,6 +267,7 @@ size_t find_closing_bracket(std::string ops)
 {
 	std::string stack("");
 	size_t pos = 0;
+
 	while (ops[pos])
 	{
 		if (ops[pos] == '{')
@@ -284,6 +290,7 @@ size_t find_closing_bracket(std::string ops)
 std::string escape_char(const std::string dst, std::string esc)
 {
 	std::string out(dst);
+
 	substitute_all(out, esc, std::string("\\" + esc));
 	return out;
 }
@@ -291,6 +298,7 @@ std::string escape_char(const std::string dst, std::string esc)
 std::string remove_quotes(const std::string& dst)
 {
 	std::string out = dst;
+
 	remove_quotes(*const_cast<std::string*>(&dst));
 	return dst;
 }
@@ -359,6 +367,7 @@ std::vector<std::string> splitOutsideQuotes(const std::string vecstr)
 	std::vector<std::string> out;
 	std::string spl = remove_quotes(hard_trim(vecstr));
 	size_t pos = find_outside_quotes(spl, " ");
+
 	if (pos == std::string::npos)
 	{
 		out.push_back(remove_quotes(spl));
@@ -395,6 +404,7 @@ bool isNumber(const std::string& u_str)
 {
 	std::string str(u_str);
 	bool dot = false;
+
 	soft_trim(str);
 	remove_quotes(str);
 	for (size_t i = 0; i < str.size(); i++)
@@ -419,6 +429,7 @@ bool isNumber(const std::string& u_str)
 std::string itoa(int i)
 {
 	std::ostringstream ss;
+
 	ss << i;
 	return ss.str();
 }
@@ -426,6 +437,7 @@ std::string itoa(int i)
 std::string stoa(size_t i)
 {
 	std::stringstream ss;
+
 	ss << i;
 	return ss.str();
 }
@@ -434,6 +446,7 @@ bool is_int(std::string isi)
 {
 	// Currently accepting arbitrarly large overflewd string input.
 	int i_test = 0;
+
 	if (isAllNumber(isi) && 1 == std::sscanf(isi.c_str(), "%i", &i_test))
 		return true;
 	return false;
@@ -443,6 +456,7 @@ bool is_size_t(std::string sts)
 {
 	// Currently accepting arbitrarly large overflewd string input.
 	size_t st_test = 0;
+
 	if (isAllNumber(sts) && 1 == std::sscanf(sts.c_str(), "%zu", &st_test))
 		return true;
 	return false;
@@ -474,6 +488,7 @@ bool isUri(std::string fn)
 bool isAllInSet(std::string str, std::string set)
 {
 	size_t pass;
+
 	for (size_t i = 0; i < str.size(); i++)
 	{
 		for (pass = 0; pass < set.size(); pass++)
@@ -493,7 +508,7 @@ bool not_in_word_set(char x)
 std::string word_from(const std::string& phrase, size_t pos)
 {
 	std::string word;
-	
+
 	while(not_in_word_set(phrase.at(pos)))
 		word += phrase.at(pos++);
 	return word;
@@ -502,6 +517,7 @@ std::string word_from(const std::string& phrase, size_t pos)
 std::string nth_word(std::string str, int n)
 {
 	int wc = word_count(str);
+
 	if (n > wc)
 		return "";
 	while (--n >= 1)
@@ -516,6 +532,7 @@ std::string nth_word(std::string str, int n)
 size_t word_count(std::string str)
 {
 	int out = str.length() ? 1 : 0;
+
 	while (find_outside_quotes_set(str, " \n") != std::string::npos && ++out)
 		str = str.substr(find_outside_quotes_set(str, " \n") + 1);
 	return out;
@@ -584,6 +601,7 @@ std::string trim(std::string& dst)
 bool isInSet(const char& test_char, std::string set)
 {
 	size_t h = 0;
+
 	while (h < set.length())
 	{
 		if (set.at(h) == test_char)
@@ -616,6 +634,7 @@ void just_consume_bytes(std::string& src, size_t bytes)
 std::string consume_bytes(std::string& src, size_t bytes)
 {
 	std::string ret;
+
 	if (bytes >= src.length())
 	{
 		ret = src;
@@ -630,6 +649,7 @@ std::string consume_bytes(std::string& src, size_t bytes)
 void just_consume_until(std::string& src, const std::string delim_str)
 {
 	size_t h(src.find(delim_str));
+
 	if (h == std::string::npos)
 	{
 		src = "";
@@ -642,6 +662,7 @@ void just_consume_until(std::string& src, const std::string delim_str)
 std::string consume_until(std::string& src, const std::string delim_str)
 {
 	std::string ret;
+
 	size_t h(src.find(delim_str));
 	if (h == std::string::npos)
 	{
@@ -677,6 +698,7 @@ std::string consume_delims(std::string& src, const std::string delim_set)
 std::string get_after_until_line(const std::string& src, const std::string phrase)
 {
 	size_t h(src.find(phrase));
+
 	if (h == std::string::npos)
 		return "";
 	size_t nl(src.find("\n", h));
@@ -688,6 +710,7 @@ std::string get_after_until_line(const std::string& src, const std::string phras
 std::string get_after_first(const std::string& src, const std::string phrase)
 {
 	size_t h(src.find(phrase));
+
 	if (h == std::string::npos)
 		return "";
 	return src.substr(h + phrase.length());
@@ -696,6 +719,7 @@ std::string get_after_first(const std::string& src, const std::string phrase)
 std::string get_before_first(const std::string& src, const std::string phrase)
 {
 	size_t h(src.find(phrase));
+
 	if (h == std::string::npos)
 		return src;
 	return src.substr(0, h);
@@ -751,6 +775,7 @@ std::string dtoa(double n, size_t precision)
 {
 	std::string str{std::to_string (n)};
 	int offset{1};
+
 	if (str.find_last_not_of('0') == str.find('.')) {
 		offset = 0;
 	}

@@ -6,7 +6,7 @@
 /*   By: fde-capu <fde-capu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 10:23:59 by fde-capu          #+#    #+#             */
-/*   Updated: 2024/02/05 18:22:28 by fde-capu         ###   ########.fr       */
+/*   Updated: 2024/02/08 08:29:40 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void Computor_v1::run()
 {
 	int V(2);
+
 	verbose(V) << "Computor_v1::run()" << std::endl;
 	this->treating = this->input;
 	this->valid_terms = false;
@@ -34,6 +35,7 @@ void Computor_v1::run()
 void Computor_v1::gen_reduced_form()
 {
 	int V(2);
+
 	this->reduced_form = "";
 	size_t i = this->degree + 1;
 	while (--i <= this->degree)

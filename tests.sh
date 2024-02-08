@@ -13,8 +13,8 @@
 
 short="false";
 show_output="true";
-paused="true";
-ko_break="false";
+paused="false";
+ko_break="true";
 ok=0;
 ko=0;
 
@@ -52,36 +52,38 @@ print_ko() {
 		echo ".";
 	else
 		echo ":";
-		echo "$expected_output !!!";
+		echo "$expected_output";
 	fi
+	output_shown="true"
 
 	((ko++))
 }
 
 print_ok() {
 	green "[ OK ]";
-	[[ "$short" != "true" ]] && echo || echo -n " ";
+	([[ "$short" != "true" ]] || [[ "$show_output" == "true" ]]) && echo || echo -n " ";
 	((ok++));
 }
 
 test_computor() {
 	test_name="${1}"
     input="${2}"
-    expected_output="${3}"
+    expected_output=$(./permutations.py ${3} 0)
 	tmpfile=$(mktemp);
     actual_output=$(./computor "${input}" 2>"$tmpfile")
 	errno=$?;
 	err_output=$(<"$tmpfile")
+	output_shown="false"
 	rm "$tmpfile"
 
 	if [[ "$short" != "true" ]]; then
-		bold "$test_name "
-		[[ "$show_output" == "true" ]] && echo && blue "./computor ";
+		bold "$test_name:"
+		[[ "$show_output" == "true" ]] && [[ "$output_shown" != "true" ]] && echo && blue "./computor ";
 		blue "\"$input\" "
 	fi
 
 	if [[ "$expected_output" == "error" ]]; then
-		[[ "$errno" == "0" ]] && (print_ko "error") || print_ok && [[ "$show_output" == "true" ]] && [[ "$short" != "true" ]] && echo; 
+		[[ "$errno" == "0" ]] && (print_ko "error") || print_ok && [[ "$show_output" == "true" ]] && [[ "$output_shown" != "true" ]] && [[ "$short" != "true" ]] && echo; 
 		return 0;
 	fi;
 
@@ -91,7 +93,7 @@ test_computor() {
 		print_ko "output";
     fi
 
-    [[ "$show_output" == "true" ]] && [[ "$short" != "true" ]] && echo "${actual_output}" && echo;
+    [[ "$show_output" == "true" ]] && [[ "$output_shown" != "true" ]] && [[ "$short" != "true" ]] && echo "${actual_output}" && echo;
 	[[ "$ko_break" == "true" ]] && [[ "$ko" != "0" ]] && exit;
 	[[ "$paused" == "true" ]] && read;
 }
@@ -121,123 +123,82 @@ fi # > > > > > > > > > > > > > > > > > > > > > > > Jump line!
 c1_test \
 "Just passing 0" \
 "0" \
-"Reduced form: +1*x^0 = 0
-Polynomial degree: 0
-No solution."
+"0 0 0"
 
 c1_test \
 "Just passing 1" \
 "1" \
-"Reduced form: +1*x^0 = 0
-Polynomial degree: 0
-No solution."
+"0 0 1"
 
 c1_test \
 "Passing 0 = 0" \
 "0 = 0" \
-"Reduced form: 0 = 0
-Polynomial degree: 0
-Tautology. All real numbers possible as solution."
+"0 0 0"
 
 c1_test \
 "Passing impossible statement." \
 "0 = 1" \
-"Reduced form: -1*x^0 = 0
-Polynomial degree: 0
-No solution.";
+"0 0 1"
 
 c1_test \
 "Same but inverted." \
 "1 = 0" \
-"Reduced form: +1*x^0 = 0
-Polynomial degree: 0
-No solution.";
+"0 0 1"
 
 c1_test \
 "Passing only 'b'" \
 "42.31x^1 = 0" \
-"Reduced form: +42.31*x^1 = 0
-Polynomial degree: 1
-Equation is first degree. One solution:
-0";
+"0 42.31 0"
 
 c1_test \
 "Passing only 'b', but factor of zero" \
 "0x^1 = 0" \
-"Reduced form: 0 = 0
-Polynomial degree: 1
-Tautology. All real numbers possible as solution.";
+"0 0 0"
 
 c1_test \
 "Passing 'b' and 'c'" \
 "42x^1 + 7 = 0" \
-"Reduced form: +42*x^1 +7*x^0 = 0
-Polynomial degree: 1
-Equation is first degree. One solution:
--0.166667";
+"0 42 7"
 
 c1_test \
 "Passing 'b' and 'c', but 'b' is zero" \
 "0x^1 + 7 = 0" \
-"Reduced form: +7*x^0 = 0
-Polynomial degree: 1
-No solution.";
+"0 0 7"
 
 c1_test \
 "Passing zero 'b' and zero 'c'" \
 "0x^1 + 0 = 0" \
-"Reduced form: 0 = 0
-Polynomial degree: 1
-Tautology. All real numbers possible as solution.";
+"0 0 0"
 
 c1_test \
-"Passing only a" \
+"Passing a (only) as multiplication" \
 "xx" \
-"Reduced form: +1*x^2 = 0
-Polynomial degree: 2
-Discriminant (delta): 0
-Discriminant is zero, the polynomial has exactly one real root:
-0"
+"1 0 0"
 
 c1_test \
 "i3" \
 "0x^2 = 0" \
-"Reduced form: 0 = 0
-Polynomial degree: 2
-Discriminant (delta): 0
-Tautology. All real numbers possible as solution."
+"0 0 0"
 
 c1_test \
 "i4" \
 "42*X^0 = 42*X^0" \
-"Reduced form: 0 = 0
-Polynomial degree: 0
-Tautology. All real numbers possible as solution."
+"0 0 0"
 
 c1_test \
 "i5" \
 "42*X^0 = 42" \
-"Reduced form: 0 = 0
-Polynomial degree: 0
-Tautology. All real numbers possible as solution."
+"0 0 0"
 
 c1_test \
 "i6" \
 "42*X^0 + 1x^2 = 42*X^0 + 1x^2" \
-"Reduced form: 0 = 0
-Polynomial degree: 2
-Discriminant (delta): 0
-Tautology. All real numbers possible as solution."
+"0 0 0"
 
 c1_test \
 "i7" \
 "X^2 + 6 = 0x^0" \
-"Reduced form: +1*x^2 +6*x^0 = 0
-Polynomial degree: 2
-Discriminant (delta): -24
-Discriminant is negative, the polynomial has two distinct complex roots.
-0+2.44949i
-0-2.44949i"
+"1 0 6"
 
 c1_test \
 "xxx" \

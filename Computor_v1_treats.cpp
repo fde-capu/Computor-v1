@@ -6,7 +6,7 @@
 /*   By: fde-capu <fde-capu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 10:26:06 by fde-capu          #+#    #+#             */
-/*   Updated: 2024/02/08 10:05:02 by fde-capu         ###   ########.fr       */
+/*   Updated: 2024/02/08 10:06:27 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,9 +188,8 @@ void Computor_v1::set_equal_to_zero()
 	this->inputElements = 0;
 
 	for (auto& t : this->terms)
-	{
 		this->inputElements += t != "=" && stod(t) != 0.0;
-	}
+
 	for (auto& t : this->terms)
 	{
 		if (t == "=")

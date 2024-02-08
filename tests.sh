@@ -68,7 +68,7 @@ print_ok() {
 test_computor() {
 	test_name="${1}"
     input="${2}"
-    expected_output=$(./permutations.py ${3} 0)
+    [[ "${3}" != "manual" ]] && expected_output=$(./permutations.py ${3} 0) || expected_output="${4}"
 	tmpfile=$(mktemp);
     actual_output=$(./computor "${input}" 2>"$tmpfile")
 	errno=$?;
@@ -87,7 +87,11 @@ test_computor() {
 		return 0;
 	fi;
 
-    if diff -q <(echo "${expected_output}") <(echo "${actual_output}") > /dev/null; then
+	first_part="$(echo -e "$expected_output" | head -n -2)"
+	second_part="$(echo -e "$expected_output" | tac | head -2)"
+	expected_output_inverted="$first_part"$'\n'"$second_part"
+    if (diff -q <(echo -e "${expected_output}") <(echo -e "${actual_output}") > /dev/null) || \
+		(diff -q <(echo -e "${expected_output_inverted}") <(echo -e "${actual_output}") > /dev/null); then
 		print_ok;
     else
 		print_ko "output";
@@ -110,7 +114,7 @@ final() {
 }
 
 c1_test() {
-	test_computor "${1}" "${2}" "${3}"
+	test_computor "${1}" "${2}" "${3}" "${4}"
 }
 
 if false; then
@@ -136,14 +140,29 @@ c1_test \
 "0 0 0"
 
 c1_test \
-"Passing impossible statement." \
+"Passing impossible statement" \
 "0 = 1" \
 "0 0 1"
 
 c1_test \
-"Same but inverted." \
+"Same but inverted" \
 "1 = 0" \
 "0 0 1"
+
+c1_test \
+"Minus zero as c" \
+"0 = -0" \
+"0 0 0"
+
+c1_test \
+"Minus zero as b" \
+"-0x = 0" \
+"0 0 0"
+
+c1_test \
+"Minus zero as a" \
+"-0x^2 = 0" \
+"0 0 0"
 
 c1_test \
 "Passing only 'b'" \
@@ -203,59 +222,40 @@ c1_test \
 c1_test \
 "xxx" \
 "xxx" \
-"Reduced form: +1*x^3 = 0
+"manual" \
+"Reduced form: +1*x^3 +0*x^2 +0*x^1 +0*x^0 = 0
 Polynomial degree: 3
 The polynomial degree is strictly greater than 2, I can't solve."
 
 c1_test \
 "i8" \
 "5 + 4 * X + X^2" \
-"Reduced form: +1*x^2 +4*x^1 +5*x^0 = 0
-Polynomial degree: 2
-Discriminant (delta): -4
-Discriminant is negative, the polynomial has two distinct complex roots.
--2+1i
--2-1i"
+"1 4 5"
 
 c1_test \
 "i9" \
 "1 + 1x + 1xx" \
-"Reduced form: +1*x^2 +1*x^1 +1*x^0 = 0
-Polynomial degree: 2
-Discriminant (delta): -3
-Discriminant is negative, the polynomial has two distinct complex roots.
--0.5+0.866025i
--0.5-0.866025i"
+"1 1 1"
 
 c1_test \
 "i10" \
 "1.0 + 2.1x + 3.2xx = +4.3x^2" \
-"Reduced form: -1.1*x^2 +2.1*x^1 +1*x^0 = 0
-Polynomial degree: 2
-Discriminant (delta): 8.81
-Discriminant is strictly positive, the two solutions are:
-2.30371
--0.39462"
+"-1.1 2.1 1"
 
 c1_test \
 "i11" \
 "x" \
-"Reduced form: +1*x^1 = 0
-Polynomial degree: 1
-Equation is first degree. One solution:
-0"
+"0 1 0"
 
 c1_test \
 "i12" \
 "-x" \
-"Reduced form: -1*x^1 = 0
-Polynomial degree: 1
-Equation is first degree. One solution:
-0"
+"0 -1 0"
 
 c1_test \
 "i13" \
 "x X x\t \t  XX" \
+"manual" \
 "Reduced form: +1*x^5 = 0
 Polynomial degree: 5
 The polynomial degree is strictly greater than 2, I can't solve."
@@ -270,41 +270,28 @@ The polynomial degree is strictly greater than 2, I can't solve."
 c1_test \
 "i15" \
 "\t5 + 4 * X\t\t   ^  1     - 9.3 * X^2    \t = -.1 * X^0 - -+++--x^2" \
-"Reduced form: -10.3*x^2 +4*x^1 +5.1*x^0 = 0
-Polynomial degree: 2
-Discriminant (delta): 226.12
-Discriminant is strictly positive, the two solutions are:
-0.92414
--0.535791"
+"-10.3 4 5.1"
 
 c1_test \
 "i16" \
 "5 * X^0 + 4 * X^1 - 9.3 * X^2 = 1 * X^0" \
-"Reduced form: -9.3*x^2 +4*x^1 +4*x^0 = 0
-Polynomial degree: 2
-Discriminant (delta): 164.8
-Discriminant is strictly positive, the two solutions are:
-0.905239
--0.475131"
+"-9.3 4 4"
 
 c1_test \
 "err1" \
 "blablabla" \
 "error"
 
-
 c1_test \
 "i17" \
 "5 * X^0 + 4 * X^1 = 4 * X^0" \
-"Reduced form: +4*x^1 +1*x^0 = 0
-Polynomial degree: 1
-Equation is first degree. One solution:
--0.25"
+"0 4 1"
 
 c1_test \
 "i18" \
 "8 * X^0 - 6 * X^1 + 0 * X^2 - 5.6 * X^3 = 3 * X^0" \
-"Reduced form: -5.6*x^3 -6*x^1 +5*x^0 = 0
+"manual"
+"Reduced form: -5.6*x^3 -6*x^1 +5*x^0 = 0 !!!!!!!
 Polynomial degree: 3
 The polynomial degree is strictly greater than 2, I can't solve."
 

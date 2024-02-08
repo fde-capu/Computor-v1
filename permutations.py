@@ -81,17 +81,31 @@ def map_chars(char, t):
 			return char;
 	elif t == 'floatin':
 		if char == '+':
-			return random.uniform(0.1, random_max)
+			return random.uniform(0.0, random_max)
 		elif char == '-':
-			return -random.uniform(0.1, random_max)
+			return -random.uniform(0.0, random_max)
 		elif char == '0':
 			return 0;
 		else:
 			return char;
 
-# Create two lists with mapped values
 integers_perms = [[map_chars(char, 'integer') for char in perm] for perm in perms]
 floating_perms = [[map_chars(char, 'floatin') for char in perm] for perm in perms]
+
+def epsilon_pass(a, b):
+	epsilon = 0.0000001
+	return abs(a - b) <= epsilon
+
+def sqrt(number):
+	error = 0.000001
+	guess = 1.0
+	if not number or number == 1:
+		return number
+	while abs((guess * guess) - number) > error:
+		guess = (guess + (number / guess)) / 2
+	if epsilon_pass(guess, int(guess)):
+		guess = int(guess)
+	return guess
 
 def build_polynomial(element):
 	global characters;
@@ -139,11 +153,11 @@ def build_polynomial(element):
 		discriminant = (b**2) - (4*a*c)
 		if a:
 			if discriminant >= 0:
-				root1 = (-b + np.sqrt(discriminant)) / (2*a)
-				root2 = (-b - np.sqrt(discriminant)) / (2*a)
+				root1 = (-b + sqrt(discriminant)) / (2*a)
+				root2 = (-b - sqrt(discriminant)) / (2*a)
 			else:
 				real_part = -b / (2*a)
-				imaginary_part = np.sqrt(-discriminant) / (2*a)
+				imaginary_part = sqrt(-discriminant) / (2*a)
 				root1 = complex(real_part, imaginary_part)
 				root2 = complex(real_part, -imaginary_part)
 			f_str += interpret_result([root1, root2], discriminant)
@@ -220,6 +234,7 @@ def format_number(num, cut_trailing_zeros = False):
 		return str(int(num))
 	else:
 		out = f"{num:.6f}"
+		out = re.sub('^[+-]?0?\.?0{6}$', '0', out)
 		if cut_trailing_zeros:
 			out = re.sub('0+$', '', out)
 		return out

@@ -6,7 +6,7 @@
 /*   By: fde-capu <fde-capu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:25:31 by fde-capu          #+#    #+#             */
-/*   Updated: 2024/02/05 16:25:32 by fde-capu         ###   ########.fr       */
+/*   Updated: 2024/02/08 20:58:32 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ typedef struct Complex {
 
 double sqrt(double);
 void noMinusZero(double&);
+double solveEquation(const std::string&);
 
 #endif

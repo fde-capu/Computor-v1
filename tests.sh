@@ -122,8 +122,6 @@ if false; then
 
 ############################################################### Begin
 
-fi # > > > > > > > > > > > > > > > > > > > > > > > Jump line!
-# coefficient is zero..?
 c1_test \
 "Just passing 0" \
 "0" \
@@ -256,16 +254,14 @@ c1_test \
 "i13" \
 "x X x\t \t  XX" \
 "manual" \
-"Reduced form: +1*x^5 = 0
+"Reduced form: +1*x^5 +0*x^4 +0*x^3 +0*x^2 +0*x^1 +0*x^0 = 0
 Polynomial degree: 5
 The polynomial degree is strictly greater than 2, I can't solve."
 
 c1_test \
 "i14" \
 "-0.x *  x  * X x x X X x" \
-"Reduced form: 0 = 0
-Polynomial degree: 8
-The polynomial degree is strictly greater than 2, I can't solve."
+"0 0 0"
 
 c1_test \
 "i15" \
@@ -290,9 +286,76 @@ c1_test \
 c1_test \
 "i18" \
 "8 * X^0 - 6 * X^1 + 0 * X^2 - 5.6 * X^3 = 3 * X^0" \
-"manual"
-"Reduced form: -5.6*x^3 -6*x^1 +5*x^0 = 0 !!!!!!!
+"manual" \
+"Reduced form: -5.6*x^3 +0*x^2 -6*x^1 +5*x^0 = 0
 Polynomial degree: 3
 The polynomial degree is strictly greater than 2, I can't solve."
+
+c1_test \
+"i19" \
+"1 + 2x + 3x^2 = 4x - 5x^2 - 6" \
+"8 -2 7"
+
+c1_test \
+"i20" \
+"0 = -1 - x^1 + x^2" \
+"-1 1 1"
+
+c1_test \
+"i21" \
+"1 = -1 + x^1 - x^2" \
+"1 -1 2"
+
+c1_test \
+"i22" \
+"1 = 2 - x^1 - x^2" \
+"1 1 -1"
+
+c1_test \
+"i23" \
+"1 + 2x = -2 - x^1 - 3x^2" \
+"3 3 3"
+
+c1_test \
+"i24" \
+"-6x + 1 + 2x = -2 - x^1 + 3x^2" \
+"-3 -3 3"
+
+c1_test \
+"i25" \
+"-6 + 2x = -2 - x^1 + 3x^2" \
+"-3 3 -4"
+
+c1_test \
+"i26" \
+"-2 + 3x^2 + 2x = 2 + 5x^1" \
+"3 -3 -4"
+
+c1_test \
+"i27" \
+"-2 + 3x^2 + 2x = +6x^2 + 2 + 5x^1" \
+"-3 -3 -4"
+
+fi # > > > > > > > > > > > > > > > > > > > > > > > Jump line!
+
+c1_test \
+"i28" \
+"-2*3 + 3x + 2x = -1x^2" \
+"1 5 -6"
+
+c1_test \
+"i29" \
+"-2^3 + 3x + 2x = 0" \
+"0 5 16"
+
+c1_test \
+"i30" \
+"-2^^2 + 3x^2 + 2x = +6x^2 + 2 + 5x^1" \
+"error"
+
+c1_test \
+"i31" \
+"-2^2 + 3x2 + 2x = +6x^2 + 2 + 5x^1" \
+"error"
 
 final

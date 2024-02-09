@@ -6,7 +6,7 @@
 /*   By: fde-capu <fde-capu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 10:23:59 by fde-capu          #+#    #+#             */
-/*   Updated: 2024/02/08 08:29:40 by fde-capu         ###   ########.fr       */
+/*   Updated: 2024/02/08 16:32:58 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,17 @@ void Computor_v1::gen_reduced_form()
 		if (!ommitFactorZero)
 		{
 			this->reduced_form += this->factors[i] >= 0.0 ? "+" : "";
+			verbose(V) << "(gen_reduced_form a) " << this->reduced_form << std::endl;
 			this->reduced_form += dtoa(this->factors[i]) + "*x^" + \
 				std::to_string(i) + " ";
+			verbose(V) << "(gen_reduced_form b) " << this->reduced_form << std::endl;
 		}
 	}
 	if (!this->reduced_form.length())
+	{
 		this->reduced_form = "0 ";
+		verbose(V) << "(gen_reduced_form c) " << this->reduced_form << std::endl;
+	}
 	this->reduced_form += "= 0";
 	verbose(V) << "(gen_reduced_form) " << this->reduced_form << std::endl;
 }

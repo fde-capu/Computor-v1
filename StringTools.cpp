@@ -6,7 +6,7 @@
 /*   By: fde-capu <fde-capu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:24:29 by fde-capu          #+#    #+#             */
-/*   Updated: 2024/02/08 08:34:01 by fde-capu         ###   ########.fr       */
+/*   Updated: 2024/02/08 21:31:52 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -800,4 +800,28 @@ std::string dtoa(double n, size_t precision)
 		count++;
 	}
 	return str;
+}
+
+std::string remove_x_ponential(const std::string& e)
+{
+	bool reading = true;
+	std::string out;
+
+	for (size_t i = 0; i < e.length(); i++)
+	{
+		if (isInSet(e.at(i), "x^"))
+		{
+			reading = false;
+			continue;
+		}
+		if (isInSet(e.at(i), "*/-+"))
+		{
+			reading = true;
+		}
+		if (reading)
+			out += e.at(i);
+	}
+	substitute_super(out, "**", "*");
+	substitute_super(out, "//", "/");
+	return out;
 }

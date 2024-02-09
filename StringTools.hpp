@@ -6,7 +6,7 @@
 /*   By: fde-capu <fde-capu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 14:46:18 by fde-capu          #+#    #+#             */
-/*   Updated: 2024/02/05 15:20:44 by fde-capu         ###   ########.fr       */
+/*   Updated: 2024/02/08 21:25:13 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ std::string	get_before_first(const std::string& src, const std::string phrase);
 size_t		strhex2size_t(const std::string src);
 std::vector<char*> vecstr2veccharp(const std::vector<std::string>& argv);
 std::string	dtoa(double, size_t precision = 0);
+std::string remove_x_ponential(const std::string&);
 
 template <typename T>
 std::ostream & operator << (std::ostream & os, const std::vector<T> & vec)

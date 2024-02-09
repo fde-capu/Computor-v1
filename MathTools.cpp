@@ -6,7 +6,7 @@
 /*   By: fde-capu <fde-capu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:19:54 by fde-capu          #+#    #+#             */
-/*   Updated: 2024/02/08 08:30:15 by fde-capu         ###   ########.fr       */
+/*   Updated: 2024/02/08 21:32:40 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,32 @@ void noMinusZero(double& d)
 	if (noMinus.at(0) == '-')
 		noMinus = noMinus.substr(1);
 	d = std::stod(noMinus.c_str());
+}
+
+double solveEquation(const std::string& e)
+{
+	int V(2);
+	double out_m;
+	double out_d;
+	double out;
+
+	std::vector<std::string> mult = split(e, "*");
+	out_m = 1;
+	for (size_t i = 0; i < mult.size(); i++)
+	{
+		verbose(V) << "(solveEquation) " << dtoa(out_m) << " * " << mult[i] << std::endl;
+		out_m *= std::stod(mult[i].c_str());
+		verbose(V) << "(solveEquation) = " << dtoa(out_m) << std::endl;
+	}
+	std::vector<std::string> div = split(e, "/");
+	out_d = 1;
+	for (size_t i = 1; i < div.size(); i++)
+	{
+		verbose(V) << "(solveEquation) " << dtoa(out_d) << " / " << div[i] << std::endl;
+		out_d /= std::stod(div[i].c_str());
+		verbose(V) << "(solveEquation) = " << dtoa(out_d) << std::endl;
+	}
+	out = out_m * out_d;
+	verbose(V) << "(solveEquation) Result: " << dtoa(out) << std::endl;
+	return out;
 }

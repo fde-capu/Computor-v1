@@ -6,7 +6,7 @@
 /*   By: fde-capu <fde-capu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 10:26:06 by fde-capu          #+#    #+#             */
-/*   Updated: 2024/02/08 10:06:27 by fde-capu         ###   ########.fr       */
+/*   Updated: 2024/02/08 21:32:31 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void Computor_v1::treat_spaces()
 	substitute_unloop(this->treating, "X", "x");
 	substitute_unloop(this->treating, "\\t", " ");
 	substitute_unloop(this->treating, "*", " * ");
+	substitute_unloop(this->treating, "/", " / ");
 	substitute_unloop(this->treating, "+", " + ");
 	substitute_unloop(this->treating, "-", " - ");
 	substitute_unloop(this->treating, "=", " = ");
@@ -27,6 +28,8 @@ void Computor_v1::treat_spaces()
 	substitute_super(this->treating, "^ ", "^");
 	substitute_super(this->treating, "* ", "*");
 	substitute_super(this->treating, " *", "*");
+	substitute_super(this->treating, "/ ", "/");
+	substitute_super(this->treating, " /", "/");
 	substitute_super(this->treating, "- ", "-");
 	substitute_super(this->treating, "+ ", "+");
 	hard_trim(this->treating);
@@ -137,27 +140,46 @@ void Computor_v1::validate_terms()
 						step++;
 				}
 			}
-			if ((step == 2) \
-			&& (t.at(i) == '*'))
+			if (step == 2 && isInSet(t.at(i), "*/"))
 			{
 				step++;
 				continue ;
 			}
-			if ((step == 3) \
-			&& (t.at(i) == 'x'))
+			if (step == 3)
 			{
-				step++;
-				continue ;
+				if (t.at(i) == 'x')
+				{
+					step++;
+					continue ;
+				}
+				if (isInSet(t.at(i), "+-/*") || isDigit(t.at(i)))
+				{
+					step = 1;
+					continue ;
+				}
 			}
-			if ((step == 4) \
-			&& (t.at(i) == '^'))
+			if (step == 4)
 			{
-				step++;
-				continue ;
+				if (t.at(i) == '^')
+				{
+					step++;
+					continue ;
+				}
+				if (isInSet(t.at(i), "+-/*") || isDigit(t.at(i)))
+				{
+					step = 1;
+					continue ;
+				}
 			}
-			if (step == 5 && (isDigit(t.at(i)) || t.at(i) == '+'))
+			if (step == 5)
 			{
-				continue ;
+				if (isDigit(t.at(i)) || t.at(i) == '+')
+					continue ;
+				if (isInSet(t.at(i), "+-/*") || isDigit(t.at(i)))
+				{
+					step = 1;
+					continue ;
+				}
 			}
 			this->valid_terms = false;
 			point_to_error = t;
@@ -176,7 +198,7 @@ void Computor_v1::validate_terms()
 	}
 	if (this->valid_terms)
 		return ;
-	std::cerr << "Detected invalid this->terms:" << std::endl << point_to_error << std::endl;
+	std::cerr << "Detected invalid terms:" << std::endl << point_to_error << std::endl;
 	std::cerr << (std::string(point_position, ' ') + "^ " + error_reason) << std::endl;
 }
 
@@ -220,6 +242,10 @@ void Computor_v1::discriminate_factors()
 
 	for (auto& term : this->terms)
 	{
+		std::string fact_equation = remove_x_ponential(term);
+		verbose(V) << "(discriminate_factors) factor equation: " << fact_equation << std::endl;
+		fact = solveEquation(fact_equation);
+		verbose(V) << "(discriminate_factors) solved: " << fact << std::endl;
 		fact = std::stod(term.c_str());
 		deg = std::atoi(get_after_first(term, "^").c_str());
 		verbose(V) << "(discriminate_factors) (" << term << ") factor "

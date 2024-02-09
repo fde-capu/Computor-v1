@@ -6,7 +6,7 @@
 /*   By: fde-capu <fde-capu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:19:54 by fde-capu          #+#    #+#             */
-/*   Updated: 2024/02/08 21:32:40 by fde-capu         ###   ########.fr       */
+/*   Updated: 2024/02/09 14:10:47 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,17 @@ double solveEquation(const std::string& e)
 	double out_d;
 	double out;
 
+	verbose(V) << "(solveEquation) Solving: " << e << std::endl;
 	std::vector<std::string> mult = split(e, "*");
 	out_m = 1;
 	for (size_t i = 0; i < mult.size(); i++)
 	{
+		if (!mult[i].length())
+			continue ;
 		verbose(V) << "(solveEquation) " << dtoa(out_m) << " * " << mult[i] << std::endl;
-		out_m *= std::stod(mult[i].c_str());
+		double m = std::stod(mult[i].c_str());
+		verbose(V) << "(solveEquation) m: " << dtoa(m) << std::endl;
+		out_m *= m;
 		verbose(V) << "(solveEquation) = " << dtoa(out_m) << std::endl;
 	}
 	std::vector<std::string> div = split(e, "/");

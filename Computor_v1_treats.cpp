@@ -6,7 +6,7 @@
 /*   By: fde-capu <fde-capu@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 10:26:06 by fde-capu          #+#    #+#             */
-/*   Updated: 2024/02/08 21:32:31 by fde-capu         ###   ########.fr       */
+/*   Updated: 2024/02/09 14:10:01 by fde-capu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,7 +246,7 @@ void Computor_v1::discriminate_factors()
 		verbose(V) << "(discriminate_factors) factor equation: " << fact_equation << std::endl;
 		fact = solveEquation(fact_equation);
 		verbose(V) << "(discriminate_factors) solved: " << fact << std::endl;
-		fact = std::stod(term.c_str());
+//		fact = std::stod(term.c_str());
 		deg = std::atoi(get_after_first(term, "^").c_str());
 		verbose(V) << "(discriminate_factors) (" << term << ") factor "
 			<< fact << " degree " << deg << std::endl;

@@ -181,7 +181,12 @@ void Computor_v1::validate_terms()
 			{
 				verbose(V) << "step 4: " << t.at(i) << std::endl;
 				if (t.at(i) == '^')
-					{ getting_degree = true; step++; continue ; }
+				{
+					if (i < t.size() - 1)
+						{ getting_degree = true; step++; continue ; }
+					else
+						{ point_position++; step = 8; }
+				}
 				if (isInSet(t.at(i), "+-/*") || isDigit(t.at(i)))
 					{ step = 1; continue ; }
 			}
@@ -195,7 +200,7 @@ void Computor_v1::validate_terms()
 			}
 			this->valid_terms = false;
 			point_to_error = t;
-			point_position = i;
+			point_position += i;
 			error_reason =
 				step == 0 ? "Expected one and only one '+' or '-' mark." :
 				step == 1 ? "Expected factor." :
@@ -205,6 +210,7 @@ void Computor_v1::validate_terms()
 				step == 5 ? "Unexpected character. Power must be positive integer. Negative power not implemented." :
 				step == 6 ? "Expected end of term or */ operators." :
 				step == 7 ? "Syntax error." :
+				step == 8 ? "Expected exponential." :
 					"~~~ (8> Cosmic ray detected! <8) ~~~";
 			if (!this->valid_terms) break ;
 		}

@@ -546,21 +546,26 @@ c1_test \
 "x^2" \
 "1 0 0"
 
+c1_test \
+"i47a" \
+"x^2x" \
+"error"
+
+c1_test \
+"i47b" \
+"x^2x^1" \
+"error"
+
+c1_test \
+"i48" \
+"x^2x^2" \
+"error"
+
 fi # > > > > > > > > > > > > > > > > > > > > > > > Jump line!
 
 c1_test \
-"i47" \
-"x^2x^1" \
-"12 0 0"
-
-c1_test \
-"i47" \
-"x^2x^2" \
-"12 0 0"
-
-c1_test \
-"i47" \
+"i49" \
 "x^" \
-"12 0 0"
+"error"
 
 final

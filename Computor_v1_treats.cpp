@@ -55,9 +55,11 @@ void Computor_v1::mount_terms()
 		substitute_super(this->treating, " *", "*");
 		x_count = find_char_sequence(this->treating, 'x', x_count.first + 3 + power.length());
 	}
-	verbose(V+1) << "(mount_terms) this->treating: " << this->treating << std::endl;
+	verbose(V+1) << "C) " << this->treating << std::endl;
+	for (size_t i = 0; i < 10; i++)
+		substitute_super(this->treating, "x" + itoa(i), "x^" + itoa(i));
 	this->terms = split(this->treating);
-	verbose(V) << "(mount_terms) this->terms (" << this->terms.size() << "): " << this->terms << std::endl;
+	verbose(V) << "D) size " << this->terms.size() << "): " << this->terms << std::endl;
 }
 
 void Computor_v1::treat_implicits()

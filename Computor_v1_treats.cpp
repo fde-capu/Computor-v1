@@ -128,7 +128,7 @@ void Computor_v1::validate_terms()
 						step++;
 				}
 			}
-			if (step == 2 && isInSet(t.at(i), "*/"))
+			if (step == 2 && isInSet(t.at(i), "*/^"))
 			{
 				step++;
 				continue ;
@@ -140,7 +140,7 @@ void Computor_v1::validate_terms()
 					step++;
 					continue ;
 				}
-				if (isInSet(t.at(i), "+-/*") || isDigit(t.at(i)))
+				if (isInSet(t.at(i), "+-/*^") || isDigit(t.at(i)))
 				{
 					step = 1;
 					continue ;
@@ -234,8 +234,7 @@ void Computor_v1::discriminate_factors()
 		verbose(V) << "(discriminate_factors) factor equation: " << fact_equation << std::endl;
 		fact = solveEquation(fact_equation);
 		verbose(V) << "(discriminate_factors) solved: " << fact << std::endl;
-//		fact = std::stod(term.c_str());
-		deg = std::atoi(get_after_first(term, "^").c_str());
+		deg = std::atoi(get_after_first(term, "x^").c_str());
 		verbose(V) << "(discriminate_factors) (" << term << ") factor "
 			<< fact << " degree " << deg << std::endl;
 		this->factors[deg] += fact;
@@ -249,8 +248,8 @@ void Computor_v1::discriminate_factors()
 			}
 		}
 		this->degree = highestDegree <= 0 ? 0 : highestDegree;
-		verbose(V+1) << "(discriminate_factors) "
-			<< (std::to_string(this->degree) + "> "
+		verbose(V+1) << "(discriminate_factors) deg is "
+			<< (std::to_string(this->degree) + " after seeing "
 			+ std::to_string(this->factors[deg])) << std::endl;
 	}
 	verbose(V) << "(discriminate_factors) Polynomial degree: " << this->degree \

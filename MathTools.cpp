@@ -26,6 +26,8 @@ double solveEquation(const std::string& e)
 	int V(2);
 	double out_m;
 	double out_d;
+	double out_p;
+	double pp;
 	double out;
 
 	verbose(V) << "(solveEquation) Solving: " << e << std::endl;
@@ -49,7 +51,21 @@ double solveEquation(const std::string& e)
 		out_d /= std::stod(div[i].c_str());
 		verbose(V) << "(solveEquation) = " << dtoa(out_d) << std::endl;
 	}
-	out = out_m * out_d;
+	std::vector<std::string> pow = split(e, "^");
+	out_p = out_m * out_d;
+	pp = out_p;
+	for (size_t i = 1; i < pow.size(); i++)
+	{
+		verbose(V) << "(solveEquation) " << dtoa(out_p) << " ^ " << pow[i] << std::endl;
+		for (size_t p = 1; p < std::stod(pow[i].c_str()); p++)
+		{
+			verbose(V) << "(solveEquation) partial power: " << dtoa(out_p) << " * " << dtoa(pp) << std::endl;
+			out_p *= pp;
+			verbose(V) << "(solveEquation) power = " << dtoa(out_p) << std::endl;
+		}
+		verbose(V) << "(solveEquation) = " << dtoa(out_p) << std::endl;
+	}
+	out = out_p;
 	verbose(V) << "(solveEquation) Result: " << dtoa(out) << std::endl;
 	return out;
 }

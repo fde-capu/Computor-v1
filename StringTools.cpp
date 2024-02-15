@@ -797,7 +797,7 @@ std::string remove_x_ponential(const std::string& e)
 
 	for (size_t i = 0; i < e.length(); i++)
 	{
-		if (isInSet(e.at(i), "x^"))
+		if (isInSet(e.at(i), "x"))
 		{
 			reading = false;
 			continue;

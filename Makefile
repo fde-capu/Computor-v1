@@ -3,11 +3,11 @@ ifndef OUTPUT
 endif
 
 NAME	=	computor
-ARGS	=	"x"
+ARGS	=	"-1 0 -1"
 SRCS	=	Computor_v1.cpp main.cpp \
 			StringTools.cpp Computor_v1_algo.cpp \
 			MathTools.cpp Computor_v1_treats.cpp
-HEAD	=	Makefile Computor_v1.hpp header.hpp \
+HEAD	=	Computor_v1.hpp header.hpp \
 			defines.hpp StringTools.hpp MathTools.hpp
 SHELL	=	/bin/sh
 CC		=	clang++ -std=c++20 -Wfatal-errors
@@ -33,11 +33,15 @@ re:			fclean all
 rt:			re t
 vf:			all
 	$(VAL) $(VALFLAG) ./$(NAME) $(ARGS)
-t:			all
+t1:			all
 	./tests.sh
+t2:			all
 	./permutations.py
-#	./tests.sh
+t:			t1 t2
 tt:			all
+	echo "./$(NAME) $(ARGS)"
 	./$(NAME) $(ARGS)
 v:			all
 	$(VAL) ./$(NAME) $(ARGS)
+d:			all
+	gdb --arg ./$(NAME) $(ARGS)

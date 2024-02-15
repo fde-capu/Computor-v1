@@ -87,7 +87,7 @@ test_computor() {
     fi
 
     [[ "$show_output" == "true" ]] && [[ "$output_shown" != "true" ]] && [[ "$short" != "true" ]] && echo "${actual_output}" && echo;
-	[[ "$ko_break" == "true" ]] && [[ "$ko" != "0" ]] && exit;
+	[[ "$ko_break" == "true" ]] && [[ "$ko" != "0" ]] && exit 1;
 	[[ "$paused" == "true" ]] && read;
 }
 
@@ -567,5 +567,10 @@ c1_test \
 "i49" \
 "x^" \
 "error"
+
+c1_test \
+"i50" \
+"-1x2 0x -1" \
+"-1 0 -1"
 
 final

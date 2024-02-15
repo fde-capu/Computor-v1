@@ -241,7 +241,7 @@ void Computor_v1::gen_output()
 {
 	std::stringstream ss;
 
-	if (!this->valid_terms) return;
+	if (!this->valid_terms) return ;
 	ss << "Reduced form: " << this->reduced_form << std::endl;
 	ss << "Polynomial degree: " << this->degree << std::endl;
 	if (this->degree > 2) this->message = MSG_OVER_DEGREE;

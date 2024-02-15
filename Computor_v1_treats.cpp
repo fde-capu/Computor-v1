@@ -248,7 +248,7 @@ void Computor_v1::set_equal_to_zero()
 
 void Computor_v1::discriminate_factors()
 {
-	int V(2);
+	int V(-2);
 	double fact;
 	size_t deg;
 	this->degree = 0;

@@ -27,38 +27,56 @@ void help()
 	std::cout << "  " << "Polynomial degree: 3" << std::endl;
 	std::cout << "  " << "The polynomial degree is strictly greater than 2, I can't solve." << std::endl;
 	std::cout << std::endl;
-	std::cout << "Simplified notation:" << std::endl;
+	std::cout << "Alternative notation:" << std::endl;
 	std::cout << "  " << "`./computor a b c` will process as second degree factors." << std::endl;
 }
 
 std::string argJoin(int argc, char** argv)
 {
-	std::string out("");
+	int V(2);
+	size_t i = argc;
+	std::string out(" ");
+	std::vector<std::string> plain;
+	bool plain_pass = true;
 
+	while (i-- > 1)
+		out = std::string(argv[i]) + " " + out;
+	hard_trim(out);
+	verbose(V) << "(argJoin) A) " << out << std::endl;
+	// alternative notation 'a b c':
 	if (isAllInSet(out, "0123456789 +-.") && argc == 4)
-	{ // alternative notation, get only 'a b c'
+	{
 		out = std::string(argv[1]) + "*x^2 " \
 			+ argv[2] + "*x^1 " \
 			+ argv[3] + "*x^0 = 0";
 	}
-	else
+	if (isAllInSet(out, "0123456789 +-.") && argc == 2)
 	{
-		while (argc-- > 1)
+		plain = split(out);
+		for (size_t i = 0; i < plain.size(); i++)
 		{
-			out = std::string(argv[argc]) \
-				+ (out.length() ? " " : "") \
-				+ out;
+			if (isAllInSet(plain[i], "0123456789 +-."))
+				continue ;
+			else
+			{
+				plain_pass = false;
+				break ;
+			}
+		}
+		if (plain_pass)
+		{
+			out = std::string(plain[0]) + "*x^2 " \
+				+ plain[1] + "*x^1 " \
+				+ plain[2] + "*x^0 = 0";
 		}
 	}
+	verbose(V) << "(argJoin) B) " << out << std::endl;
 	return out;
 }
 
 std::string getEqOriginal(int argc, char** argv)
 {
-	if (argc > 2)
-		return argJoin(argc, argv);
-	else
-		return std::string(argv[1]);
+	return argJoin(argc, argv);
 }
 
 bool validateArgCount(int argc, char** argv)
@@ -85,5 +103,5 @@ int main (int argc, char** argv)
 
 	Computor_v1 result(equation_raw);
 	std::cout << result << std::endl;
-	return !result.getValidTerms();
+	return result.getValidTerms() ? 0 : 1;
 }

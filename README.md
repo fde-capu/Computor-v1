@@ -2,8 +2,8 @@ Computor v1
 fde-capu @ 42sp
 
 See `subject.md` for the project instructions.
-`tests.sh` tests for exception cases and scrambled inputs.
-`permutations.py` tests for factors positive, negative, zero, and empty, in all permutations, for random integers and floats:
+`tests.sh` tests for exception cases and scrambled inputs. Use `make t1`.
+`permutations.py` (`make t2`) tests for factors positive, negative, zero, and empty, in all permutations, for random integers and floats:
 ```
 | a | b | c | Example           |
 |---|---|---|-------------------|

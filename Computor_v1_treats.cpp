@@ -35,7 +35,10 @@ void Computor_v1::mount_terms()
 	substitute_super(this->treating, " x", "x");
 	substitute_super(this->treating, ".x", "x");
 	for (size_t i = 0; i < 10; i++)
+	{
 		substitute_super(this->treating, "x " + itoa(i), "x*" + itoa(i));
+		substitute_super(this->treating, "x" + itoa(i), "x*" + itoa(i));
+	}
 	for (size_t i = 0; i < 10; i++)
 	{
 		for (size_t j = 0; j < 10; j++)
@@ -163,7 +166,12 @@ void Computor_v1::validate_terms()
 			{
 				verbose(V) << "step 3: " << t.at(i) << std::endl;
 				if (t.at(i) == 'x')
-					{ x_found = true; step++; continue ; }
+				{
+					if (x_found)
+						step = 7;
+					else
+						{ x_found = true; step++; continue ; }
+				}
 				if (isInSet(t.at(i), "+-/*^") && got_op)
 					step = 7;
 				else if (isInSet(t.at(i), "+-/*^") || isDigit(t.at(i)))

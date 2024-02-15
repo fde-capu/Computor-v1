@@ -1,16 +1,4 @@
 #!/bin/python3
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    permutations.py                                    :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: fde-capu <fde-capu@student.42sp.org.br>    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/02/05 16:26:16 by fde-capu          #+#    #+#              #
-#    Updated: 2024/02/05 16:26:16 by fde-capu         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 # Outputs made according to my own Computor v1 output, ipsi litteris.
 
 import itertools

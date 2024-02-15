@@ -108,7 +108,7 @@ void Computor_v1::treat_implicits()
 
 void Computor_v1::validate_terms()
 {
-	int V(-2);
+	int V(2);
 	this->valid_terms = true;
 	std::string point_to_error = "";
 	size_t point_position = 0;
@@ -121,6 +121,7 @@ void Computor_v1::validate_terms()
 		bool got_factor = false;
 		bool x_found = false;
 		bool getting_degree = false;
+		bool got_op = false;
 		for (size_t i = 0; i < t.size(); i++)
 		{
 			if ((step == 0) \
@@ -144,8 +145,9 @@ void Computor_v1::validate_terms()
 			{
 				verbose(V) << "step 2: " << t.at(i) << std::endl;
 				getting_degree = false;
+				got_op = false;
 				if (isInSet(t.at(i), "*/"))
-					{ step++; continue ; }
+					{ step++; got_op = true; continue ; }
 				else if (t.at(i) == '^')
 				{
 					getting_degree = true;
@@ -162,7 +164,9 @@ void Computor_v1::validate_terms()
 				verbose(V) << "step 3: " << t.at(i) << std::endl;
 				if (t.at(i) == 'x')
 					{ x_found = true; step++; continue ; }
-				if (isInSet(t.at(i), "+-/*^") || isDigit(t.at(i)))
+				if (isInSet(t.at(i), "+-/*^") && got_op)
+					step = 7;
+				else if (isInSet(t.at(i), "+-/*^") || isDigit(t.at(i)))
 					{ step = 1; continue ; }
 			}
 			if (step == 4)
@@ -192,6 +196,7 @@ void Computor_v1::validate_terms()
 				step == 4 ? "Expected '^n'." :
 				step == 5 ? "Unexpected character. Power must be positive integer. Negative power not implemented." :
 				step == 6 ? "Expected end of term or */ operators." :
+				step == 7 ? "Syntax error." :
 					"~~~ (8> Cosmic ray detected! <8) ~~~";
 			if (!this->valid_terms) break ;
 		}

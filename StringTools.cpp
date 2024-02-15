@@ -816,8 +816,8 @@ std::string remove_x_ponential(const std::string& e)
 		if (reading)
 			out += e.at(i);
 	}
-	substitute_super(out, "**", "*");
-	substitute_super(out, "//", "/");
+//	substitute_super(out, "**", "*");
+//	substitute_super(out, "//", "/");
 	out = std::regex_replace(out, std::regex("\\*$"), "");
 	return out;
 }

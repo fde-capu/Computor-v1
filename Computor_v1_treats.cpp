@@ -101,6 +101,7 @@ void Computor_v1::treat_implicits()
 		substitute_unloop(c, "--", "+"); // Again.
 		substitute_unloop(c, "++", "+"); // Again.
 		if (isAllInSet(c, "-+.^0123456789")) c += "*x^0";
+		substitute_unloop(c, "x*", "x^1*");
 	}
 	verbose(V) << "(treat_implicits) result: " << this->terms << std::endl;
 }

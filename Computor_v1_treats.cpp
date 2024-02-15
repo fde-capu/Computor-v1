@@ -130,8 +130,16 @@ void Computor_v1::validate_terms()
 			}
 			if (step == 2 && isInSet(t.at(i), "*/^"))
 			{
-				step++;
-				continue ;
+				if (isInSet(t.at(i), "*/"))
+				{
+					step++;
+					continue ;
+				}
+				else // "^"
+				{
+					step = 5;
+					continue ;
+				}
 			}
 			if (step == 3)
 			{
@@ -163,7 +171,7 @@ void Computor_v1::validate_terms()
 			{
 				if (isDigit(t.at(i)) || t.at(i) == '+')
 					continue ;
-				if (isInSet(t.at(i), "+-/*") || isDigit(t.at(i)))
+				if (isInSet(t.at(i), "+/*") || isDigit(t.at(i)))
 				{
 					step = 1;
 					continue ;

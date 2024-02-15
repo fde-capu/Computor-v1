@@ -29,10 +29,11 @@ if len(sys.argv) != 1 and \
 	print("Call without arguments to run all tests.")
 	print("Call with a, b, and c as arguments to run manual test.")
 	print("Call with a b c and `d` argument (any value) to run only Python test.")
-	print("`--table`: outputs permutation table")
+	print("`--table` or `--table2`: outputs permutation tables.")
 	sys.exit(1)
 
 perms = list(itertools.product(characters, repeat=3))
+
 if len(sys.argv) == 2 and sys.argv[1] == '--table':
 	print('| a | b | c | Example')
 	print('|---|---|---|')
@@ -53,9 +54,6 @@ if len(sys.argv) == 2 and sys.argv[1] == '--table':
 				print()
 	exit(0)
 
-ok_count = 0
-ko_count = 0
-
 def map_chars(char, t):
 	if t == 'integer':
 		if char == '+':
@@ -72,12 +70,60 @@ def map_chars(char, t):
 		elif char == '-':
 			return -random.uniform(0.0, random_max)
 		elif char == '0':
-			return 0;
+			return 0.0;
 		else:
 			return char;
 
 integers_perms = [[map_chars(char, 'integer') for char in perm] for perm in perms]
 floating_perms = [[map_chars(char, 'floatin') for char in perm] for perm in perms]
+
+if len(sys.argv) == 2 and sys.argv[1] == '--table2':
+	print('|    a |    b |    c | Integers')
+	print('|------|------|------|')
+	n = 0
+	for p in integers_perms:
+		print(f'| {p[0]:4} | {p[1]:4} | {p[2]:4} | ', end = '')
+		p = perms[n]
+		i = 2
+		for e in p:
+			if e == '+':
+				print(f'+N*x^{i} ', end = '')
+			elif e == '-':
+				print(f'-N*x^{i} ', end = '')
+			elif e == '0':
+				print(f'0*x^{i} ', end = '')
+			elif e == ' ':
+				print('', end = '')
+			i -= 1
+			if i == -1:
+				print()
+		n += 1
+	print()
+	print('|      a |      b |      c | Floats')
+	print('|--------|--------|--------|')
+	n = 0
+	for p in floating_perms:
+		print(f'| {p[0]:6.4} | {p[1]:6.4} | {p[2]:6.4} | ', end = '')
+#	if isinstance(num, str):
+		i = 2
+		p = perms[n]
+		for e in p:
+			if e == '+':
+				print(f'+N*x^{i} ', end = '')
+			elif e == '-':
+				print(f'-N*x^{i} ', end = '')
+			elif e == '0':
+				print(f'0*x^{i} ', end = '')
+			elif e == ' ':
+				print('', end = '')
+			i -= 1
+			if i == -1:
+				print()
+		n += 1
+	exit(0)
+
+ok_count = 0
+ko_count = 0
 
 def epsilon_pass(a, b):
 	epsilon = 0.0000001

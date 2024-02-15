@@ -34,6 +34,7 @@ rt:			re t
 vf:			all
 	$(VAL) $(VALFLAG) ./$(NAME) $(ARGS)
 t:			all
+	./tests.sh
 	./permutations.py
 #	./tests.sh
 tt:			all

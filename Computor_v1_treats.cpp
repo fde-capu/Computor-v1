@@ -30,21 +30,12 @@ void Computor_v1::mount_terms()
 	int V(2);
 
 	verbose(V) << "mount_terms:" << std::endl;
+	verbose(V) << "A) " << this->treating << std::endl;
 	substitute_super(this->treating, "x*x", "xx");
 	substitute_super(this->treating, "x x", "xx");
 	substitute_super(this->treating, " x", "x");
 	substitute_super(this->treating, ".x", "x");
-	for (size_t i = 0; i < 10; i++)
-	{
-		substitute_super(this->treating, "x " + itoa(i), "x*" + itoa(i));
-		substitute_super(this->treating, "x" + itoa(i), "x*" + itoa(i));
-	}
-	for (size_t i = 0; i < 10; i++)
-	{
-		for (size_t j = 0; j < 10; j++)
-			substitute_super(this->treating, itoa(i) + " " + itoa(j), itoa(i) + "*" + itoa(j));
-	}
-	verbose(V) << this->treating << std::endl;
+	verbose(V) << "B) " << this->treating << std::endl;
 	std::pair<size_t, size_t> x_count = find_char_sequence(this->treating, 'x');
 	while (x_count.first != std::string::npos)
 	{
@@ -140,7 +131,7 @@ void Computor_v1::validate_terms()
 				if (t.at(i) == '.' && getting_degree)
 					step = 5;
 				else if (isNumberChar(t.at(i)))
-					{ got_factor = true; continue ; }
+					{ got_factor = true; got_op = false; continue ; }
 				else if (got_factor)
 					step++;
 			}

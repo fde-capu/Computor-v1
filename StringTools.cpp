@@ -793,6 +793,7 @@ std::string dtoa(double n, size_t precision)
 std::string remove_x_ponential(const std::string& e)
 {
 	bool reading = true;
+	bool after_x = false;
 	std::string out;
 
 	for (size_t i = 0; i < e.length(); i++)
@@ -800,10 +801,16 @@ std::string remove_x_ponential(const std::string& e)
 		if (isInSet(e.at(i), "x"))
 		{
 			reading = false;
-			continue;
+			after_x = true;
+			continue ;
+		}
+		if (e.at(i) == '+' && after_x)
+		{
+			continue ;
 		}
 		if (isInSet(e.at(i), "*/-+"))
 		{
+			after_x = false;
 			reading = true;
 		}
 		if (reading)

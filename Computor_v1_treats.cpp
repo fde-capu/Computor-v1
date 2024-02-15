@@ -108,6 +108,7 @@ void Computor_v1::treat_implicits()
 
 void Computor_v1::validate_terms()
 {
+	int V(-2);
 	this->valid_terms = true;
 	std::string point_to_error = "";
 	size_t point_position = 0;
@@ -115,29 +116,40 @@ void Computor_v1::validate_terms()
 
 	for (auto& t : this->terms)
 	{
+		verbose(V) << "(validate_terms): " << t << std::endl;
 		char step = 0;
 		bool got_factor = false;
-		bool got_degree = false;
+		bool x_found = false;
+		bool getting_degree = false;
 		for (size_t i = 0; i < t.size(); i++)
 		{
 			if ((step == 0) \
 			&& ((t.at(i) == '-' || t.at(i) == '+')
 				|| (t.at(i) == '=' && t.size() == 1)))
-				{ step++; continue ; }
+			{
+				verbose(V) << "step 0: " << t.at(i) << std::endl;
+				step++; continue ;
+			}
 			if (step == 1)
 			{
-				if (isNumberChar(t.at(i)))
-				{ got_factor = true; continue ; }
-				else
-					if (got_factor) step++;
+				verbose(V) << "step 1: " << t.at(i) << std::endl;
+				if (t.at(i) == '.' && getting_degree)
+					step = 5;
+				else if (isNumberChar(t.at(i)))
+					{ got_factor = true; continue ; }
+				else if (got_factor)
+					step++;
 			}
 			if (step == 2 && isInSet(t.at(i), "*/^x"))
 			{
+				verbose(V) << "step 2: " << t.at(i) << std::endl;
+				getting_degree = false;
 				if (isInSet(t.at(i), "*/"))
 					{ step++; continue ; }
 				else if (t.at(i) == '^')
 				{
-					if (!got_degree)
+					getting_degree = true;
+					if (!x_found)
 						{ step = 5; continue ; }
 					else
 						{ step = 6 ; }
@@ -147,20 +159,23 @@ void Computor_v1::validate_terms()
 			}
 			if (step == 3)
 			{
+				verbose(V) << "step 3: " << t.at(i) << std::endl;
 				if (t.at(i) == 'x')
-					{ got_degree = true; step++; continue ; }
+					{ x_found = true; step++; continue ; }
 				if (isInSet(t.at(i), "+-/*^") || isDigit(t.at(i)))
 					{ step = 1; continue ; }
 			}
 			if (step == 4)
 			{
+				verbose(V) << "step 4: " << t.at(i) << std::endl;
 				if (t.at(i) == '^')
-					{ step++; continue ; }
+					{ getting_degree = true; step++; continue ; }
 				if (isInSet(t.at(i), "+-/*") || isDigit(t.at(i)))
 					{ step = 1; continue ; }
 			}
 			if (step == 5)
 			{
+				verbose(V) << "step 5: " << t.at(i) << std::endl;
 				if (t.at(i) == '+')
 					continue ;
 				if (isDigit(t.at(i)))
@@ -175,7 +190,7 @@ void Computor_v1::validate_terms()
 				step == 2 ? "Expected '*x^n'." :
 				step == 3 ? "Expected 'x^n'." :
 				step == 4 ? "Expected '^n'." :
-				step == 5 ? "Unexpected character. Term power must be positive integer. Negative power not implemented." :
+				step == 5 ? "Unexpected character. Power must be positive integer. Negative power not implemented." :
 				step == 6 ? "Expected end of term or */ operators." :
 					"~~~ (8> Cosmic ray detected! <8) ~~~";
 			if (!this->valid_terms) break ;

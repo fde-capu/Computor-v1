@@ -117,85 +117,54 @@ void Computor_v1::validate_terms()
 	{
 		char step = 0;
 		bool got_factor = false;
+		bool got_degree = false;
 		for (size_t i = 0; i < t.size(); i++)
 		{
 			if ((step == 0) \
 			&& ((t.at(i) == '-' || t.at(i) == '+')
 				|| (t.at(i) == '=' && t.size() == 1)))
-			{
-				step++;
-				continue ;
-			}
+				{ step++; continue ; }
 			if (step == 1)
 			{
 				if (isNumberChar(t.at(i)))
-				{
-					got_factor = true;
-					continue ;
-				}
+				{ got_factor = true; continue ; }
 				else
-				{
-					if (got_factor)
-						step++;
-				}
+					if (got_factor) step++;
 			}
 			if (step == 2 && isInSet(t.at(i), "*/^x"))
 			{
 				if (isInSet(t.at(i), "*/"))
-				{
-					step++;
-					continue ;
-				}
+					{ step++; continue ; }
 				else if (t.at(i) == '^')
 				{
-					step = 5;
-					continue ;
+					if (!got_degree)
+						{ step = 5; continue ; }
+					else
+						{ step = 6 ; }
 				}
 				else if (t.at(i) == 'x')
-				{
 					step++;
-				}
 			}
 			if (step == 3)
 			{
 				if (t.at(i) == 'x')
-				{
-					step++;
-					continue ;
-				}
+					{ got_degree = true; step++; continue ; }
 				if (isInSet(t.at(i), "+-/*^") || isDigit(t.at(i)))
-				{
-					step = 1;
-					continue ;
-				}
+					{ step = 1; continue ; }
 			}
 			if (step == 4)
 			{
 				if (t.at(i) == '^')
-				{
-					step++;
-					continue ;
-				}
+					{ step++; continue ; }
 				if (isInSet(t.at(i), "+-/*") || isDigit(t.at(i)))
-				{
-					step = 1;
-					continue ;
-				}
+					{ step = 1; continue ; }
 			}
 			if (step == 5)
 			{
-				if (isDigit(t.at(i)) || t.at(i) == '+')
+				if (t.at(i) == '+')
 					continue ;
-				if (isInSet(t.at(i), "+/*") || isDigit(t.at(i)))
-				{
-					step = 1;
-					continue ;
-				}
-				if (t.at(i) == '^')
-				{
-					step = 1;
-					continue;
-				}
+				if (isDigit(t.at(i)))
+					{ step = 1; continue ; }
 			}
 			this->valid_terms = false;
 			point_to_error = t;
@@ -207,6 +176,7 @@ void Computor_v1::validate_terms()
 				step == 3 ? "Expected 'x^n'." :
 				step == 4 ? "Expected '^n'." :
 				step == 5 ? "Unexpected character. Term power must be positive integer. Negative power not implemented." :
+				step == 6 ? "Expected end of term or */ operators." :
 					"~~~ (8> Cosmic ray detected! <8) ~~~";
 			if (!this->valid_terms) break ;
 		}

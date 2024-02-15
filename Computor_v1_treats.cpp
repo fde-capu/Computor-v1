@@ -232,8 +232,7 @@ void Computor_v1::set_equal_to_zero()
 	this->inputElements = 0;
 
 	for (auto& t : this->terms)
-		this->inputElements += t != "=" && stod(t) != 0.0;
-
+		this->inputElements += t != "=" && stod(t) != 0.0; // ;)
 	for (auto& t : this->terms)
 	{
 		if (t == "=")

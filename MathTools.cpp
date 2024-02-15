@@ -36,13 +36,14 @@ double solveEquation(const std::string& e)
 	int V(2);
 	double out;
 	char op = 0;
+	bool negate = false;
 	std::vector<std::string> t; // tokens
-	double mult;
 
 	verbose(V) << "(solveEquation) Solving: " << e << std::endl;
 	t = splitNumbers(e);
 	out = std::stod(t[0]);
-	mult = out < 0 ? -1 : 1;
+	negate = out < 0;
+	out = std::abs(out);
 	for (size_t i = 0; i < t.size(); i++)
 	{
 		verbose(V) << "(solveEquation) token " << itoa(i) << ": " << t[i] << std::endl;
@@ -52,13 +53,11 @@ double solveEquation(const std::string& e)
 			if (op == '/') out /= std::stod(t[i]);
 			else if (op == '*') out *= std::stod(t[i]);
 			else if (op == '^')
-			{
-				if (std::atoi(t[i].c_str()) % 2)
-					mult *= -1;
-				out = pow(out, std::stod(t[i])) * mult;
-			}
+				out = pow(out, std::stod(t[i]));
 		}
 	}
+	if (negate)
+		out *= -1;
 	verbose(V) << "(solveEquation) Result: " << dtoa(out) << std::endl;
 	return out;
 }

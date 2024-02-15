@@ -42,9 +42,9 @@ double solveEquation(const std::string& e)
 	verbose(V) << "(solveEquation) Solving: " << e << std::endl;
 	t = splitNumbers(e);
 	out = std::stod(t[0]);
+	mult = out < 0 ? -1 : 1;
 	for (size_t i = 0; i < t.size(); i++)
 	{
-		mult = out < 0 ? -1 : 1;
 		verbose(V) << "(solveEquation) token " << itoa(i) << ": " << t[i] << std::endl;
 		if (isInSet(t[i][0], "/*^")) op = t[i][0];
 		if (isNumber(t[i]))

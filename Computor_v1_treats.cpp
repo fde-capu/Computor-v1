@@ -6,7 +6,7 @@ void Computor_v1::treat_spaces()
 
 	verbose(V) << "treat_spaces input: " << this->treating << std::endl;
 	substitute_unloop(this->treating, "X", "x");
-	substitute_unloop(this->treating, "\\s", " ");
+	substitute_unloop(this->treating, "\\t", " ");
 	substitute_unloop(this->treating, "*", " * ");
 	substitute_unloop(this->treating, "/", " / ");
 	substitute_unloop(this->treating, "+", " + ");
@@ -189,6 +189,8 @@ void Computor_v1::validate_terms()
 				}
 				if (isInSet(t.at(i), "+-/*") || isDigit(t.at(i)))
 					{ step = 1; continue ; }
+				if (t.at(i) == 'x')
+					continue ;
 			}
 			if (step == 5)
 			{

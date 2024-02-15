@@ -53,21 +53,24 @@ std::string argJoin(int argc, char** argv)
 	if (isAllInSet(out, "0123456789 +-.") && argc == 2)
 	{
 		plain = split(out);
-		for (size_t i = 0; i < plain.size(); i++)
+		if (plain.size() == 3)
 		{
-			if (isAllInSet(plain[i], "0123456789 +-."))
-				continue ;
-			else
+			for (size_t i = 0; i < plain.size(); i++)
 			{
-				plain_pass = false;
-				break ;
+				if (isAllInSet(plain[i], "0123456789 +-."))
+					continue ;
+				else
+				{
+					plain_pass = false;
+					break ;
+				}
 			}
-		}
-		if (plain_pass)
-		{
-			out = std::string(plain[0]) + "*x^2 " \
-				+ plain[1] + "*x^1 " \
-				+ plain[2] + "*x^0 = 0";
+			if (plain_pass)
+			{
+				out = std::string(plain[0]) + "*x^2 " \
+					+ plain[1] + "*x^1 " \
+					+ plain[2] + "*x^0 = 0";
+			}
 		}
 	}
 	verbose(V) << "(argJoin) B) " << out << std::endl;

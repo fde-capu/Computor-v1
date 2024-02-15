@@ -1,25 +1,5 @@
 #include "Computor_v1.hpp"
 
-void Computor_v1::run()
-{
-	int V(2);
-
-	verbose(V) << "Computor_v1::run()" << std::endl;
-	this->treating = this->input;
-	this->valid_terms = false;
-	treat_spaces();
-	mount_terms();
-	treat_implicits();
-	validate_terms();
-	if (!this->valid_terms) return ;
-	set_equal_to_zero();
-	discriminate_factors();
-	gen_reduced_form();
-	gen_discriminant();
-	gen_results();
-	gen_output();
-}
-
 void Computor_v1::gen_reduced_form()
 {
 	int V(2);

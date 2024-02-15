@@ -8,6 +8,7 @@
 # include <string.h>
 # include "defines.hpp"
 # include <stdexcept>
+# include <regex>
 
 # define VERBOSE_ELEVATION 1
 # define VERBOSE_LINE_LIMIT  60
@@ -99,6 +100,7 @@ size_t		strhex2size_t(const std::string src);
 std::vector<char*> vecstr2veccharp(const std::vector<std::string>& argv);
 std::string	dtoa(double, size_t precision = 0);
 std::string remove_x_ponential(const std::string&);
+std::vector<std::string> splitNumbers(const std::string&);
 
 template <typename T>
 std::ostream & operator << (std::ostream & os, const std::vector<T> & vec)

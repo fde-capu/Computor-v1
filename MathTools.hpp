@@ -10,6 +10,7 @@ typedef struct Complex {
 } complex_t;
 
 double sqrt(double);
+double pow(const double&, const size_t&);
 void noMinusZero(double&);
 double solveEquation(const std::string&);
 

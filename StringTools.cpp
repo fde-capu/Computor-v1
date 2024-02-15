@@ -811,5 +811,16 @@ std::string remove_x_ponential(const std::string& e)
 	}
 	substitute_super(out, "**", "*");
 	substitute_super(out, "//", "/");
+	out = std::regex_replace(out, std::regex("\\*$"), "");
 	return out;
+}
+
+std::vector<std::string> splitNumbers(const std::string& e)
+{
+	std::vector<std::string> tokens;
+	std::regex re("([-|+]?\\d+(?:\\.\\d+)?|\\D)");
+	for (std::sregex_iterator it(e.begin(), e.end(), re), end; it != end; ++it) {
+		tokens.push_back((*it).str());
+	}
+	return tokens;
 }

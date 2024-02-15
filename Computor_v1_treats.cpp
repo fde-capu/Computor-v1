@@ -35,6 +35,8 @@ void Computor_v1::mount_terms()
 	substitute_super(this->treating, " x", "x");
 	substitute_super(this->treating, ".x", "x");
 	for (size_t i = 0; i < 10; i++)
+		substitute_super(this->treating, "x " + itoa(i), "x*" + itoa(i));
+	for (size_t i = 0; i < 10; i++)
 	{
 		for (size_t j = 0; j < 10; j++)
 			substitute_super(this->treating, itoa(i) + " " + itoa(j), itoa(i) + "*" + itoa(j));
@@ -98,6 +100,7 @@ void Computor_v1::treat_implicits()
 		if (isNumber(c)) c += "*x^0";
 		substitute_unloop(c, "--", "+"); // Again.
 		substitute_unloop(c, "++", "+"); // Again.
+		if (isAllInSet(c, "-+.^0123456789")) c += "*x^0";
 	}
 	verbose(V) << "(treat_implicits) result: " << this->terms << std::endl;
 }
@@ -135,17 +138,21 @@ void Computor_v1::validate_terms()
 						step++;
 				}
 			}
-			if (step == 2 && isInSet(t.at(i), "*/^"))
+			if (step == 2 && isInSet(t.at(i), "*/^x"))
 			{
 				if (isInSet(t.at(i), "*/"))
 				{
 					step++;
 					continue ;
 				}
-				else // "^"
+				else if (t.at(i) == '^')
 				{
 					step = 5;
 					continue ;
+				}
+				else if (t.at(i) == 'x')
+				{
+					step++;
 				}
 			}
 			if (step == 3)

@@ -176,6 +176,11 @@ void Computor_v1::validate_terms()
 					step = 1;
 					continue ;
 				}
+				if (t.at(i) == '^')
+				{
+					step = 1;
+					continue;
+				}
 			}
 			this->valid_terms = false;
 			point_to_error = t;
@@ -186,7 +191,7 @@ void Computor_v1::validate_terms()
 				step == 2 ? "Expected '*x^n'." :
 				step == 3 ? "Expected 'x^n'." :
 				step == 4 ? "Expected '^n'." :
-				step == 5 ? "Unexpected character. Term power must be positive integer." :
+				step == 5 ? "Unexpected character. Term power must be positive integer. Negative power not implemented." :
 					"~~~ (8> Cosmic ray detected! <8) ~~~";
 			if (!this->valid_terms) break ;
 		}

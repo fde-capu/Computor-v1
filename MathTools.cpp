@@ -53,9 +53,9 @@ double solveEquation(const std::string& e)
 	}
 	std::vector<std::string> pow = split(e, "^");
 	out_p = out_m * out_d;
-	pp = out_p;
 	for (size_t i = 1; i < pow.size(); i++)
 	{
+		pp = out_p;
 		verbose(V) << "(solveEquation) " << dtoa(out_p) << " ^ " << pow[i] << std::endl;
 		for (size_t p = 1; p < std::stod(pow[i].c_str()); p++)
 		{
